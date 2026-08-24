@@ -1,0 +1,110 @@
+# Caddy — cổng vào của trang.
+#
+# Nhiệm vụ: nhận yêu cầu từ internet qua HTTPS rồi chuyển tiếp vào hộp chứa
+# `web`. Chứng chỉ SSL do Caddy tự xin và TỰ GIA HẠN, không cần ai nhớ ngày.
+#
+# ═══════════════════════════════════════════════════════════════════════════
+# BỐN ĐỊA CHỈ, MỘT ĐÍCH ĐẾN
+#
+# Dự án sở hữu hai tên miền: `halongxanh360.vn` và `halongxanh360.com.vn`.
+# Cùng với dạng `www.` của mỗi cái là BỐN địa chỉ cùng dẫn tới một nội dung.
+#
+# Chỉ MỘT được là chính thức, ba cái còn lại chuyển hướng sang. Không gom thì
+# công cụ tìm kiếm coi đây là bốn trang trùng nội dung và chia nhỏ thứ hạng ra
+# cả bốn — trang tự cạnh tranh với chính mình.
+#
+# Chuyển hướng 301 (`permanent`) chứ không phải 302: 301 chuyển giao thứ hạng
+# đã tích được sang tên miền đích, 302 thì không.
+# ═══════════════════════════════════════════════════════════════════════════
+
+{
+	# Địa chỉ email để Let's Encrypt báo khi chứng chỉ sắp hết hạn mà không gia
+	# hạn được. Điền ở file `.env`.
+	email {$EMAIL_SSL}
+}
+
+# ─────────────────── www chuyển hướng về tên miền chính ─────────────────────
+# Chỉ MỘT dạng địa chỉ là chính thức. Không gộp thì Google coi `www.` và không
+# `www.` là hai trang trùng nội dung và chia nhỏ thứ hạng của cả hai.
+#
+# Khối này phải TÁCH RIÊNG khỏi khối chính. Đặt dòng `redir` vào trong khối tên
+# miền chính là tự chuyển hướng về chính mình — trình duyệt quay vòng tới khi
+# báo lỗi "chuyển hướng quá nhiều lần".
+www.{$TEN_MIEN} {
+	redir https://{$TEN_MIEN}{uri} permanent
+}
+
+# ──────────────── tên miền phụ (cả hai dạng) → tên miền chính ────────────────
+#
+# ⚠️ NẾU CHỈ CÓ MỘT TÊN MIỀN: XOÁ HẲN HAI KHỐI DƯỚI ĐÂY.
+#
+# Để lại mà `TEN_MIEN_PHU` trống thì Caddy nhận một địa chỉ rỗng và TỪ CHỐI
+# KHỞI ĐỘNG — mất cả trang chứ không phải chỉ mất phần chuyển hướng. Chạy
+# `node scripts/kiem-caddyfile.mjs` để kiểm trước khi triển khai.
+{$TEN_MIEN_PHU} {
+	redir https://{$TEN_MIEN}{uri} permanent
+}
+
+www.{$TEN_MIEN_PHU} {
+	redir https://{$TEN_MIEN}{uri} permanent
+}
+
+# ────────────────────────── tên miền chính ──────────────────────────────────
+{$TEN_MIEN} {
+	encode zstd gzip
+
+	header {
+		# Bắt buộc HTTPS trong một năm. Sau lần ghé đầu, trình duyệt TỪ CHỐI mở
+		# trang qua HTTP kể cả khi người dùng gõ tay — chặn kiểu tấn công chen
+		# giữa trên wifi công cộng.
+		#
+		# ⚠️ CHỈ BẬT KHI HTTPS ĐÃ CHẠY ỔN vài ngày. Bật rồi mà HTTPS hỏng thì
+		# khách KHÔNG vào được trang bằng bất cứ cách nào cho tới khi hết hạn
+		# một năm. Muốn thận trọng thì xoá dòng này lúc mới lên, thêm lại sau.
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		# Giấu tên và phiên bản máy chủ — đỡ chỉ đường cho kẻ dò lỗ hổng.
+		-Server
+	}
+
+	# Ảnh và mã tĩnh của Next.js đều mang mã băm trong tên file: đổi nội dung là
+	# đổi tên file. Nên đệm vĩnh viễn được mà không sợ khách nhận bản cũ.
+	@tinh path /_next/static/* /images/* /fonts/*
+	header @tinh Cache-Control "public, max-age=31536000, immutable"
+
+	# ─────────────────── GIỚI HẠN TẦN SUẤT CHO HAI CỔNG GHI ─────────────────
+	#
+	# `/api/su-kien` và `/api/ingest` là hai đường DUY NHẤT ghi được vào cơ sở
+	# dữ liệu từ bên ngoài.
+	#
+	# Cổng sự kiện cố ý KHÔNG có xác thực — token nằm trong mã trình duyệt thì
+	# ai cũng đọc được, nên token ở đó chỉ là hình thức. Lớp bảo vệ thật là
+	# giới hạn tần suất, và nó phải nằm ở đây chứ không phải trong ứng dụng:
+	# chặn tại Caddy thì yêu cầu rác không đánh thức Next.js và không chạm tới
+	# cơ sở dữ liệu.
+	#
+	# ⚠️ ĐANG CHÚ THÍCH LẠI vì cần bản Caddy dựng kèm mô-đun `caddy-ratelimit`.
+	# Bản Caddy chuẩn KHÔNG có mô-đun này và sẽ từ chối khởi động với khối dưới
+	# đây — mất cả trang. Xem `TRIEN-KHAI.md` phần "giới hạn tần suất" để biết
+	# cách đổi sang bản có mô-đun rồi mới bỏ dấu chú thích.
+	#
+	# rate_limit {
+	# 	zone ghi {
+	# 		match {
+	# 			path /api/su-kien /api/ingest
+	# 		}
+	# 		key {remote_host}
+	# 		events 60
+	# 		window 1m
+	# 	}
+	# }
+
+	reverse_proxy web:3000 {
+		# Nói cho Next.js biết yêu cầu GỐC đến qua HTTPS và từ tên miền nào.
+		# Thiếu mấy dòng này, trang tự sinh đường dẫn "http://web:3000/..." vào
+		# sitemap và thẻ chia sẻ — sai hoàn toàn, và rất khó nhận ra vì trên
+		# trình duyệt mọi thứ trông vẫn bình thường.
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Forwarded-Host {host}
+		header_up X-Real-IP {remote_host}
+	}
+}

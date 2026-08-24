@@ -1,0 +1,94 @@
+# Toàn bộ trang, chạy bằng một lệnh: docker compose up -d
+#
+# HAI HỘP CHỨA:
+#   · web   — chính trang này
+#   · caddy — đứng trước, nhận HTTPS và chuyển tiếp vào `web`
+#
+# VÌ SAO CÓ CADDY: chứng chỉ SSL. Caddy tự xin chứng chỉ Let's Encrypt lần đầu
+# và TỰ GIA HẠN mỗi 60 ngày, không cần ai nhớ. Đây là việc hay bị quên nhất khi
+# tự quản máy chủ — chứng chỉ hết hạn thì trình duyệt hiện màn hình đỏ cảnh báo
+# "trang này không an toàn", và khách bất động sản thấy màn hình đó là đi luôn.
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        # Hai giá trị này phải có mặt LÚC BUILD, không phải lúc chạy.
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+        NEXT_PUBLIC_CHO_LAP_CHI_MUC: ${NEXT_PUBLIC_CHO_LAP_CHI_MUC:-0}
+    # `unless-stopped`: máy chủ khởi động lại sau mất điện thì trang tự chạy
+    # lại; hộp chứa sập thì Docker tự dựng dậy. Đây là thứ thay cho việc bạn
+    # phải thức dậy lúc hai giờ sáng.
+    restart: unless-stopped
+    environment:
+      # Bí mật đọc từ file `.env` cạnh file này — KHÔNG viết thẳng vào đây, vì
+      # file này nằm trong mã nguồn còn `.env` thì không.
+      DATABASE_URL: ${DATABASE_URL}
+      INGEST_TOKEN: ${INGEST_TOKEN}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+      # ⚠️ BIẾN NÀY TỪNG BỊ QUÊN, VÀ HẬU QUẢ LÀ MẤT KHÁCH.
+      #
+      # Không truyền vào thì ứng dụng trong hộp chứa không thấy nó, nên rơi
+      # vào nhánh ghi file tạm — ghi xuống `.data/dang-ky.jsonl` NGAY BÊN
+      # TRONG hộp chứa. Hộp chứa bị dựng lại ở lần triển khai kế tiếp là mất
+      # sạch, kèm số điện thoại thật của những người thật đã điền form.
+      #
+      # Hỏng hoàn toàn im lặng: khách điền xong thấy màn hình cảm ơn, hệ thống
+      # không báo lỗi gì, chỉ là không ai gọi lại cho họ.
+      LEAD_WEBHOOK_URL: ${LEAD_WEBHOOK_URL:-}
+    # KHÔNG mở cổng ra ngoài internet. Chỉ Caddy nói chuyện được với hộp này,
+    # qua mạng nội bộ của Docker. Mở cổng 3000 ra ngoài nghĩa là ai cũng vào
+    # được trang bằng http://<ip>:3000, bỏ qua HTTPS.
+    expose:
+      - "3000"
+    # XOAY VÒNG NHẬT KÝ. Không có khối này, Docker ghi nhật ký vào một file
+    # KHÔNG BAO GIỜ bị cắt bớt. Một trang có khách chạy vài tháng là file đó vài
+    # GB, và khi ổ cứng đầy thì mọi thứ trên máy chủ hỏng cùng lúc theo những
+    # cách rất khó đoán — chứ không phải hiện ra một thông báo "hết dung
+    # lượng" tử tế. Giữ 3 file × 10MB là đủ để truy lỗi vài ngày gần nhất.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      TEN_MIEN: ${TEN_MIEN}
+      # Tên miền phụ, chuyển hướng 301 về tên miền chính. Caddyfile dùng nó ở
+      # hai khối; thiếu biến này thì Caddy nhận địa chỉ rỗng và không khởi động
+      # được — nên nó là biến BẮT BUỘC chứ không phải tuỳ chọn, trừ khi đã xoá
+      # hai khối đó khỏi Caddyfile.
+      TEN_MIEN_PHU: ${TEN_MIEN_PHU}
+      EMAIL_SSL: ${EMAIL_SSL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Hai kho này giữ chứng chỉ đã xin được. Thiếu chúng thì mỗi lần khởi
+      # động lại là xin chứng chỉ mới, và Let's Encrypt sẽ chặn vì xin quá
+      # nhiều lần (5 lần/tuần cho cùng một tên miền).
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+    # XOAY VÒNG NHẬT KÝ. Không có khối này, Docker ghi nhật ký vào một file
+    # KHÔNG BAO GIỜ bị cắt bớt. Một trang có khách chạy vài tháng là file đó vài
+    # GB, và khi ổ cứng đầy thì mọi thứ trên máy chủ hỏng cùng lúc theo những
+    # cách rất khó đoán — chứ không phải hiện ra một thông báo "hết dung
+    # lượng" tử tế. Giữ 3 file × 10MB là đủ để truy lỗi vài ngày gần nhất.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+
+volumes:
+  caddy_data:
+  caddy_config:

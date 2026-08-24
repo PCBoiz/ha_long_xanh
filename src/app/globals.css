@@ -1,0 +1,781 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   HỆ THIẾT KẾ
+   ---------------------------------------------------------------------------
+   Trang nền XANH NGỌC SÂU. Ảnh phối cảnh của dự án đều là cảnh hoàng hôn và
+   bình minh trên mặt nước — đặt trên nền tối thì dải cam vàng trong ảnh bừng
+   lên như tranh treo trong phòng tối, còn đặt trên nền giấy sáng thì bị nền
+   nuốt mất. Nhưng nền phải là XANH chứ không phải đen: dự án tên "Hạ Long
+   Xanh", trang đen tuyền thì chống lại chính cái tên.
+
+   Trên nền này chữ và điểm nhấn phải dùng sắc ngọc SÁNG (`--color-jade`) mới đủ
+   tương phản; sắc đậm (`--color-jade-deep`) chỉ dùng cho mảng tô, không dùng
+   cho chữ.
+
+   Trang cố ý CHỈ có một thế giới thị giác, không có chế độ sáng/tối.
+   =========================================================================== */
+
+@theme {
+  /* Nền — XANH NGỌC SÂU, không phải đen.
+     Dự án tên là "Hạ Long Xanh" mà trang đen tuyền thì lệch hẳn với chính cái
+     tên. Các sắc dưới đây đủ đậm để ảnh hoàng hôn bừng lên như tranh treo
+     phòng tối, nhưng nhìn ra ngay là xanh chứ không phải xám. */
+  --color-ink: #04140f;
+  --color-ink-soft: #0a2119;
+  --color-ink-raise: #103026;
+  --color-ink-line: #1d4438;
+
+  /* Chữ — trắng ngả xanh rất nhẹ để không "chọi" với nền */
+  --color-paper: #e6efea;
+  --color-paper-dim: #8ea79d;
+
+  /* Nhấn */
+  --color-jade: #7fd4b8;
+  --color-jade-deep: #14584a;
+  --color-jade-pale: #bfe3d5;
+
+  /* Màu báo lỗi. Cố ý TÁCH khỏi màu nhấn: nếu lỗi cũng hiện màu ngọc bích thì
+     người dùng không phân biệt được "chỗ này quan trọng" với "chỗ này sai". */
+  --color-warn: #d8845c;
+
+  /* Mảng nền SÁNG.
+     ---------------------------------------------------------------------
+     Trước bản này, cả 13 trang là nền tối liền một mạch — không có lấy một
+     mảng sáng nào. Đọc liên tục thì chất "sang" chuyển thành "nặng", và tệ
+     hơn: không còn cách nào làm một mảng nổi bật lên khỏi các mảng khác,
+     vì mảng nào cũng cùng một nền.
+
+     Đây KHÔNG phải chế độ sáng. Đây là vài mảng đảo nền, dùng đúng cho
+     những chỗ cần người đọc dừng lại: hồ sơ pháp lý, người tư vấn, câu hỏi
+     thường gặp. Mắt nghỉ được, và chỗ bán hàng tách khỏi chỗ kể chuyện.
+
+     Ivory ngả ấm chứ không phải trắng: trắng tinh cạnh nền xanh đen sẽ chói
+     và đọc ra như "chưa tô màu". Ngả ấm thì đọc ra như giấy. */
+  --color-shell: #ece8e0;
+  --color-shell-soft: #f3f0ea;
+  --color-shell-raise: #f8f6f2;
+  --color-shell-line: #d3cec2;
+
+  /* Chữ trên nền sáng. Số trong ngoặc là tỉ lệ tương phản đo được với
+     `--color-shell`, ngưỡng WCAG AA cho chữ thường là 4.5. */
+  --color-shell-ink: #0a2119; /* 13.8:1 */
+  --color-shell-dim: #4d5f57; /* 5.6:1 */
+  --color-shell-warn: #9c4a22; /* 5.0:1 */
+
+  /* Sắc nhấn của nền sáng. Bằng đúng `--color-jade-deep`, viết thành token
+     riêng để mảng nền sáng không phải tham chiếu chéo (xem `.mang-sang`). */
+  --color-shell-jade: #14584a; /* 6.8:1 */
+  --color-shell-jade-soft: #cfe0d6; /* mảng tô nhạt, không dùng cho chữ */
+
+  /* Sắc dùng cho THANH BIỂU ĐỒ trên nền tối.
+     Đứng riêng vì `--color-jade` sáng quá và bão hoà thấp tới mức một mảng tô
+     lớn bằng nó đọc ra thành xám — kết quả chạy `validate_palette.js`. Trước
+     đây giá trị này nằm dưới dạng hằng số hex ngay trong
+     `components/site/bieu-do-tien-ich.tsx`; đưa lên đây để mọi màu của trang
+     chỉ có một chỗ khai báo, và để đổi bảng màu không phải đi lùng trong mã. */
+  --color-jade-bar: #21a882;
+
+  /* Chữ — thang co giãn theo bề ngang màn hình.
+     ---------------------------------------------------------------------
+     Thang CŨ bị ĐỨT ĐOẠN, đo được bằng cách đếm phần tử theo cỡ ở 1440px:
+
+         166px×10   80px×68   50px×31   29px×5   ‖ hố ‖   16px×199   12px×61
+
+     Không có bậc nào giữa 29px và 16px, nên mọi thứ "quan trọng vừa" đều bị
+     đẩy lên 50px. Trang tham chiếu (market.vinhomes.vn) trải đều 30/28/24/20/
+     18/16/14/13/12 và đỉnh thang chỉ 30px.
+
+     Thang mới: hạ đỉnh xuống, và THÊM BA BẬC GIỮA (h4, body, small) để nội
+     dung có chỗ đứng thay vì phải hét lên. Đổi sang Newsreader còn giúp thêm:
+     chiều cao chữ thường lớn hơn Cormorant nên cùng một cỡ px sẽ đọc TO hơn,
+     tức là hạ số đo mà không hề mất sức nặng thị giác. */
+  --text-display: clamp(2.75rem, 1.1rem + 6.4vw, 7rem);
+  --text-display--line-height: 0.96;
+  --text-display--letter-spacing: -0.028em;
+
+  --text-h1: clamp(1.95rem, 1.25rem + 2.9vw, 3.4rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.02em;
+
+  --text-h2: clamp(1.55rem, 1.2rem + 1.5vw, 2.35rem);
+  --text-h2--line-height: 1.16;
+  --text-h2--letter-spacing: -0.014em;
+
+  --text-h3: clamp(1.2rem, 1.06rem + 0.6vw, 1.55rem);
+  --text-h3--line-height: 1.3;
+
+  /* Bậc lấp "hố": tiêu đề thẻ, tên hạng mục, số liệu trong bảng. */
+  --text-h4: clamp(1.02rem, 0.97rem + 0.22vw, 1.15rem);
+  --text-h4--line-height: 1.4;
+
+  --text-lead: clamp(1.02rem, 0.98rem + 0.24vw, 1.18rem);
+  --text-lead--line-height: 1.62;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+
+  /* 12px chứ không phải 11,52px: ở chữ IN HOA giãn 0.18em thì 11,5px là ngưỡng
+     mà dấu tiếng Việt bắt đầu dính vào nhau. Trang tham chiếu cũng dừng ở 12px.
+
+     Bậc này CHỈ dành cho nhãn phụ — chữ nhỏ đứng cạnh thứ nó chú thích. Điều
+     hướng và nút bấm KHÔNG dùng bậc này nữa, xem hai bậc ngay dưới. */
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.25;
+  --text-label--letter-spacing: 0.16em;
+
+  /* Điều hướng và nút bấm — HAI BẬC RIÊNG.
+     ---------------------------------------------------------------------
+     Trước bản này cả menu lẫn mọi nút đều dùng `--text-label`: 12px IN HOA
+     giãn 0.16em. Hệ quả có hai phần.
+
+     Một là đọc: khách mua bất động sản vài chục tỷ phần lớn ở tuổi 40–60,
+     và 12px in hoa giãn rộng là cỡ chữ khó nhất cho mắt lão thị — chữ hoa
+     mất đường viền trên dưới vốn giúp nhận mặt chữ, giãn rộng lại cắt rời
+     từng con chữ khỏi nhau.
+
+     Hai là thứ bậc: khi nút bấm cùng cỡ với nhãn chú thích thì trang không
+     còn cách nào nói "đây là việc cần làm". Hành động chìm ngang chú thích.
+
+     Nâng cỡ và ĐỒNG THỜI siết giãn cách — giãn rộng là thứ làm chữ nhỏ khó
+     đọc, nên tăng cỡ mà giữ nguyên giãn thì chỉ được một nửa. */
+  --text-nav: 0.8125rem;
+  --text-nav--line-height: 1.2;
+  --text-nav--letter-spacing: 0.1em;
+
+  --text-action: 0.875rem;
+  --text-action--line-height: 1.2;
+  --text-action--letter-spacing: 0.06em;
+
+  /* Nhịp dọc BA MỨC, chọn theo trọng lượng nội dung của mảng.
+       · nhip-nho : dải mỏng, một hàng thông tin (số liệu, niềm tin)
+       · nhip     : mảng vừa (sản phẩm, sơ đồ, biểu mẫu)
+       · nhip-lon : mảng nặng chiếm trọn màn hình (thư viện ảnh, mảng ảnh lớn)
+
+     Các số này ĐÃ ĐƯỢC SIẾT LẠI khoảng một phần ba. Đo ở 1440px: trang chủ cao
+     12.327px cho 10 mảng — 1.233px mỗi mảng, trong khi trang tham chiếu là
+     504px. Chữ chỉ chiếm 8,6% diện tích trang so với 20,6% của họ. Phần lớn
+     chênh lệch nằm ở đệm dọc, nên đây là chỗ sửa trước tiên. */
+  /* ĐỢT NÀY SIẾT TIẾP ĐẦU NHỎ, khoảng 25%, và CHỈ đầu nhỏ.
+     
+     `clamp()` có ba tham số: đáy, công thức co giãn, trần. Hạ đáy xuống thì
+     màn hình hẹp thoáng hơn mà màn hình rộng KHÔNG đổi một điểm ảnh nào —
+     đúng thứ cần, vì đo được là bản máy bàn đang cân, chỉ bản di động mới bị
+     những khoảng trống dài giữa ảnh và tiêu đề.
+     
+     Số cũ → số mới, đo ở khổ 390px:
+       nhịp nhỏ   2,5rem → 1,875rem   (40px → 30px)
+       nhịp       3,5rem → 2,625rem   (56px → 42px)
+       nhịp lớn   5rem   → 3,75rem    (80px → 60px)
+     
+     Trần giữ nguyên 3,5 / 5,5 / 8rem. */
+  --spacing-nhip-nho: clamp(1.875rem, 1.1rem + 3.2vw, 3.5rem);
+  --spacing-nhip: clamp(2.625rem, 1.5rem + 4.6vw, 5.5rem);
+  --spacing-nhip-lon: clamp(3.75rem, 2rem + 7.2vw, 8rem);
+}
+
+/* Biến font do next/font bơm vào ở layout. `inline` để Tailwind đọc giá trị
+   thật thay vì lồng thêm một lớp var(). */
+@theme inline {
+  --font-display: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* --------------------------------- Nền tảng -------------------------------- */
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  /* Chữ tiếng Việt nhiều dấu nên bật kerning và ligature cho đều nét. */
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-jade-deep);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-jade);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------- Mảng nền sáng ----------------------------- */
+/*
+   Một lớp duy nhất đảo cả mảng sang nền sáng.
+
+   CÁCH LÀM: không viết lại màu cho từng phần tử con, mà định nghĩa lại chính
+   các biến màu ở phạm vi mảng này. Mọi tiện ích sẵn có bên trong — `text-paper`,
+   `text-paper-dim`, `border-ink-line`, `bg-ink-soft`, `text-jade` — tự đọc giá
+   trị mới mà không phải sửa một dòng nào trong các thành phần.
+
+   Vì sao đáng làm như vậy: nếu đảo nền bằng cách thêm lớp cho từng phần tử thì
+   mỗi thành phần dùng lại ở cả hai nền sẽ phải mang hai bộ lớp, và chỉ cần quên
+   một chỗ là chữ tối nằm trên nền tối — hỏng mà không báo lỗi. Đảo ở tầng biến
+   thì không có chỗ nào để quên.
+
+   Lưu ý khi đọc: BÊN TRONG mảng này, `paper` nghĩa là chữ tối và `ink` nghĩa là
+   nền sáng. Tên biến giữ nguyên vai trò (nền / chữ / nhấn), chỉ đổi giá trị.
+*/
+.mang-sang {
+  --color-ink: var(--color-shell);
+  --color-ink-soft: var(--color-shell-soft);
+  --color-ink-raise: var(--color-shell-raise);
+  --color-ink-line: var(--color-shell-line);
+  --color-paper: var(--color-shell-ink);
+  --color-paper-dim: var(--color-shell-dim);
+  --color-warn: var(--color-shell-warn);
+
+  /* Sắc ngọc SÁNG không đọc được trên nền sáng (tương phản ~1.7:1), nên nhấn
+     đổi sang sắc đậm.
+
+     ⚠️ KHÔNG viết `--color-jade: var(--color-jade-deep)` rồi đổi ngược lại ở
+     dòng sau. Trong cùng một khối, `var()` đọc giá trị ĐÃ ĐỔI chứ không phải
+     giá trị gốc, nên hoán vị hai biến cho nhau tạo thành vòng lặp và CSS bỏ cả
+     hai — nền sáng sẽ mất sạch màu nhấn mà không báo lỗi ở đâu cả. Phải trỏ
+     sang các token riêng của nền sáng. */
+  --color-jade: var(--color-shell-jade);
+  --color-jade-pale: var(--color-shell-jade);
+  --color-jade-deep: var(--color-shell-jade-soft);
+
+  background-color: var(--color-shell);
+  color: var(--color-shell-ink);
+}
+
+/* --------------------------------- Nút bấm --------------------------------- */
+/*
+   Trước bản này mỗi nút là một chuỗi tiện ích viết tay dài, lặp ở mười mấy chỗ.
+   Hệ quả không phải là dài dòng mà là KHÔNG ĐỒNG BỘ: có nút cao 48px có nút 44,
+   có nút đổi màu khi rê chuột có nút không, và không nút nào có trạng thái đang
+   bấm hay bị khoá.
+
+   Ba lớp dưới đây gom lại thành một hệ, đủ các trạng thái mà một nút thật cần:
+   thường · rê chuột · nhận tiêu điểm bàn phím · đang bấm · bị khoá.
+*/
+.nut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  /* Đệm ngang co lại trên màn hẹp. Nhãn nút không được xuống dòng (xem
+     `white-space` bên dưới), nên trên màn hẹp phần duy nhất còn nhường được là
+     đệm — đo được một nút "Xem sơ đồ quy hoạch" rộng 251px tràn khỏi cột 210px
+     ở khổ 768px, và 2×0,5rem đệm chính là phần chênh. */
+  padding-inline: clamp(1.5rem, 1.1rem + 1.4vw, 2rem);
+  border-radius: 9999px;
+  font-size: var(--text-action);
+  line-height: var(--text-action--line-height);
+  letter-spacing: var(--text-action--letter-spacing);
+  text-transform: uppercase;
+  /* Nhãn nút KHÔNG BAO GIỜ xuống hai dòng: gãy dòng làm nút cao lên lệch hàng
+     với nút bên cạnh, và người đọc không phân biệt được đó là cố ý hay lỗi. */
+  white-space: nowrap;
+  transition:
+    background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 120ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Lún 1px khi đang giữ chuột — phản hồi duy nhất nói "máy đã nhận". */
+.nut:active {
+  transform: translateY(1px);
+}
+
+.nut:disabled,
+.nut[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Bản gọn, dùng cho nút nằm trong thanh điều hướng.
+   Thanh điều hướng phải nhét năm nhóm menu, tên dự án và một nút vào cùng một
+   hàng; đo ở khổ 1024px thì nút cỡ thường chiếm 211px trong tổng 1.122px, mà
+   khung chỉ có 1.024. Đây là chỗ nhường được mà không mất nghĩa. */
+.nut-gon {
+  min-height: 2.5rem;
+  padding-inline: 1.15rem;
+  font-size: var(--text-nav);
+  letter-spacing: var(--text-nav--letter-spacing);
+}
+
+/* Nút chính: mảng đặc. Mỗi màn hình chỉ nên có MỘT. */
+.nut-chinh {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.nut-chinh:hover:not(:disabled) {
+  background-color: var(--color-jade-pale);
+}
+
+/* Nút phụ: chỉ có viền. */
+.nut-phu {
+  border: 1px solid color-mix(in srgb, var(--color-paper) 30%, transparent);
+  color: var(--color-paper);
+}
+
+.nut-phu:hover:not(:disabled) {
+  border-color: var(--color-paper);
+  background-color: color-mix(in srgb, var(--color-paper) 8%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nut {
+    transition-duration: 1ms;
+  }
+  .nut:active {
+    transform: none;
+  }
+}
+
+/* Khối ẩn con trỏ gốc ĐÃ GỠ cùng với thành phần con trỏ tùy biến — xem chú
+   thích trong `app/layout.tsx`. Để lại luật `cursor: none` mà không còn gì gắn
+   lớp `co-con-tro-rieng` thì vô hại, nhưng nó là loại mã chết nguy hiểm: lần
+   sau ai đó vô tình thêm lớp đó vào đâu, cả trang mất con trỏ mà không rõ vì
+   sao. */
+
+/* ------------------------------- Cuộn quán tính ----------------------------- */
+/*
+   Lenis chiếm quyền cuộn nên `scroll-behavior: smooth` của CSS phải TẮT, bằng
+   không hai cơ chế đánh nhau và trang giật khi bấm liên kết neo.
+*/
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* ------------------------------- Chữ hiện dần ------------------------------ */
+/*
+   Mỗi từ nằm trong một ô cắt, chữ trồi lên từ dưới đáy ô theo thứ tự. Đây là
+   cách tự dựng lại hiệu ứng của GSAP SplitText mà không cần thư viện trả phí.
+
+   Phần đệm âm ở dưới để nét thòng của chữ g, y, p và dấu nặng không bị ô cắt
+   xén mất — lỗi kinh điển khi làm hiệu ứng này với tiếng Việt.
+*/
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+.split-word > span {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--word-delay, 0ms);
+}
+
+[data-shown="true"] .split-word > span {
+  transform: none;
+}
+
+/* Giữ chữ nằm im tới khi màn mở đầu kéo lên.
+   Không có luật này thì chữ hero trồi hết trong lúc còn bị màn che, kéo màn ra
+   là thấy chữ đã đứng sẵn — mất trắng khoảnh khắc đáng giá nhất của trang.
+
+   ⚠️ PHẢI KÈM `[data-co-man-mo]`. Màn mở đầu giờ CHỈ có ở trang chủ, nên nếu
+   luật này chỉ hỏi `data-preloaded` thì ở mọi trang khác không ai gắn cờ đó —
+   và MỌI tiêu đề dùng SplitReveal sẽ nằm im dưới đáy ô cắt VĨNH VIỄN. Trang
+   vẫn dựng ra đủ chữ, kiểm tra tự động vẫn xanh, nhưng người mở trang chỉ thấy
+   một khoảng trống ngay chỗ đáng lẽ là dòng chữ lớn nhất.
+
+   Cờ `data-co-man-mo` do chính Preloader gắn lúc gắn vào cây, tức chỉ có ở
+   trang chủ. `data-preloaded` gắn khi màn đã kéo lên. */
+html[data-co-man-mo]:not([data-preloaded="true"]) .split-word > span {
+  transform: translateY(115%);
+  transition-duration: 0s;
+}
+
+/* --------------------------- Hiện dần cả khối ------------------------------ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Dải chữ chạy ngang giờ do GSAP điều khiển (đổi chiều và tăng tốc theo cuộn),
+   nên không còn keyframes CSS nào cho nó — xem `components/ui/marquee.tsx`. */
+
+/* -------------------------------- Preloader -------------------------------- */
+
+/*
+   Màn mở đầu diễn ra theo ba chặng, điều khiển bằng thuộc tính `data-phase`:
+     anh  → ảnh hoàng hôn phủ toàn màn, lùi rất chậm về đúng cỡ
+     chu  → tên dự án trồi lên, bộ đếm bắt đầu chạy
+     mo   → ảnh phóng to lao về phía người xem rồi cả lớp mờ đi
+     xong → ẩn hẳn
+
+   Bản trước tôi tự vẽ hai cánh cửa bằng CSS trong khi trong kho có sẵn hàng
+   chục tấm phối cảnh. Dùng ảnh thật vừa nhanh hơn, vừa cho người xem thấy ngay
+   dự án trông ra sao trước cả khi trang hiện lên.
+*/
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background-color: var(--color-ink);
+  transition: opacity 1.15s ease-in;
+}
+
+.preloader[data-phase="mo"] {
+  opacity: 0;
+}
+
+.preloader[data-phase="xong"] {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  /* Đợi hết hiệu ứng lao xuyên rồi mới thật sự ẩn, nếu không ảnh biến mất giữa
+     chừng thay vì bay qua. */
+  transition: visibility 0s linear 1.2s;
+}
+
+/* Ảnh KHÔNG đứng yên trong lúc chờ: nó vừa lùi ra vừa trôi ngang rất chậm.
+   Đứng yên rồi mới lao ở phút chót khiến phần lớn thời gian chờ là một tấm ảnh
+   chết — đúng cảm giác "chuyển giữa hai slide". */
+.preloader-anh {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.2) translate3d(2.5%, 1.5%, 0);
+  transition: transform 3.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.preloader[data-phase="chu"] .preloader-anh {
+  transform: scale(1.03) translate3d(-1.5%, -0.5%, 0);
+}
+
+/* Lao xuyên qua: ảnh phóng mạnh và nhanh hơn hẳn lúc lùi về, nên cảm giác là
+   người xem tiến vào chứ không phải ảnh giãn ra. */
+.preloader[data-phase="mo"] .preloader-anh,
+.preloader[data-phase="xong"] .preloader-anh {
+  transform: scale(1.75) translate3d(0, 0, 0);
+  transition-duration: 1.35s;
+  transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Vùng tối CHỈ nằm sau chữ, thay vì phủ đen cả tấm ảnh.
+   Trước đây một lớp gradient nặng trải khắp khung làm dải cam vàng của hoàng
+   hôn tắt gần hết — ảnh mạnh mà bị chính lớp phủ dập chết. */
+.preloader-toi-chu {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 62% 46% at 50% 48%,
+    rgba(4, 20, 15, 0.78) 0%,
+    rgba(4, 20, 15, 0.45) 45%,
+    rgba(4, 20, 15, 0.12) 78%,
+    rgba(4, 20, 15, 0) 100%
+  );
+}
+
+.preloader-noi-dung {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3.5rem;
+  padding-inline: 1.5rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.9s ease-out,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.preloader[data-phase="chu"] .preloader-noi-dung {
+  opacity: 1;
+  transform: none;
+}
+
+/* Chữ lui đi TRƯỚC khi ảnh lao tới, nếu không nó bị kéo giãn theo. */
+.preloader[data-phase="mo"] .preloader-noi-dung,
+.preloader[data-phase="xong"] .preloader-noi-dung {
+  opacity: 0;
+  transform: translateY(-26px);
+  transition-duration: 0.5s;
+}
+
+.preloader-thanh {
+  width: min(52vw, 22rem);
+  height: 1px;
+  background-color: rgba(230, 239, 234, 0.22);
+}
+
+.preloader-thanh > span {
+  display: block;
+  height: 100%;
+  background-color: var(--color-jade);
+  transform: scaleX(var(--tien-do, 0));
+  transform-origin: left center;
+  transition: transform 0.4s ease-out;
+}
+
+/* ---------------------------- Chuyển cảnh giữa trang ------------------------ */
+/*
+   Chỉ phần nội dung chuyển cảnh, còn thanh điều hướng và chân trang đứng yên —
+   nhờ vậy người dùng không mất điểm bám khi đi sang trang khác.
+
+   Trình duyệt chưa hỗ trợ View Transitions thì đơn giản là chuyển ngay như cũ,
+   không có gì hỏng.
+*/
+::view-transition-old(trang) {
+  animation: trang-di 0.32s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+::view-transition-new(trang) {
+  animation: trang-den 0.48s cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+@keyframes trang-di {
+  to {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes trang-den {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* --------------------------------- Chi tiết -------------------------------- */
+
+/* ------------------------------ Thân bài viết ------------------------------- */
+/*
+   Kiểu chữ cho HTML do Antigravity đẩy sang. Bài viết đến dưới dạng HTML thô
+   không mang lớp CSS nào, nên phải bắt bằng bộ chọn con — đây là chỗ DUY NHẤT
+   trong trang được phép làm vậy, và chỉ trong phạm vi `.bai-viet`.
+
+   Bề rộng dòng khoá ở 68ch: đo trang cũ thấy có dòng dài 103 ký tự, quá ngưỡng
+   ~75 mà mắt còn bắt đúng dòng khi xuống hàng.
+*/
+.bai-viet {
+  font-size: var(--text-body);
+  line-height: 1.75;
+  color: var(--color-paper);
+}
+
+.bai-viet > * + * {
+  margin-top: 1.35em;
+}
+
+.bai-viet p,
+.bai-viet li {
+  max-width: 68ch;
+  color: color-mix(in oklab, var(--color-paper) 88%, transparent);
+}
+
+.bai-viet h2,
+.bai-viet h3,
+.bai-viet h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  margin-top: 2.2em;
+}
+
+.bai-viet h2 {
+  font-size: var(--text-h2);
+  line-height: 1.18;
+}
+
+.bai-viet h3 {
+  font-size: var(--text-h3);
+  line-height: 1.3;
+}
+
+.bai-viet h4 {
+  font-size: var(--text-h4);
+}
+
+.bai-viet ul,
+.bai-viet ol {
+  padding-left: 1.35em;
+}
+
+.bai-viet ul {
+  list-style: disc;
+}
+
+.bai-viet ol {
+  list-style: decimal;
+}
+
+.bai-viet li + li {
+  margin-top: 0.5em;
+}
+
+.bai-viet li::marker {
+  color: var(--color-jade);
+}
+
+.bai-viet a {
+  color: var(--color-jade);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.bai-viet blockquote {
+  border-left: 2px solid var(--color-jade-deep);
+  padding-left: 1.5em;
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: 1.4;
+}
+
+.bai-viet img {
+  width: 100%;
+  height: auto;
+}
+
+.bai-viet figcaption {
+  margin-top: 0.7em;
+  font-size: var(--text-small);
+  color: var(--color-paper-dim);
+}
+
+/* Bảng trong bài phải tự cuộn ngang được, nếu không nó đẩy cả trang lệch. */
+.bai-viet table {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+
+.bai-viet th,
+.bai-viet td {
+  border-bottom: 1px solid var(--color-ink-line);
+  padding: 0.75em 1em 0.75em 0;
+  text-align: left;
+}
+
+.bai-viet th {
+  font-weight: 500;
+  color: var(--color-paper-dim);
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* ------------------------------ Giảm chuyển động ---------------------------- */
+/*
+   Một khối duy nhất tắt TẤT CẢ chuyển động của trang. Gom về một chỗ để không
+   bao giờ có hiệu ứng nào lọt lưới khi thêm mảng mới.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .split-word > span {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+
+  .preloader {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ----------------------------- Khối gấp mở --------------------------------- */
+/*
+   Dùng cho câu hỏi thường gặp và sáu bước kiểm giá — hai chỗ dài nhất trên bản
+   di động. Xem `components/ui/gap-mo.tsx` để biết vì sao chúng mở sẵn.
+
+   Mũi tên chỉ hiện dưới khổ md. Ở máy bàn khối luôn mở, nên một mũi tên đứng
+   đó chỉ nói dối rằng có gì đó để bấm.
+*/
+.gap-mo-tom-tat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: default;
+  /* Ngưỡng chạm 44px áp cho MỌI khổ, không chỉ khổ hẹp.
+     `<summary>` luôn nhận được tiêu điểm bàn phím và luôn bấm được, kể cả khi
+     ở máy bàn khối đã mở sẵn và việc bấm không đổi gì. Đã là thứ bấm được thì
+     phải đủ to để bấm — đo được ở 1280px trước khi sửa: cao 28px. */
+  min-height: 2.75rem;
+  padding-block: 0.5rem;
+  /* Gỡ tam giác mặc định của trình duyệt để tự vẽ mũi tên. `::-webkit-details-marker`
+     là cho Safari, `list-style` là cho phần còn lại. */
+  list-style: none;
+}
+
+.gap-mo-tom-tat::-webkit-details-marker {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .gap-mo-tom-tat {
+    cursor: pointer;
+  }
+
+  .gap-mo-tom-tat::after {
+    content: "";
+    flex: none;
+    align-self: center;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-right: 1.5px solid var(--color-jade);
+    border-bottom: 1.5px solid var(--color-jade);
+    transform: rotate(45deg) translateY(-0.1rem);
+    transition: transform 0.25s ease;
+  }
+
+  .gap-mo[open] > .gap-mo-tom-tat::after {
+    transform: rotate(-135deg) translateY(-0.1rem);
+  }
+}

@@ -1,0 +1,496 @@
+{
+  "docLuc": "2026-08-15T11:20:01.480Z",
+  "tongSoCan": 32,
+  "theoTieuKhu": [
+    {
+      "ten": "Vịnh Bình Minh 1",
+      "so": 22
+    },
+    {
+      "ten": "Thiên Đường Nhiệt Đới 1",
+      "so": 10
+    }
+  ],
+  "theoLoaiHinh": [
+    {
+      "ten": "Liền kề",
+      "so": 17
+    },
+    {
+      "ten": "Song lập",
+      "so": 15
+    }
+  ],
+  "theoBanGiao": [
+    {
+      "ten": "thô",
+      "so": 21
+    },
+    {
+      "ten": "giãn xây",
+      "so": 10
+    },
+    {
+      "ten": "hoàn thiện",
+      "so": 1
+    }
+  ],
+  "dienTichDat": {
+    "Song lập": {
+      "nhoNhat": 162,
+      "lonNhat": 162
+    },
+    "Liền kề": {
+      "nhoNhat": 60,
+      "lonNhat": 70
+    }
+  },
+  "giaGomVat": {
+    "Song lập": {
+      "nhoNhat": 11718600816,
+      "lonNhat": 32600581485
+    },
+    "Liền kề": {
+      "nhoNhat": 6068755438,
+      "lonNhat": 27437038402
+    }
+  },
+  "giaTruocVat": {
+    "Song lập": {
+      "nhoNhat": 10776588318,
+      "lonNhat": 29677476295
+    },
+    "Liền kề": {
+      "nhoNhat": 5556548728,
+      "lonNhat": 24902590881
+    }
+  },
+  "donGiaDat": {
+    "Song lập": {
+      "nhoNhat": 72337042,
+      "lonNhat": 201238157
+    },
+    "Liền kề": {
+      "nhoNhat": 101145924,
+      "lonNhat": 415712703
+    }
+  },
+  "can": [
+    {
+      "ma": "BM65-19",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 364.4,
+      "giaTruocVat": 13224196526,
+      "vat": 1132890377,
+      "kpbt": 64324837,
+      "giaGomVat": 14421411740,
+      "donGiaDat": 89021060
+    },
+    {
+      "ma": "NĐ11-33",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "giãn xây",
+      "dtDat": 60,
+      "dtXd": 181.7,
+      "giaTruocVat": 5591111283,
+      "vat": 349006100,
+      "kpbt": 0,
+      "giaGomVat": 6106939250,
+      "donGiaDat": 101782321
+    },
+    {
+      "ma": "BM20-31",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "hoàn thiện",
+      "dtDat": 60,
+      "dtXd": 181.7,
+      "giaTruocVat": 9810324007,
+      "vat": 910836373,
+      "kpbt": 48565960,
+      "giaGomVat": 10769726340,
+      "donGiaDat": 179495439
+    },
+    {
+      "ma": "BM40-08",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 373.2,
+      "giaTruocVat": 13393560669,
+      "vat": 1149826791,
+      "kpbt": 65143998,
+      "giaGomVat": 14608531458,
+      "donGiaDat": 90176120
+    },
+    {
+      "ma": "TĐ55-52",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "giãn xây",
+      "dtDat": 70,
+      "dtXd": 237.1,
+      "giaTruocVat": 6841231494,
+      "vat": 419660783,
+      "kpbt": 0,
+      "giaGomVat": 7477665434,
+      "donGiaDat": 106823792
+    },
+    {
+      "ma": "TĐ42-13",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "giãn xây",
+      "dtDat": 162,
+      "dtXd": 352.4,
+      "giaTruocVat": 10776588318,
+      "vat": 616781556,
+      "kpbt": 0,
+      "giaGomVat": 11718600816,
+      "donGiaDat": 72337042
+    },
+    {
+      "ma": "TĐ55-28",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "giãn xây",
+      "dtDat": 70,
+      "dtXd": 230.8,
+      "giaTruocVat": 6792721494,
+      "vat": 419660783,
+      "kpbt": 0,
+      "giaGomVat": 7424061884,
+      "donGiaDat": 106058027
+    },
+    {
+      "ma": "TĐ55-30",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "giãn xây",
+      "dtDat": 70,
+      "dtXd": 228.9,
+      "giaTruocVat": 6778091494,
+      "vat": 419660783,
+      "kpbt": 0,
+      "giaGomVat": 7407895734,
+      "donGiaDat": 105827082
+    },
+    {
+      "ma": "NĐ11-31",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "giãn xây",
+      "dtDat": 60,
+      "dtXd": 177.3,
+      "giaTruocVat": 5556548728,
+      "vat": 348937845,
+      "kpbt": 0,
+      "giaGomVat": 6068755438,
+      "donGiaDat": 101145924
+    },
+    {
+      "ma": "BM18-66",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 60,
+      "dtXd": 193,
+      "giaTruocVat": 9840774894,
+      "vat": 913881461,
+      "kpbt": 47670758,
+      "giaGomVat": 10802327113,
+      "donGiaDat": 180038785
+    },
+    {
+      "ma": "BM84-16",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 364.4,
+      "giaTruocVat": 14079159013,
+      "vat": 1218386626,
+      "kpbt": 68511084,
+      "giaGomVat": 15366056722,
+      "donGiaDat": 94852202
+    },
+    {
+      "ma": "BM84-01",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 60,
+      "dtXd": 174.8,
+      "giaTruocVat": 8681824882,
+      "vat": 797986460,
+      "kpbt": 42008938,
+      "giaGomVat": 9521820280,
+      "donGiaDat": 158697005
+    },
+    {
+      "ma": "BM80-11",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 60,
+      "dtXd": 182,
+      "giaTruocVat": 10392136655,
+      "vat": 969017638,
+      "kpbt": 50411256,
+      "giaGomVat": 11411565549,
+      "donGiaDat": 190192759
+    },
+    {
+      "ma": "BM79-06",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 60,
+      "dtXd": 182,
+      "giaTruocVat": 8639580136,
+      "vat": 793761986,
+      "kpbt": 41830021,
+      "giaGomVat": 9475172143,
+      "donGiaDat": 157919536
+    },
+    {
+      "ma": "BM65-08",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 364.4,
+      "giaTruocVat": 13034204757,
+      "vat": 1113891200,
+      "kpbt": 63394559,
+      "giaGomVat": 14211490516,
+      "donGiaDat": 87725250
+    },
+    {
+      "ma": "BM65-11",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 356.7,
+      "giaTruocVat": 12969132447,
+      "vat": 1107383969,
+      "kpbt": 63084789,
+      "giaGomVat": 14139601206,
+      "donGiaDat": 87281489
+    },
+    {
+      "ma": "TĐ12-33",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "giãn xây",
+      "dtDat": 60,
+      "dtXd": 187.2,
+      "giaTruocVat": 5768505884,
+      "vat": 362510560,
+      "kpbt": 0,
+      "giaGomVat": 6302928272,
+      "donGiaDat": 105048805
+    },
+    {
+      "ma": "TĐ12-26",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "giãn xây",
+      "dtDat": 60,
+      "dtXd": 187.2,
+      "giaTruocVat": 5921671140,
+      "vat": 377827086,
+      "kpbt": 0,
+      "giaGomVat": 6472160010,
+      "donGiaDat": 107869334
+    },
+    {
+      "ma": "TĐ45-19",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "giãn xây",
+      "dtDat": 162,
+      "dtXd": 323.1,
+      "giaTruocVat": 11603423831,
+      "vat": 722026108,
+      "kpbt": 0,
+      "giaGomVat": 12632254058,
+      "donGiaDat": 77976877
+    },
+    {
+      "ma": "TĐ45-18",
+      "tieuKhu": "Thiên Đường Nhiệt Đới 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "giãn xây",
+      "dtDat": 162,
+      "dtXd": 323.1,
+      "giaTruocVat": 11603423831,
+      "vat": 722026108,
+      "kpbt": 0,
+      "giaGomVat": 12632254058,
+      "donGiaDat": 77976877
+    },
+    {
+      "ma": "BM7-43",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 60,
+      "dtXd": 187,
+      "giaTruocVat": 7377726648,
+      "vat": 667576637,
+      "kpbt": 35621584,
+      "giaGomVat": 8080924869,
+      "donGiaDat": 134682081
+    },
+    {
+      "ma": "BM7-41",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 60,
+      "dtXd": 187,
+      "giaTruocVat": 7377726648,
+      "vat": 667576637,
+      "kpbt": 35621584,
+      "giaGomVat": 8080924869,
+      "donGiaDat": 134682081
+    },
+    {
+      "ma": "BM7-19",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 60,
+      "dtXd": 187.9,
+      "giaTruocVat": 7282240992,
+      "vat": 658028071,
+      "kpbt": 35153013,
+      "giaGomVat": 7975422076,
+      "donGiaDat": 132923701
+    },
+    {
+      "ma": "BM7-11",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 60,
+      "dtXd": 183,
+      "giaTruocVat": 7343922851,
+      "vat": 664196257,
+      "kpbt": 35303768,
+      "giaGomVat": 8043422876,
+      "donGiaDat": 134057048
+    },
+    {
+      "ma": "BM89-10",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Liền kề",
+      "banGiao": "thô",
+      "dtDat": 66,
+      "dtXd": 206.5,
+      "giaTruocVat": 24902590881,
+      "vat": 2413043457,
+      "kpbt": 121404064,
+      "giaGomVat": 27437038402,
+      "donGiaDat": 415712703
+    },
+    {
+      "ma": "BM87-18",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 364.4,
+      "giaTruocVat": 29677476295,
+      "vat": 2778218354,
+      "kpbt": 144886836,
+      "giaGomVat": 32600581485,
+      "donGiaDat": 201238157
+    },
+    {
+      "ma": "BM86-16",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 360.8,
+      "giaTruocVat": 21268419597,
+      "vat": 0,
+      "kpbt": 0,
+      "giaGomVat": 23309449068,
+      "donGiaDat": 143885488
+    },
+    {
+      "ma": "BM86-07",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 360.6,
+      "giaTruocVat": 13287078708,
+      "vat": 0,
+      "kpbt": 0,
+      "giaGomVat": 14490894406,
+      "donGiaDat": 89449965
+    },
+    {
+      "ma": "BM78-02",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 373.1,
+      "giaTruocVat": 15102640737,
+      "vat": 0,
+      "kpbt": 0,
+      "giaGomVat": 16496888004,
+      "donGiaDat": 101832642
+    },
+    {
+      "ma": "BM77-22",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 373.2,
+      "giaTruocVat": 13203569090,
+      "vat": 0,
+      "kpbt": 0,
+      "giaGomVat": 14398610445,
+      "donGiaDat": 88880311
+    },
+    {
+      "ma": "BM77-07",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 356.7,
+      "giaTruocVat": 13159124217,
+      "vat": 0,
+      "kpbt": 0,
+      "giaGomVat": 14349522430,
+      "donGiaDat": 88577299
+    },
+    {
+      "ma": "BM84-18",
+      "tieuKhu": "Vịnh Bình Minh 1",
+      "loaiHinh": "Song lập",
+      "banGiao": "thô",
+      "dtDat": 162,
+      "dtXd": 364.4,
+      "giaTruocVat": 17119025990,
+      "vat": 1522373323,
+      "kpbt": 83395518,
+      "giaGomVat": 18724794832,
+      "donGiaDat": 115585153
+    }
+  ]
+}

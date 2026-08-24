@@ -1,0 +1,365 @@
+{
+  "id": "7f072b76-0ead-448c-a931-55fa196050fa",
+  "prevId": "3530830e-b399-43cb-9500-39b03af89174",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.bai_viet": {
+      "name": "bai_viet",
+      "schema": "",
+      "columns": {
+        "slug": {
+          "name": "slug",
+          "type": "varchar(200)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tieu_de": {
+          "name": "tieu_de",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mo_ta": {
+          "name": "mo_ta",
+          "type": "varchar(600)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngay_dang": {
+          "name": "ngay_dang",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "chuyen_muc": {
+          "name": "chuyen_muc",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "noi_dung": {
+          "name": "noi_dung",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "trang_thai": {
+          "name": "trang_thai",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'cho'"
+        },
+        "duyet_luc": {
+          "name": "duyet_luc",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nhan_luc": {
+          "name": "nhan_luc",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "cap_nhat_luc": {
+          "name": "cap_nhat_luc",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "bai_viet_ngay_dang_idx": {
+          "name": "bai_viet_ngay_dang_idx",
+          "columns": [
+            {
+              "expression": "ngay_dang",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "bai_viet_trang_thai_idx": {
+          "name": "bai_viet_trang_thai_idx",
+          "columns": [
+            {
+              "expression": "trang_thai",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.dang_ky": {
+      "name": "dang_ky",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ho_ten": {
+          "name": "ho_ten",
+          "type": "varchar(160)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dien_thoai": {
+          "name": "dien_thoai",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quan_tam": {
+          "name": "quan_tam",
+          "type": "varchar(80)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ghi_chu": {
+          "name": "ghi_chu",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ngan_sach": {
+          "name": "ngan_sach",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "trang_vao": {
+          "name": "trang_vao",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "trang_gui": {
+          "name": "trang_gui",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tu_nguon": {
+          "name": "tu_nguon",
+          "type": "varchar(160)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utm_nguon": {
+          "name": "utm_nguon",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utm_kenh": {
+          "name": "utm_kenh",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utm_chien_dich": {
+          "name": "utm_chien_dich",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utm_tu_khoa": {
+          "name": "utm_tu_khoa",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utm_noi_dung": {
+          "name": "utm_noi_dung",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ma_quang_cao": {
+          "name": "ma_quang_cao",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "trang_thai": {
+          "name": "trang_thai",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'moi'"
+        },
+        "ghi_chu_ban_hang": {
+          "name": "ghi_chu_ban_hang",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tao_luc": {
+          "name": "tao_luc",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "cap_nhat_luc": {
+          "name": "cap_nhat_luc",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "dang_ky_chien_dich_idx": {
+          "name": "dang_ky_chien_dich_idx",
+          "columns": [
+            {
+              "expression": "utm_chien_dich",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "tao_luc",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "dang_ky_trang_thai_idx": {
+          "name": "dang_ky_trang_thai_idx",
+          "columns": [
+            {
+              "expression": "trang_thai",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "tao_luc",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.su_kien": {
+      "name": "su_kien",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "loai": {
+          "name": "loai",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duong": {
+          "name": "duong",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "chi_tiet": {
+          "name": "chi_tiet",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "xay_ra_luc": {
+          "name": "xay_ra_luc",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "su_kien_loai_thoi_gian_idx": {
+          "name": "su_kien_loai_thoi_gian_idx",
+          "columns": [
+            {
+              "expression": "loai",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "xay_ra_luc",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

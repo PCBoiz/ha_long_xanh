@@ -1,0 +1,32 @@
+# Những thứ KHÔNG cần đẩy lên Vercel.
+#
+# Không có file này thì `vercel deploy` gói cả thư mục hiện tại — bao gồm ảnh
+# chụp audit (vài chục MB), ảnh gốc tải từ Drive, và thư mục `.data` chứa THÔNG
+# TIN CÁ NHÂN của khách đã đăng ký thử ở máy.
+
+# Kết quả audit — sinh lại được bằng `npm run audit`
+.audit/
+.audit-*.log
+
+# Dữ liệu chạy thử ở máy. CHỨA SỐ ĐIỆN THOẠI THẬT — tuyệt đối không đẩy lên.
+.data/
+
+# Ảnh gốc tải tạm từ Drive trước khi nén
+.asset-cache/
+
+# Bộ triển khai máy chủ riêng — Vercel không dùng tới
+Dockerfile
+docker-compose.yml
+Caddyfile
+trien-khai.sh
+
+# Bản dựng ở máy
+.next/
+node_modules/
+
+# Kỹ năng thiết kế hallmark — mã của bên thứ ba, 1,2MB, chỉ dùng lúc phát
+# triển. Cài lại bằng `npx skills add nutlope/hallmark`.
+.agents/
+
+# Ảnh gốc chưa nén + tài liệu thương mại nội bộ — không đẩy lên máy chủ
+anh-goc/

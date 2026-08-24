@@ -1,0 +1,82 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# File cấu hình chứa bí mật: chuỗi kết nối cơ sở dữ liệu và token cho phép đăng
+# bài lên trang. Đưa lên kho mã là mất cả hai cùng lúc.
+.env*
+# ...NHƯNG file MẪU thì phải theo dõi: nó chỉ có tên biến và ghi chú, không có
+# giá trị thật. Thiếu nó thì người dựng máy chủ không biết phải điền những gì.
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# đăng ký nhận tạm ở máy khi chưa cấu hình LEAD_WEBHOOK_URL — chứa dữ liệu cá
+# nhân của khách nên tuyệt đối không đưa lên kho mã
+/.data/
+
+# kết quả audit: hàng chục ảnh chụp toàn trang, tổng vài chục MB. Sinh lại được
+# bất cứ lúc nào bằng `npm run audit`, không có lý do gì để nằm trong kho mã.
+/.audit/
+/.audit-dev.log
+/.audit-prod.log
+
+# ảnh gốc tải tạm từ Drive trước khi nén
+/.asset-cache/
+
+# anh chup + bao cao do driver sinh ra, khong dua vao kho ma
+/.claude/skills/*/anh-chup/
+
+# Kỹ năng thiết kế hallmark, cài bằng `npx skills add nutlope/hallmark`.
+# Mã của bên thứ ba (1,2 MB) cài lại được bằng một lệnh — không phải mã của dự
+# án. Để trong kho thì mỗi bản mới của họ lại thành một khối thay đổi lớn lẫn
+# vào lịch sử sửa đổi thật.
+/.agents/
+
+.vercel
+
+# Ảnh gốc chủ trang gửi tay (ảnh tiến độ, tài liệu chính sách). Nén xong thì
+# public/images/*.webp là thứ duy nhất trang cần — file gốc chỉ để dựng lại.
+# Một số file trong đây là TÀI LIỆU THƯƠNG MẠI NỘI BỘ, không được lên kho mã.
+/anh-goc/
+
+# Nhật ký của các lần chạy audit. Cùng loại với hai dòng .audit-*.log ở trên —
+# gộp thành một mẫu để lần sau thêm tên mới không phải nhớ sửa chỗ này.
+/.audit-*.log
+
+# Kịch bản dùng một lần khi dò lỗi (cta.mjs, duyet.mjs, kiem.mjs…). Viết ra để
+# kiểm một giả thuyết rồi bỏ, không phải mã của dự án.
+/.tmp/

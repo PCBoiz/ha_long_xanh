@@ -1,0 +1,98 @@
+{
+  "id": "d30460b9-fcca-4822-bb0f-eb442a75da98",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.bai_viet": {
+      "name": "bai_viet",
+      "schema": "",
+      "columns": {
+        "slug": {
+          "name": "slug",
+          "type": "varchar(200)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tieu_de": {
+          "name": "tieu_de",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mo_ta": {
+          "name": "mo_ta",
+          "type": "varchar(600)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngay_dang": {
+          "name": "ngay_dang",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "chuyen_muc": {
+          "name": "chuyen_muc",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "noi_dung": {
+          "name": "noi_dung",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nhan_luc": {
+          "name": "nhan_luc",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "cap_nhat_luc": {
+          "name": "cap_nhat_luc",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "bai_viet_ngay_dang_idx": {
+          "name": "bai_viet_ngay_dang_idx",
+          "columns": [
+            {
+              "expression": "ngay_dang",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
