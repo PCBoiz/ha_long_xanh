@@ -80,3 +80,6 @@ next-env.d.ts
 # Kịch bản dùng một lần khi dò lỗi (cta.mjs, duyet.mjs, kiem.mjs…). Viết ra để
 # kiểm một giả thuyết rồi bỏ, không phải mã của dự án.
 /.tmp/
+
+# Kết quả đo điện thoại — ảnh chụp toàn trang, sinh lại được bằng lệnh.
+/.audit-dt/

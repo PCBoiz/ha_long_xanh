@@ -10,6 +10,8 @@
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+// Danh sách trang đo dùng chung với bộ đo điện thoại — xem ghi chú trong file đó.
+import { TRANG } from "./trang-do.mjs";
 
 const GOC = process.env.AUDIT_URL ?? "http://localhost:3000";
 const THU_MUC = path.join(process.cwd(), ".audit");
@@ -21,40 +23,6 @@ const KHO_MAN = [
   { ten: "pc", rong: 1440, cao: 900 }, // máy bàn
 ];
 
-/**
- * Danh sách trang đem đi đo.
- *
- * ⚠️ PHẢI KHỚP VỚI ĐƯỜNG DẪN THẬT. Sau đợt đổi tên chín trang, danh sách này
- * còn nguyên tám địa chỉ CŨ — mà địa chỉ cũ chuyển hướng 301 nên `page.goto`
- * vẫn ra 200 và bộ đo vẫn chạy trơn tru. Hỏng im lặng theo đúng nghĩa xấu
- * nhất: báo cáo lưu dưới tên cũ, đo trên trang đích, và HAI trang tiền mới
- * (`/gia-…`, `/duyet-bai`) không bao giờ được đo.
- *
- * Thêm trang mới thì thêm một dòng ở đây. Đổi tên trang thì sửa ở đây.
- */
-const TRANG = [
-  { ten: "trang-chu", duong: "/" },
-  { ten: "quy-hoach", duong: "/quy-hoach" },
-  { ten: "tien-ich", duong: "/tien-ich" },
-  { ten: "du-an", duong: "/du-an" },
-  { ten: "lien-he", duong: "/lien-he" },
-  { ten: "tai-lieu", duong: "/tai-lieu" },
-  { ten: "tin-tuc", duong: "/tin-tuc" },
-  { ten: "phan-khu", duong: "/phan-khu/paradise-bay" },
-  { ten: "san-pham", duong: "/san-pham/biet-thu-bien" },
-  { ten: "dau-tu", duong: "/dau-tu" },
-
-  // ── Chín trang tiền, tên mới ──────────────────────────────────────────
-  { ten: "gia", duong: "/gia-global-gate-ha-long" },
-  { ten: "quy-can", duong: "/quy-can-global-gate-ha-long" },
-  { ten: "gia-thuc-tra", duong: "/gia-thuc-tra-global-gate-ha-long" },
-  { ten: "voucher", duong: "/voucher-vinhomes" },
-  { ten: "gia-tri-tai-san", duong: "/gia-tri-tai-san-global-gate-ha-long" },
-  { ten: "chinh-sach", duong: "/chinh-sach-global-gate-ha-long" },
-  { ten: "phap-ly", duong: "/phap-ly-global-gate-ha-long" },
-  { ten: "tien-do", duong: "/tien-do-global-gate-ha-long" },
-  { ten: "vi-tri", duong: "/vi-tri-global-gate-ha-long" },
-];
 /**
  * Toàn bộ phép đo chạy trong trình duyệt. Trả về số, không trả về nhận xét —
  * nhận xét là việc của người đọc báo cáo.

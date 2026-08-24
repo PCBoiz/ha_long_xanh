@@ -73,9 +73,18 @@ export function SoDoPhanKhu() {
               </span>
 
               {/* Tên hiện khi rê chuột hoặc khi đang chọn — hiện sẵn cả chín cái
-                  thì bản đồ thành một mớ chữ chồng nhau. */}
+                  thì bản đồ thành một mớ chữ chồng nhau.
+
+                  Cỡ chữ nâng từ 0,65rem lên 0,75rem: đo được 10,4px ở khổ
+                  320px, tức là cỡ chữ nhỏ nhất trên cả trang, lại IN HOA và
+                  giãn chữ rộng — dạng khó đọc nhất với tiếng Việt có dấu.
+
+                  Nâng được vì trên điện thoại KHÔNG CÓ rê chuột: mỗi lúc chỉ
+                  nhãn của phân khu đang chọn hiện ra, nên lo ngại chồng chữ ở
+                  dòng trên không áp dụng. Giãn chữ hạ một nấc để bù lại phần
+                  bề ngang tăng thêm. */}
               <span
-                className={`pointer-events-none absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap bg-ink/85 px-2.5 py-1 text-[0.65rem] uppercase tracking-widest transition-opacity duration-300 ${
+                className={`pointer-events-none absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap bg-ink/85 px-2.5 py-1 text-[0.75rem] uppercase tracking-wide transition-opacity duration-300 ${
                   duocChon
                     ? "opacity-100"
                     : "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"

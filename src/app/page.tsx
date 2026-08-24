@@ -177,7 +177,17 @@ export default function TrangChu() {
                   <dt className="text-label uppercase text-paper-dim">
                     {muc.nhan}
                   </dt>
-                  <dd className="mt-3 flex items-baseline gap-2">
+                  {/* flex-wrap: đơn vị xuống dòng khi hết chỗ.
+                      Ở khổ 320px, con số dùng cỡ chữ tiêu đề chiếm khoảng
+                      110px trong một cột chỉ rộng 120px, nên nhãn đơn vị bị
+                      đẩy hẳn ra ngoài — đo được "cư dân" kết thúc ở 320,64px.
+                      Nửa điểm ảnh đó đủ làm cả thân trang cuộn ngang được, và
+                      kéo theo cả thanh điều hướng lẫn thanh gọi phía dưới rộng
+                      321px vì chúng là fixed inset-x-0.
+
+                      Chỉ có tác dụng khi thiếu chỗ, nên khổ rộng hơn không đổi
+                      một pixel nào. */}
+                  <dd className="mt-3 flex flex-wrap items-baseline gap-2">
                     <span className="tabular font-display text-h1 font-normal leading-none">
                       <CountUp giaTri={muc.giaTri} />
                     </span>

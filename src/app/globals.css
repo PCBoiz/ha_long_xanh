@@ -287,6 +287,54 @@ body {
     transform 120ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   MÀN DƯỚI 390px: CHO NHÃN NÚT XUỐNG DÒNG.
+
+   Quy tắc `white-space: nowrap` phía trên có lý do đúng — nút gãy dòng thì cao
+   lên và lệch hàng với nút bên cạnh. Nhưng lý do đó chỉ tồn tại KHI CÓ NÚT BÊN
+   CẠNH, và trên màn hẹp thì không có.
+
+   Đo trên tám trang, đếm số cặp nút nằm cùng một hàng:
+
+       320px → 0 cặp   ·  7 nút tràn khỏi cột
+       360px → 0 cặp   ·  1 nút tràn khỏi cột
+       390px → 1 cặp   ·  0 nút tràn
+       640px → 3 cặp   ·  0 nút tràn
+
+   Hai cột đó gần như loại trừ nhau: đúng ở khoảng `nowrap` không mang lại lợi
+   ích nào thì nó gây ra toàn bộ thiệt hại.
+
+   Thiệt hại không dừng ở cái nút. Nút `nowrap` nằm trong ô lưới sẽ ÉP CẢ CỘT
+   rộng theo nó, vì bề rộng tối thiểu của nội dung không xuống dòng chính là
+   toàn bộ chiều dài chữ. Đo được ở khổ 320px:
+
+     · `/quy-can`    — nút "Nhận chính sách qua tư vấn" rộng 292px trong cột
+                       272px → thân trang giãn ra 349px, tràn ngang 29px.
+     · `/chinh-sach` — nút "Nhận bản áp cho căn bạn chọn" rộng 314px kéo cả cột
+                       theo, khiến `h2` và các đoạn văn cùng cột cũng rộng
+                       314px → tràn ngang 18px.
+
+   Và vì thanh điều hướng trên cùng lẫn thanh gọi/Zalo dưới đáy đều là
+   `fixed inset-x-0`, chúng bị kéo giãn theo bề rộng thân trang — nên trong báo
+   cáo đo, thủ phạm hiện ra là cái header, trong khi header hoàn toàn vô can.
+
+   Chốt ở 389px thay vì một con số tròn cho đẹp: 390px là khổ đầu tiên đo được
+   có nút nằm cùng hàng.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 389px) {
+  .nut {
+    white-space: normal;
+    /* Xuống dòng thì phải căn giữa cả khối chữ, không chỉ căn giữa một dòng. */
+    text-align: center;
+    /* Không bao giờ rộng hơn ô chứa nó — chốt chặn cuối, phòng khi có nhãn dài
+       hơn nữa được thêm vào sau này. */
+    max-width: 100%;
+    /* Đệm ngang hẹp lại một nấc. Chữ đã được phép xuống dòng nên nút không còn
+       ép cột nữa, nhưng bớt đệm giúp phần lớn nhãn vẫn gọn trong MỘT dòng. */
+    padding-inline: 1.25rem;
+  }
+}
+
 /* Lún 1px khi đang giữ chuột — phản hồi duy nhất nói "máy đã nhận". */
 .nut:active {
   transform: translateY(1px);

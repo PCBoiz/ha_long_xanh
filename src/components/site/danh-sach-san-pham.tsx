@@ -69,7 +69,10 @@ export function DanhSachSanPham() {
 
               <Link
                 href="/lien-he"
-                className="mt-auto inline-block pt-7 text-label uppercase text-jade transition-colors hover:text-paper"
+                // min-h-11: đo được 43px, thiếu đúng một pixel so với mức 44px tối thiểu
+                // cho một đích chạm. Chiều cao trước đây đến từ pt-7 cộng chiều
+                // cao dòng chữ, tức là một con số tình cờ chứ không phải chủ ý.
+                className="mt-auto inline-flex min-h-11 items-end pt-7 text-label uppercase text-jade transition-colors hover:text-paper"
               >
                 Nhận bảng giá →
               </Link>
