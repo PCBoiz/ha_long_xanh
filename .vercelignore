@@ -30,3 +30,22 @@ node_modules/
 
 # Ảnh gốc chưa nén + tài liệu thương mại nội bộ — không đẩy lên máy chủ
 anh-goc/
+
+# ⚠️ FILE .env — TUYỆT ĐỐI KHÔNG ĐẨY LÊN.
+#
+# Thiếu dòng này thì .env của máy cá nhân được gói cùng bản triển khai, và
+# nhật ký dựng trên Vercel in ra đúng một dòng tố cáo: "- Environments: .env".
+#
+# Hai cái hại, cái sau nặng hơn:
+#
+#   · Chuỗi kết nối cơ sở dữ liệu và khoá đăng bài nằm trong tệp triển khai,
+#     thay vì trong kho biến môi trường của Vercel.
+#   · Cấu hình của MÁY CÁ NHÂN đi theo lên máy chủ. Người dựng sửa .env để thử
+#     một thứ gì đó rồi quên, và bản chạy thật lặng lẽ mang theo cấu hình thử
+#     nghiệm đó — không ai thấy, vì bảng điều khiển Vercel vẫn hiện đúng giá
+#     trị mình đã đặt.
+#
+# Giá trị thật đặt ở: Vercel → Settings → Environment Variables.
+.env
+.env.*
+!.env.example

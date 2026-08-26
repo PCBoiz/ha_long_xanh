@@ -24,7 +24,7 @@ import { homNayVN } from "@/lib/thoi-gian";
  * lỗi thì lỗi được ném ra, KHÔNG âm thầm rơi về file. Rơi về lúc đó nghĩa là
  * trang hiện dữ liệu cũ của máy cục bộ mà không ai biết là đang hỏng.
  */
-export async function docBaiViet(): Promise<BaiViet[]> {
+async function docBaiVietGoc(): Promise<BaiViet[]> {
   const db = layDb();
 
   if (db) {
@@ -96,7 +96,7 @@ export async function docTheoChuyenMuc(
  * Đọc bài ĐANG CHỜ DUYỆT. Chỉ dùng cho màn hình duyệt bài, không dùng cho
  * trang công khai.
  */
-export async function docBaiChoDuyet(): Promise<
+async function docBaiChoDuyetGoc(): Promise<
   (BaiViet & { daTungDang?: boolean })[]
 > {
   const db = layDb();
@@ -121,7 +121,7 @@ export async function docBaiChoDuyet(): Promise<
   }));
 }
 
-export async function docMotBai(slug: string): Promise<BaiViet | null> {
+async function docMotBaiGoc(slug: string): Promise<BaiViet | null> {
   const db = layDb();
 
   if (db) {
@@ -241,4 +241,82 @@ async function docTuFile(): Promise<BaiViet[]> {
   return [...gom.values()]
     .filter((b) => b.ngayDang <= homNay)
     .sort((a, b) => b.ngayDang.localeCompare(a.ngayDang));
+}
+
+/**
+ * Chạy một truy vấn đọc, và KHÔNG để nó giết cả bản dựng.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ⚠️ KHỐI NÀY SINH RA TỪ MỘT BẢN TRIỂN KHAI HỎNG THẬT, ĐỌC TRƯỚC KHI GỠ.
+ *
+ * Nguyên tắc cũ của file này là "hỏng thì ném lỗi, không âm thầm rơi về file".
+ * Nguyên tắc đó ĐÚNG lúc trang đang chạy, và SAI lúc đang dựng.
+ *
+ * Đo được trên Vercel: `DATABASE_URL` trỏ vào một database chưa chạy
+ * migration, Postgres trả về `relation "bai_viet" does not exist`, và cả bản
+ * triển khai chết ở `/sitemap.xml`. Không phải trang tin hỏng — mà là KHÔNG CÓ
+ * TRANG NÀO LÊN ĐƯỢC. Chín trang tiền, trang liên hệ, mọi thứ, chỉ vì một
+ * bảng phụ chưa tồn tại.
+ *
+ * Cái giá của hai hướng xử lý không cân nhau chút nào:
+ *
+ *   Ném lỗi  → mất toàn bộ trang, kể cả những phần không liên quan gì tới
+ *              cơ sở dữ liệu. Và lỗi này còn xảy ra được vì lý do tạm thời:
+ *              Neon gói miễn phí tự ngủ, nhánh không hoạt động bị lưu trữ, một
+ *              lần đánh thức chậm là hỏng cả lần triển khai.
+ *
+ *   Trả rỗng → mục tin tức trống. Nhìn thấy ngay khi mở trang, sửa xong là có
+ *              lại, và KHÔNG kéo theo thứ gì khác.
+ *
+ * Nên trả rỗng — nhưng phải HÉT LÊN trong nhật ký, kèm chẩn đoán đúng bệnh.
+ * Trả rỗng mà im lặng mới đúng là cái bẫy mà ghi chú cũ cảnh báo.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+async function docAnToan<T>(viec: string, chay: () => Promise<T>, khiHong: T): Promise<T> {
+  try {
+    return await chay();
+  } catch (loi) {
+    // Dịch mã lỗi Postgres sang câu người vận hành làm được gì với nó.
+    //
+    // `42P01` là "bảng không tồn tại" — gần như luôn có đúng một nguyên nhân:
+    // chưa chạy migration, hoặc chạy nhầm database. Nói thẳng ra thay vì để
+    // người đọc tự tra mã lỗi.
+    const ma = (loi as { code?: string })?.code;
+    const chanDoan =
+      ma === "42P01"
+        ? "Bảng chưa tồn tại. Chạy `npm run db:migrate` — và kiểm chuỗi kết nối " +
+          "có đang trỏ đúng database không (dễ nhầm nhất là để nguyên `neondb` " +
+          "mặc định thay vì database của trang)."
+        : "Kiểm DATABASE_URL và trạng thái Neon.";
+
+    console.error(
+      `[tin-tuc] KHÔNG ĐỌC ĐƯỢC cơ sở dữ liệu khi ${viec}. ${chanDoan}\n` +
+        `          Trang vẫn chạy nhưng phần bài viết sẽ TRỐNG.\n` +
+        `          Lỗi gốc: ${(loi as Error)?.message ?? loi}`,
+    );
+    return khiHong;
+  }
+}
+
+
+/**
+ * Ba lớp bọc công khai. Mọi nơi khác trong mã vẫn gọi đúng tên cũ —
+ * `docBaiViet`, `docBaiChoDuyet`, `docMotBai` — nên không chỗ nào phải sửa.
+ *
+ * Tách phần đọc thật ra thành `...Goc` rồi bọc ở đây, thay vì rải try/catch
+ * vào giữa từng truy vấn: chỗ đọc nào thêm về sau cũng chỉ cần một dòng bọc,
+ * và không ai vô tình thêm một đường đọc KHÔNG được bảo vệ.
+ */
+export async function docBaiViet(): Promise<BaiViet[]> {
+  return docAnToan("đọc bài đã đăng", docBaiVietGoc, []);
+}
+
+export async function docBaiChoDuyet(): Promise<
+  (BaiViet & { daTungDang?: boolean })[]
+> {
+  return docAnToan("đọc hàng chờ duyệt", docBaiChoDuyetGoc, []);
+}
+
+export async function docMotBai(slug: string): Promise<BaiViet | null> {
+  return docAnToan("mở một bài", () => docMotBaiGoc(slug), null);
 }
