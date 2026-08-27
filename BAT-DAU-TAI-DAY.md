@@ -125,20 +125,16 @@ Kết nối vào máy chủ bằng Console/SSH Web trên trang quản trị củ
 bash dung-may-chu.sh
 ```
 
-Script cài Docker, bật tường lửa (chỉ mở SSH + 80 + 443), bật cập nhật bảo mật
-tự động, tạo `/opt/halongxanh`.
+Script làm năm việc: cài Docker · bật tường lửa (chỉ mở SSH + 80 + 443) · bật
+cập nhật bảo mật tự động · **tạo 4GB swap** · tạo `/opt/halongxanh`.
 
-**Thêm swap ngay sau đó** — script chưa làm việc này, và thiếu nó thì lần dựng
-đầu tiên dễ chết vì hết RAM:
+Xong phải thấy dòng `Swap: 4.0Gi`. Bước swap mới thêm vào, và nó không thừa:
+`next build` chạy ngay trên máy chủ mỗi lần cập nhật, ăn hết RAM rồi mới xong.
+Không có swap thì nhân hệ điều hành giết tiến trình dựng và để lại đúng một
+dòng `exit code 137` — con số không nói gì về nguyên nhân.
 
-```bash
-sudo fallocate -l 4G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
-echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
-free -h        # phải thấy dòng Swap: 4.0Gi
-```
+> Chính máy dựng bộ này bị hệ điều hành giết **hai lần** trong lúc chạy thử, dù
+> có 16GB RAM. Đó là lý do bước swap có mặt.
 
 ---
 
@@ -421,17 +417,41 @@ hỏi người có chuyên môn, trước khi chạy quảng cáo. Ghi ở đây
 | Tắt HSTS lần đầu | Bản trước bật sẵn, mâu thuẫn với chính lời cảnh báo viết ngay trên nó. |
 | `.env.example`: `EMAIL_SSL` để trống + giải thích | Trước đó đặt `ban@halongxanh360.vn` — chuông báo cháy nằm trong phòng đang cháy. |
 
-## Đã kiểm và ĐÚNG, không cần lo
+## Đã chạy thử bằng Docker thật — không còn phải đoán
 
-- `.next/standalone` sinh ra bình thường (46 MB), có cả `sharp` để tối ưu ảnh và
-  ba file ảnh/font cho thẻ chia sẻ
+Toàn bộ bộ triển khai đã được dựng và cho chạy thật một lần trước khi anh/chị
+thuê máy chủ. Ảnh nặng **373 MB**.
+
+| Điều cần đúng | Kết quả thật |
+|---|---|
+| Ảnh chạy thật có lọt `.env` không | **Không** — `[ -f /app/.env ]` trong hộp chứa trả về không có |
+| Hộp chứa tự báo tình trạng | **`Up 6 seconds (healthy)`** |
+| Tối ưu ảnh (`sharp`) chạy trong Alpine | **Có** — trả `image/webp`, 72.516 byte |
+| Trang phục vụ đúng nội dung | `<title>` và canonical `https://halongxanh360.vn` đều đúng |
+| Không có cơ sở dữ liệu thì sao | `/tin-tuc` **200** · `/sitemap.xml` **200** — không sập |
+| Chưa có `INGEST_TOKEN` thì cổng nhận bài trả gì | **503** kèm câu giải thích, không phải 500 |
+| `caddy validate` bằng chính Caddy | **Valid configuration**, sạch, không còn cảnh báo nào |
+
+**Luật gom tên miền, đo qua hộp chứa thật:**
+
+| Tên miền của yêu cầu | Trả về |
+|---|---|
+| `halongxanh360.vn` | 200 |
+| `www.halongxanh360.vn` | 308 → `https://halongxanh360.vn/…` |
+| `halongxanh360.com.vn` | 308 → `https://halongxanh360.vn/…` |
+| `127.0.0.1:3000` *(phép kiểm còn sống)* | 200 |
+| `web:3000` | **308** — xem cảnh báo dưới |
+
+> ⚠️ Dòng cuối là lý do **không bao giờ được thêm `header_up Host` vào
+> `Caddyfile`.** Caddy giữ nguyên tên miền theo mặc định, nên Next thấy tên
+> miền thật và trả 200. Thêm dòng đó thì Caddy hỏi hộp chứa bằng tên
+> `web:3000`, Next thấy tên lạ nên trả 308 về tên miền chính, trình duyệt quay
+> lại, Caddy lại hỏi bằng `web:3000`… vòng lặp vô hạn và **cả trang tắt**.
+> Bộ kiểm `scripts/kiem-caddyfile.mjs` giờ chặn đúng dòng này.
+
+Hai điều còn lại, kiểm bằng cách khác:
+
 - Node 22 đủ cho Next 16 (Next khai `>=20.9.0`)
-- Caddy giữ nguyên header `Host` khi chuyển tiếp — đây mới là thứ giữ cho trang
-  không quay vòng chuyển hướng, **không phải** ba dòng `X-Forwarded-*`
-- Phép kiểm "còn sống" của Docker gọi `127.0.0.1:3000` — địa chỉ này nằm trong
-  danh sách miễn trừ của luật chuyển hướng, đã đo: trả 200
-- Ký tự xuống dòng của script: trong kho đã là LF (`git ls-files --eol`), nên
-  `git clone` trên Linux cho ra file chạy được. *(Chép bằng SCP từ Windows thì
-  hỏng — đừng dùng SCP.)*
-- Bản dựng sống sót khi cơ sở dữ liệu hỏng: đã thử với mật khẩu sai → thoát mã
-  0, kèm dòng chẩn đoán, trang vẫn lên
+- Ký tự xuống dòng của script trong kho đã là LF, nên `git clone` trên Linux cho
+  ra file chạy được — **đừng dùng SCP**, chép thẳng từ Windows sẽ làm Linux báo
+  `bad interpreter`
