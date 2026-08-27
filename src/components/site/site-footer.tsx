@@ -158,7 +158,13 @@ export function SiteFooter() {
           </p>
           <p className="mt-3 max-w-[68ch] text-small leading-relaxed text-paper/35">
             Đây là trang thông tin do {benBan.ten || benBan.vaiTro.toLowerCase()}{" "}
-            lập, không phải trang chính thức của chủ đầu tư.
+            lập, không phải trang chính thức của chủ đầu tư.{" "}
+            {/* Câu thứ hai nói rõ số liệu trên trang được đối chiếu KHI NÀO.
+                Thiếu nó, dòng miễn trừ chỉ nói trang này là ai — chưa nói giá,
+                quỹ căn, chính sách và pháp lý ở đây có thể đã đổi kể từ lúc
+                đăng. Đó mới là phần khách cần biết trước khi tin một con số. */}
+            Thông tin giá, quỹ căn, chính sách và pháp lý được đối chiếu tại
+            thời điểm tư vấn.
           </p>
           <p className="mt-4 text-small text-paper/35">
             Chủ đầu tư: {duAn.chuDauTu}

@@ -69,11 +69,81 @@ const nextConfig: NextConfig = {
    * đo được.
    */
   async redirects() {
-    return CHUYEN_HUONG_CU.map(({ cu, moi }) => ({
+    const cu = CHUYEN_HUONG_CU.map(({ cu, moi }) => ({
       source: cu,
       destination: moi,
       permanent: true,
     }));
+
+    /*
+     * ═══════════════════════════════════════════════════════════════════════
+     * MỌI TÊN MIỀN KHÁC → TÊN MIỀN CHÍNH, 301.
+     *
+     * Trang chạy được ở ít nhất ba địa chỉ cùng lúc: tên miền thật, địa chỉ
+     * `*.vercel.app` mà Vercel cấp cho mỗi lần triển khai, và bản `www.`. Cả
+     * ba trả về NỘI DUNG GIỐNG HỆT NHAU.
+     *
+     * Với người đọc thì không sao. Với công cụ tìm kiếm thì đó là ba trang
+     * trùng nội dung tranh nhau cùng một truy vấn, và sức mạnh liên kết bị
+     * chia ba. Thẻ canonical có nói đúng địa chỉ nào là chính, nhưng canonical
+     * chỉ là GỢI Ý — công cụ tìm kiếm được phép bỏ qua. 301 thì không.
+     *
+     * Kiểu hỏng này im lặng hoàn toàn: trang mở bình thường ở cả ba nơi, không
+     * lỗi nào hiện ra, chỉ có thứ hạng thấp hơn mức đáng ra phải có.
+     *
+     * ⚠️ CHỈ BẬT KHI ĐÃ ĐẶT `NEXT_PUBLIC_SITE_URL`. Chưa đặt mà bật thì bản
+     * xem thử trên Vercel tự chuyển hướng về một địa chỉ chưa tồn tại — mất
+     * luôn đường vào để kiểm tra trước khi lên thật.
+     * ═══════════════════════════════════════════════════════════════════════
+     */
+    const goc = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+    if (!goc) return cu;
+
+    let mienChinh: string;
+    try {
+      mienChinh = new URL(goc).host;
+    } catch {
+      // Địa chỉ sai định dạng thì bỏ qua phần này thay vì làm hỏng bản dựng.
+      return cu;
+    }
+
+    // Tên miền chính, cộng hai địa chỉ chạy ở máy. Mỗi mục là một nhánh
+    // trong biểu thức phủ định bên dưới, nên phải thoát dấu chấm.
+    const thoat = (v: string) => v.replace(/\./g, "\\.");
+    const MIEN_BO_QUA = [
+      `${thoat(mienChinh)}$`,
+      "localhost(:\\d+)?$",
+      "127\\.0\\.0\\.1(:\\d+)?$",
+    ];
+
+    return [
+      ...cu,
+      {
+        // `has` với `host` khác tên miền chính: Next so tên miền của yêu cầu
+        // với biểu thức dưới đây, và biểu thức này khớp MỌI tên miền KHÁC
+        // tên miền chính — kể cả `www.`, kể cả `*.vercel.app`, kể cả tên miền
+        // phụ thêm về sau mà không ai nhớ cập nhật chỗ này.
+        source: "/:duong*",
+        has: [
+          {
+            type: "host" as const,
+            // ⚠️ MIỄN TRỪ LOCALHOST, NẾU KHÔNG SẼ TỰ KHOÁ MÌNH RA NGOÀI.
+            //
+            // Khi `NEXT_PUBLIC_SITE_URL` đã trỏ tên miền thật, mọi lần chạy
+            // ở máy đều có host là `localhost:3000` — khác tên miền chính,
+            // nên khớp luật này và bị chuyển hướng sang tên miền thật. Mà
+            // tên miền thật thì có thể chưa trỏ DNS xong.
+            //
+            // Kết quả: mở trang ở máy ra một địa chỉ không tồn tại, và bộ đo
+            // tự động cũng không vào được. Hỏng đúng lúc cần kiểm tra nhất —
+            // ngay trước khi lên thật.
+            value: `(?!${MIEN_BO_QUA.join("|")}).*`,
+          },
+        ],
+        destination: `${goc}/:duong*`,
+        permanent: true,
+      },
+    ];
   },
 
   // Máy chủ tự quản không có lớp bảo vệ mặc định như nền tảng đám mây, nên các
