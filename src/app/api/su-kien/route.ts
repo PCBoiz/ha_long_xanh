@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { layDb, schema } from "@/db";
+import { demMotLuot } from "@/lib/gioi-han-tan-suat";
 
 /**
  * Cổng nhận sự kiện chuyển đổi.
@@ -37,6 +38,23 @@ function catNgan(gia: unknown, toiDa: number): string | null {
 
 export async function POST(yeuCau: Request): Promise<Response> {
   const khong = new Response(null, { status: 204 });
+
+  // GIỚI HẠN TẦN SUẤT — lớp bảo vệ DUY NHẤT của cổng này.
+  //
+  // Cổng này cố ý không có xác thực (xem ghi chú đầu file), nên thứ ngăn một
+  // người bơm hàng triệu dòng rác vào bảng `su_kien` chỉ có bộ đếm này. Không
+  // có nó thì hại đúng hai chỗ: thống kê chuyển đổi thành vô nghĩa, và dung
+  // lượng Neon bị đốt bởi dữ liệu không ai cần.
+  //
+  // 60 lượt/phút cho mỗi địa chỉ: rộng hơn nhiều lần so với một người dùng
+  // thật (mỗi lượt xem trang sinh ra một hai sự kiện), đủ hẹp để một máy bơm
+  // dừng lại ngay.
+  //
+  // ⚠️ VƯỢT HẠN MỨC VẪN TRẢ 204, KHÔNG PHẢI 429. Bên gọi là
+  // `navigator.sendBeacon` — nó không đọc phản hồi và không xử lý được mã lỗi.
+  // Trả 429 chỉ làm bẩn nhật ký trình duyệt của khách THẬT khi họ bấm nhanh,
+  // mà không ngăn thêm được gì. Bỏ lặng lẽ là đúng ngữ cảnh.
+  if (demMotLuot("su-kien", yeuCau, 60, 60).vuot) return khong;
 
   try {
     const than = (await yeuCau.json()) as unknown;

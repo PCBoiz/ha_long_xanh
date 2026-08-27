@@ -61,10 +61,16 @@ next-env.d.ts
 /.claude/skills/*/anh-chup/
 
 # Kỹ năng thiết kế hallmark, cài bằng `npx skills add nutlope/hallmark`.
-# Mã của bên thứ ba (1,2 MB) cài lại được bằng một lệnh — không phải mã của dự
-# án. Để trong kho thì mỗi bản mới của họ lại thành một khối thay đổi lớn lẫn
-# vào lịch sử sửa đổi thật.
+#
+# Mã của bên thứ ba (1,1 MB, 109 file) cài lại được bằng một lệnh — không phải
+# mã của dự án. Để trong kho thì mỗi bản mới của họ lại thành một khối thay đổi
+# lớn lẫn vào lịch sử sửa đổi thật.
+#
+# ⚠️ NÓ NẰM Ở HAI CHỖ. Dòng `/.agents/` bên dưới chỉ chặn một chỗ; bản cài qua
+# `.claude/skills/` từng lọt vào kho vì không ai nhớ có chỗ thứ hai. Chặn cả
+# hai, và giữ chúng cạnh nhau để lần sau còn thấy.
 /.agents/
+/.claude/skills/hallmark/
 
 .vercel
 

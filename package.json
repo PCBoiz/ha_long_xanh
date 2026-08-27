@@ -12,7 +12,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "audit": "node scripts/audit.mjs",
-    "audit:sau": "node scripts/audit-sau.mjs"
+    "audit:sau": "node scripts/audit-sau.mjs",
+    "quet-bi-mat": "node scripts/quet-bi-mat.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

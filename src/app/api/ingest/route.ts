@@ -5,6 +5,7 @@ import path from "node:path";
 import type { BaiViet } from "@/data/news";
 import { layDb, schema } from "@/db";
 import { moTaViPham, quetBai } from "@/lib/cong-chan";
+import { demMotLuot } from "@/lib/gioi-han-tan-suat";
 
 // Cổng nhận bài từ Antigravity.
 //
@@ -109,6 +110,34 @@ function kiemTra(du: unknown): { hopLe: true; bai: BaiViet } | { hopLe: false; l
 }
 
 export async function POST(yeuCau: Request) {
+  // ═══════════════════════════════════════════════════════════════════════
+  // GIỚI HẠN TẦN SUẤT — ĐẶT TRƯỚC PHẦN KIỂM KHOÁ, VÀ THỨ TỰ ĐÓ LÀ CHỦ ĐÍCH.
+  //
+  // Khoá `INGEST_TOKEN` là thứ DUY NHẤT ngăn người lạ ghi bài lên trang. So
+  // sánh khoá đã chống được tấn công đo thời gian (`timingSafeEqual`), nhưng
+  // nó không chống được cách tấn công thô sơ hơn: cứ thử, hàng nghìn lần một
+  // giây, tới khi trúng.
+  //
+  // Đếm SAU khi kiểm khoá thì bộ đếm không bao giờ chạy cho kẻ đoán sai — tức
+  // là không chặn được gì. Đếm TRƯỚC thì mọi lượt thử đều tính, kể cả lượt
+  // sai. Đó mới là chỗ cần chặn.
+  //
+  // 20 lượt/phút: Antigravity đăng vài bài một ngày, nên hạn mức này rộng gấp
+  // nhiều lần nhu cầu thật. Với máy dò thì nó biến việc thử một khoá 64 ký tự
+  // thành việc không bao giờ xong.
+  //
+  // Trả 429 kèm `Retry-After` — khác 401. Bên gọi phân biệt được "khoá sai"
+  // với "gửi quá nhanh", nên bộ đẩy bài bên Antigravity báo đúng nguyên nhân
+  // thay vì bảo người dùng đi kiểm lại khoá đang đúng.
+  // ═══════════════════════════════════════════════════════════════════════
+  const nhip = demMotLuot("ingest", yeuCau, 20, 60);
+  if (nhip.vuot) {
+    return NextResponse.json(
+      { loi: "Gửi quá nhanh. Chờ một lát rồi thử lại." },
+      { status: 429, headers: { "Retry-After": String(nhip.choGiay) } },
+    );
+  }
+
   const token = process.env.INGEST_TOKEN;
   if (!token) {
     // 503 chứ không phải 500: đây là chưa cấu hình, không phải hỏng.
