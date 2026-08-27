@@ -1,0 +1,74 @@
+# Kiểm tự động mỗi lần đẩy mã lên.
+#
+# ═══════════════════════════════════════════════════════════════════════════
+# VÌ SAO CHẠY Ở ĐÂY CHỨ KHÔNG PHẢI Ở MÁY
+#
+# Bốn phép kiểm dưới đây đều chạy được bằng tay: `npm run typecheck`,
+# `npm run lint`, `npm run build`, `npm run quet-bi-mat`. Vấn đề không nằm ở
+# việc chúng có chạy được không, mà ở chỗ CHÚNG CÓ CHẠY KHÔNG.
+#
+# Máy chủ lấy mã bằng `git pull` rồi dựng ngay. Một lỗi kiểu TypeScript hay một
+# bí mật lọt vào file mới sẽ đi thẳng tới đó. Lúc phát hiện thì trang đang tắt,
+# và người sửa là người không biết lập trình.
+#
+# Chạy ở đây thì không ai quên được, và hỏng thì hỏng ở GitHub — nơi không có
+# khách nào đang xem.
+#
+# KHÔNG CẦN BÍ MẬT NÀO. Bản dựng cố ý sống sót khi không có cơ sở dữ liệu (đã
+# đo: `/tin-tuc` và `/sitemap.xml` đều trả 200 khi không nối được Neon), nên
+# quy trình này chạy với môi trường trống. Nghĩa là nó cũng an toàn nếu về sau
+# kho được mở công khai.
+# ═══════════════════════════════════════════════════════════════════════════
+
+name: Kiểm
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  kiem:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lấy mã
+        uses: actions/checkout@v4
+        with:
+          # ⚠️ PHẢI LẤY TOÀN BỘ LỊCH SỬ, KHÔNG PHẢI MỘT COMMIT.
+          #
+          # Mặc định `checkout` chỉ lấy commit mới nhất (fetch-depth: 1). Bộ
+          # quét bí mật thì đọc MỌI commit — xoá một bí mật ở commit mới nhất
+          # không xoá nó khỏi lịch sử, ai clone về vẫn đọc được bằng
+          # `git log -p`.
+          #
+          # Để mặc định thì bộ quét vẫn chạy, vẫn báo xanh, và vẫn mù với đúng
+          # thứ nó sinh ra để tìm.
+          fetch-depth: 0
+
+      - name: Cài Node
+        uses: actions/setup-node@v4
+        with:
+          # Trùng với `node:22-alpine` trong Dockerfile. Lệch phiên bản thì bản
+          # dựng ở đây xanh mà bản dựng trên máy chủ đỏ — kiểu sai tệ nhất, vì
+          # nó dạy người ta không tin phép kiểm.
+          node-version: "22"
+          cache: npm
+
+      - name: Cài thư viện
+        run: npm ci
+
+      # Quét bí mật ĐẶT TRƯỚC các bước khác, và chủ ý như vậy: nếu có bí mật
+      # lọt vào thì việc cần biết ngay là điều đó, không phải kiểu TypeScript.
+      - name: Quét bí mật
+        run: npm run quet-bi-mat
+
+      - name: Kiểm kiểu
+        run: npm run typecheck
+
+      - name: Soát mã
+        run: npm run lint
+
+      - name: Dựng thử
+        run: npm run build
