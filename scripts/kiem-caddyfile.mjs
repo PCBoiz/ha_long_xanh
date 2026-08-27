@@ -115,10 +115,38 @@ bao(
   "Không thấy `reverse_proxy web:3000` — Caddy không biết chuyển yêu cầu đi đâu.",
 );
 
-// Thiếu ba header này thì Next tự sinh đường dẫn "http://web:3000/..." vào
-// sitemap và thẻ chia sẻ. Trang vẫn mở bình thường nên rất khó nhận ra.
-for (const h of ["X-Forwarded-Proto", "X-Forwarded-Host"]) {
-  bao(tho.includes(h), `Thiếu \`header_up ${h}\` — sitemap và thẻ chia sẻ sẽ trỏ sai địa chỉ.`);
+// ═══════════════════════════════════════════════════════════════════════════
+// GHI ĐÈ HEADER `Host` LÀ CÁCH GIẾT CẢ TRANG BẰNG MỘT DÒNG.
+//
+// Phép kiểm này thay cho phép kiểm cũ — cái cũ đòi phải có `header_up
+// X-Forwarded-Proto` và `X-Forwarded-Host`, với lý do "thiếu thì sitemap và
+// thẻ chia sẻ trỏ sai địa chỉ". Lý do đó SAI: sitemap, canonical và thẻ chia
+// sẻ lấy địa chỉ từ biến `NEXT_PUBLIC_SITE_URL` nướng cứng lúc dựng ảnh, không
+// hề đọc header. Và chính `caddy validate` gọi hai dòng ấy là thừa, vì Caddy
+// đã tự đặt chúng.
+//
+// Thứ đáng canh là điều NGƯỢC LẠI. `next.config.ts` có luật đẩy mọi tên miền
+// lạ về tên miền chính, và luật đó đối chiếu bằng header `Host`. Caddy giữ
+// nguyên `Host` theo mặc định, nên mọi thứ khớp.
+//
+// Nhưng `header_up Host {upstream_hostport}` là dòng người ta hay chép từ
+// hướng dẫn trên mạng — nó cần thật khi chuyển tiếp tới một máy chủ HTTPS bên
+// ngoài. Chép vào đây thì Caddy hỏi hộp chứa bằng tên "web:3000", Next thấy
+// một tên miền lạ nên trả 308 về tên miền chính, trình duyệt quay lại, Caddy
+// lại hỏi bằng "web:3000"… vòng lặp vô hạn, và TOÀN BỘ trang tắt.
+//
+// Người sửa sẽ không nghi ngờ dòng đó: nó trông giống một dòng cấu hình đúng
+// đắn, và trang thì hỏng ở một chỗ có vẻ chẳng liên quan.
+// ═══════════════════════════════════════════════════════════════════════════
+const dongGhiDeHost = dong
+  .map((d, i) => [i + 1, d.replace(/#.*$/, "")])
+  .filter(([, d]) => /header_up\s+Host\b/i.test(d));
+
+for (const [so] of dongGhiDeHost) {
+  loi.push(
+    `Dòng ${so}: \`header_up Host\` sẽ làm CẢ TRANG rơi vào vòng lặp chuyển ` +
+      `hướng vô hạn. Caddy giữ nguyên Host theo mặc định — xoá dòng này đi.`,
+  );
 }
 
 // ------------------------------------------------------------- 6. cảnh báo

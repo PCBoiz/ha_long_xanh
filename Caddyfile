@@ -16,7 +16,6 @@
 # Chuyển hướng 301 (`permanent`) chứ không phải 302: 301 chuyển giao thứ hạng
 # đã tích được sang tên miền đích, 302 thì không.
 # ═══════════════════════════════════════════════════════════════════════════
-
 {
 	# Địa chỉ email để Let's Encrypt báo khi chứng chỉ sắp hết hạn mà không gia
 	# hạn được. Điền ở file `.env`.
@@ -113,12 +112,41 @@ www.{$TEN_MIEN_PHU} {
 	# }
 
 	reverse_proxy web:3000 {
-		# Nói cho Next.js biết yêu cầu GỐC đến qua HTTPS và từ tên miền nào.
-		# Thiếu mấy dòng này, trang tự sinh đường dẫn "http://web:3000/..." vào
-		# sitemap và thẻ chia sẻ — sai hoàn toàn, và rất khó nhận ra vì trên
-		# trình duyệt mọi thứ trông vẫn bình thường.
-		header_up X-Forwarded-Proto {scheme}
-		header_up X-Forwarded-Host {host}
+		# ⚠️ ĐÃ BỎ HAI DÒNG X-Forwarded-* Ở ĐÂY, VÀ ĐÃ SỬA LỜI GIẢI THÍCH SAI.
+		#
+		# Ghi chú cũ nói: "thiếu mấy dòng này, trang tự sinh đường dẫn
+		# http://web:3000/... vào sitemap và thẻ chia sẻ". Câu đó KHÔNG ĐÚNG.
+		# Sitemap, canonical và thẻ chia sẻ đều lấy địa chỉ từ biến
+		# `NEXT_PUBLIC_SITE_URL` (xem `src/lib/site.ts`) — một giá trị nướng
+		# cứng lúc dựng ảnh. Chúng không hề đọc header của yêu cầu.
+		#
+		# Và chính Caddy cũng nói hai dòng đó thừa. `caddy validate` in ra:
+		#   "Unnecessary header_up X-Forwarded-Proto: the reverse proxy's
+		#    default behavior is to pass headers to the upstream"
+		#
+		# Giữ lại thì mỗi lần triển khai đều có hai dòng cảnh báo vàng không
+		# ai sửa được — và cảnh báo không sửa được là cảnh báo người ta học
+		# cách bỏ qua, kèm theo cả những cảnh báo thật nằm cạnh nó.
+		#
+		# ═══════════════════════════════════════════════════════════════════
+		# THỨ THẬT SỰ GIỮ CHO TRANG KHÔNG QUAY VÒNG là header `Host`, và
+		# Caddy giữ nguyên nó theo mặc định — KHÔNG phải nhờ ba dòng này.
+		#
+		# `next.config.ts` có luật đẩy mọi tên miền lạ về tên miền chính, và
+		# luật đó đối chiếu bằng `Host`, KHÔNG đọc `X-Forwarded-Host`. Đã đo:
+		# gửi Host=web:3000 kèm X-Forwarded-Host=halongxanh360.vn thì vẫn bị
+		# chuyển hướng 308.
+		#
+		# Nghĩa là: ai thêm `header_up Host {upstream_hostport}` vào đây sẽ
+		# làm CẢ TRANG rơi vào vòng lặp chuyển hướng vô hạn — Caddy hỏi web
+		# bằng tên "web:3000", web thấy tên lạ nên trả 308 về tên miền chính,
+		# trình duyệt quay lại, Caddy lại hỏi bằng "web:3000"… ĐỪNG THÊM.
+		# ═══════════════════════════════════════════════════════════════════
+
+		# Địa chỉ IP thật của khách. Caddy KHÔNG tự đặt header này (nó chỉ đặt
+		# `X-Forwarded-For`), nên dòng dưới không thừa như hai dòng vừa bỏ.
+		# Hiện chưa có mã nào đọc nó — để sẵn cho phần giới hạn tần suất và
+		# nhật ký sau này.
 		header_up X-Real-IP {remote_host}
 	}
 }

@@ -65,7 +65,38 @@ APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Unattended-Upgrade "1";
 EOF
 
-# ─────────────────────── 4. Chỗ đặt mã nguồn ────────────────────────────────
+# ──────────────────────────── 4. Bộ nhớ đệm ─────────────────────────────────
+#
+# ⚠️ THIẾU BƯỚC NÀY LÀ LẦN DỰNG ĐẦU TIÊN CHẾT GIỮA CHỪNG.
+#
+# Máy chủ chạy `next build` ngay trên nó mỗi lần cập nhật — bước đó ăn hết RAM
+# rồi mới xong. Trên máy 2GB không có swap, nhân hệ điều hành giết tiến trình
+# dựng, và thông báo để lại chẳng nói gì về nguyên nhân: `docker compose build`
+# chỉ báo "exit code 137" hoặc treo im.
+#
+# Swap không làm máy nhanh hơn. Nó chỉ đổi "chết" lấy "chậm" — và với một việc
+# chạy vài phút mỗi lần cập nhật thì đó là đổi đúng chiều.
+if [[ -n "$(swapon --show 2>/dev/null)" ]]; then
+  xanh "✓ Đã có bộ nhớ đệm (swap)"
+else
+  xanh "→ Tạo 4GB bộ nhớ đệm…"
+  if $SUDO fallocate -l 4G /swapfile 2>/dev/null || $SUDO dd if=/dev/zero of=/swapfile bs=1M count=4096 status=none; then
+    $SUDO chmod 600 /swapfile
+    $SUDO mkswap /swapfile >/dev/null
+    $SUDO swapon /swapfile
+    # Ghi vào fstab để máy khởi động lại vẫn còn. Không có dòng này thì swap
+    # biến mất sau lần mất điện đầu tiên, và lần cập nhật kế tiếp sẽ chết —
+    # cách xa nguyên nhân đủ lâu để không ai nối được hai việc với nhau.
+    grep -q '^/swapfile' /etc/fstab || \
+      echo '/swapfile none swap sw 0 0' | $SUDO tee -a /etc/fstab >/dev/null
+    xanh "✓ Đã bật swap:"
+    free -h | sed 's/^/    /'
+  else
+    vang "⚠ Không tạo được swap. Máy dưới 4GB RAM sẽ dễ chết khi dựng ảnh."
+  fi
+fi
+
+# ─────────────────────── 5. Chỗ đặt mã nguồn ────────────────────────────────
 THU_MUC=/opt/halongxanh
 $SUDO mkdir -p "$THU_MUC"
 [[ $EUID -ne 0 ]] && $SUDO chown -R "$USER:$USER" "$THU_MUC"
@@ -79,10 +110,20 @@ $(xanh "✓ Máy chủ đã sẵn sàng.")
 Ba việc tiếp theo:
 
   1. Đăng xuất rồi đăng nhập lại (để dùng docker không cần sudo)
-  2. Đưa mã nguồn vào $THU_MUC
-       git clone <kho-của-bạn> $THU_MUC
-     hoặc chép từ máy bạn:
-       scp -r D:/vinhomes_ha_long_xanh/* $(whoami)@<ip>:$THU_MUC/
+  2. Đưa mã nguồn vào $THU_MUC — CHỈ BẰNG GIT:
+       cd $THU_MUC
+       git clone git@github.com:<tài-khoản>/<kho>.git .
+
+     ⚠️ ĐỪNG DÙNG scp. Windows kết thúc mỗi dòng bằng hai ký tự, Linux dùng
+        một. Chép thẳng từ Windows sang thì dòng đầu của mỗi script thành
+        "#!/usr/bin/env bash\r", và Linux đi tìm một chương trình tên là
+        "bash\r" — không có, nên báo "bad interpreter: No such file or
+        directory". Nội dung file nhìn hoàn toàn bình thường, nên lỗi này rất
+        khó đoán.
+
+        Kho mã đã khai .gitattributes để git tự chuẩn hoá, nên đi đường git
+        clone thì không bao giờ gặp. Đó là lý do bỏ hẳn scp khỏi hướng dẫn này.
+
   3. cd $THU_MUC && cp .env.example .env && nano .env
      rồi:  ./trien-khai.sh
 

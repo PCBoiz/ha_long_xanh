@@ -54,9 +54,15 @@ toàn nhất.
 Caddy xin chứng chỉ SSL bằng cách để Let's Encrypt gọi ngược về tên miền. DNS
 chưa trỏ đúng thì lượt gọi đó thất bại.
 
-**Let's Encrypt chỉ cho 5 lần thất bại mỗi tuần cho cùng một tên miền.** Đốt
-hết là phải chờ sang tuần. Đây là lỗi khó chịu nhất trong cả quy trình, và
-tránh được bằng đúng một việc: kiểm tra DNS đã trỏ đúng trước khi chạy
+**Let's Encrypt chỉ cho 5 lần thất bại mỗi GIỜ cho cùng một tên miền.** Đốt
+hết là phải chờ sang giờ sau. *(Bản trước ghi "mỗi tuần" — sai. Tài liệu
+Let's Encrypt: "Up to 5 authorization failures per identifier can be incurred
+by one account every hour." Con số 5-mỗi-tuần là một hạn mức KHÁC: số lần cấp
+chứng chỉ cho cùng một bộ tên miền, 5 lần mỗi 7 ngày.)*
+
+Chờ một giờ thì dễ chịu hơn chờ một tuần, nhưng cái bẫy nằm ở chỗ khác: nếu
+DNS trỏ sai và Caddy cứ khởi động lại, năm lượt cháy hết trong vài phút. Tránh
+được bằng đúng một việc: kiểm tra DNS đã trỏ đúng TRƯỚC khi chạy
 `./trien-khai.sh`.
 
 ---
@@ -125,7 +131,7 @@ nslookup www.halongxanh360.com.vn
 ```
 
 Cả bốn phải trả về đúng IP của VPS. **Chỉ khi cả bốn đều đúng mới sang bước
-sau.** Một cái sai là Caddy đốt một lượt trong hạn mức 5 lần/tuần.
+sau.** Một cái sai là Caddy đốt một lượt trong hạn mức 5 lần/giờ.
 
 ---
 
