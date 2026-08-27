@@ -1,3 +1,12 @@
+> ## ⚠️ TÀI LIỆU NÀY KHÔNG CÒN DÙNG ĐỂ LÀM THEO
+>
+> Nó viết trước khi chốt hướng triển khai, và **mâu thuẫn với các tài liệu khác
+> trong kho ở năm chỗ**. Nó dùng dạng `.com.vn` làm tên miền chính (ngược với `Caddyfile` và `.env.example`), và bảng điền `.env` ở bước 6 thiếu hai ô.
+>
+> **Đọc [BAT-DAU-TAI-DAY.md](BAT-DAU-TAI-DAY.md) thay cho file này.**
+>
+> File này giữ lại để tra cứu chi tiết kỹ thuật, không phải để làm theo từng bước.
+
 # Đưa trang lên máy chủ
 
 Hướng dẫn này viết cho người **không biết lập trình**. Mỗi bước là một việc,

@@ -54,14 +54,28 @@ www.{$TEN_MIEN_PHU} {
 	encode zstd gzip
 
 	header {
-		# Bắt buộc HTTPS trong một năm. Sau lần ghé đầu, trình duyệt TỪ CHỐI mở
-		# trang qua HTTP kể cả khi người dùng gõ tay — chặn kiểu tấn công chen
-		# giữa trên wifi công cộng.
+		# ═══════════════════════════════════════════════════════════════════
+		# HSTS — BẮT BUỘC HTTPS. ĐANG TẮT CÓ CHỦ Ý, BẬT SAU MỘT TUẦN.
 		#
-		# ⚠️ CHỈ BẬT KHI HTTPS ĐÃ CHẠY ỔN vài ngày. Bật rồi mà HTTPS hỏng thì
-		# khách KHÔNG vào được trang bằng bất cứ cách nào cho tới khi hết hạn
-		# một năm. Muốn thận trọng thì xoá dòng này lúc mới lên, thêm lại sau.
-		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		# Dòng này nói với trình duyệt: "trong một năm tới, TỪ CHỐI mở trang
+		# này qua HTTP, kể cả khi người dùng gõ tay." Đó là lớp chặn tấn công
+		# chen giữa trên wifi công cộng, và cuối cùng nên bật.
+		#
+		# NHƯNG NÓ KHÔNG GỠ ĐƯỢC. Trình duyệt nhớ lời hứa đó ở phía KHÁCH.
+		# Xoá dòng này khỏi máy chủ KHÔNG xoá được thứ đã nằm trong máy khách
+		# — họ vẫn bị chặn cho tới khi hết một năm.
+		#
+		# Bản trước bật sẵn ngay lần lên đầu tiên, mâu thuẫn với chính lời
+		# cảnh báo viết ngay bên trên nó. Lần đầu lên máy chủ là lúc HTTPS dễ
+		# hỏng nhất: chứng chỉ chưa xin được, DNS chưa trỏ xong, cổng 80 còn
+		# đóng. Nếu bật HSTS rồi mới phát hiện HTTPS hỏng, mọi khách đã ghé
+		# một lần đều không còn đường vào — kể cả qua HTTP.
+		#
+		# ⚠️ CHỈ BỎ DẤU # KHI:  https://tên-miền mở tốt liên tục 7 ngày,
+		#    và `docker compose logs caddy` không có dòng gia hạn thất bại nào.
+		# ═══════════════════════════════════════════════════════════════════
+		# Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
 		# Giấu tên và phiên bản máy chủ — đỡ chỉ đường cho kẻ dò lỗ hổng.
 		-Server
 	}

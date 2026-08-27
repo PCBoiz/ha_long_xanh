@@ -122,12 +122,37 @@ for (const h of ["X-Forwarded-Proto", "X-Forwarded-Host"]) {
 }
 
 // ------------------------------------------------------------- 6. cảnh báo
+//
+// ⚠️ ĐỌC BẢN ĐÃ BỎ CHÚ THÍCH, không đọc `tho`.
+//
+// Caddyfile giải thích HSTS bằng một khối ghi chú dài, và trong khối đó có nhắc
+// lại cả tên tiêu đề lẫn con số `max-age=31536000`. Dò trên bản thô thì bộ kiểm
+// báo động về một dòng ĐANG TẮT — nó không phân biệt được "đã bật" với "đã viết
+// ra để giải thích vì sao chưa bật".
+//
+// Cảnh báo sai còn hại hơn không cảnh báo: người vận hành thấy nó xuất hiện mỗi
+// lần triển khai mà không có gì để sửa, nên tuần thứ hai họ ngừng đọc — và
+// ngừng đọc luôn những cảnh báo thật nằm cạnh nó.
+// Và phải dò TRÊN CÙNG MỘT DÒNG, không dò trên cả file.
+//
+// Bản trước hỏi hai câu tách rời: "file có chữ Strict-Transport-Security
+// không?" và "file có max-age nào không?". Cả hai đều trả lời có — nhưng con số
+// nó tìm thấy nằm ở dòng KHÁC HẲN:
+//
+//     header @tinh Cache-Control "public, max-age=31536000, immutable"
+//
+// Đó là bộ đệm ảnh và mã tĩnh, hoàn toàn vô hại, và nó sẽ luôn ở đó. Nghĩa là
+// cảnh báo HSTS bật vĩnh viễn bất kể HSTS có bật hay không — bộ kiểm nói về một
+// dòng, trong khi nhìn vào một dòng khác.
+const dongHsts = dong
+  .map((d) => d.replace(/#.*$/, ""))
+  .filter((d) => /Strict-Transport-Security/.test(d));
+
 bao(
-  !/Strict-Transport-Security/.test(tho) ||
-    /max-age=(\d+)/.test(tho),
+  dongHsts.length === 0 || dongHsts.some((d) => /max-age=\d+/.test(d)),
   "HSTS khai không có max-age.",
 );
-if (/max-age=31536000/.test(tho)) {
+if (dongHsts.some((d) => /max-age=31536000/.test(d))) {
   canhBao.push(
     "HSTS đặt 1 năm: sau lần ghé đầu, trình duyệt TỪ CHỐI mở trang qua HTTP. " +
       "Nếu HTTPS hỏng thì khách không vào được bằng bất cứ cách nào. Cân nhắc " +

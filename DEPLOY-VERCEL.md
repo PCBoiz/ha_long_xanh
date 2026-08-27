@@ -1,3 +1,12 @@
+> ## ⚠️ TÀI LIỆU NÀY KHÔNG CÒN DÙNG ĐỂ LÀM THEO
+>
+> Nó viết trước khi chốt hướng triển khai, và **mâu thuẫn với các tài liệu khác
+> trong kho ở năm chỗ**. Nó hướng dẫn đưa trang lên Vercel và mời gắn tên miền thật vào đó — trái với quyết định đã chốt, và trái điều khoản gói Hobby (cấm dùng thương mại).
+>
+> **Đọc [BAT-DAU-TAI-DAY.md](BAT-DAU-TAI-DAY.md) thay cho file này.**
+>
+> File này giữ lại để tra cứu chi tiết kỹ thuật, không phải để làm theo từng bước.
+
 # Đưa trang lên Vercel
 
 Bản xem thử, để gửi link cho người khác xem. Không cần tên miền, không cần máy chủ.

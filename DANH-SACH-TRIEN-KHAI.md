@@ -1,3 +1,12 @@
+> ## ⚠️ TÀI LIỆU NÀY KHÔNG CÒN DÙNG ĐỂ LÀM THEO
+>
+> Nó viết trước khi chốt hướng triển khai, và **mâu thuẫn với các tài liệu khác
+> trong kho ở năm chỗ**. Mục 0.2 nói "cả hai thư mục đều chưa phải kho git" — nay đã sai. Mục 4.1 bảo Antigravity trỏ về dạng `.com.vn`, mà dạng đó bị chuyển hướng 301 nên đăng bài sẽ thất bại.
+>
+> **Đọc [BAT-DAU-TAI-DAY.md](BAT-DAU-TAI-DAY.md) thay cho file này.**
+>
+> File này giữ lại để tra cứu chi tiết kỹ thuật, không phải để làm theo từng bước.
+
 # Danh sách triển khai — từ hôm nay tới lúc mở cho khách
 
 Sắp theo **thứ tự phải làm**, không theo mức quan trọng. Mỗi giai đoạn xong mới

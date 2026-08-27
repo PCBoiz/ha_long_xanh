@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hạ Long Xanh 360
 
-## Getting Started
+Trang tư vấn Vinhomes Global Gate Hạ Long. Next.js 16 · React 19 · Tailwind v4 ·
+Drizzle + Neon Postgres.
 
-First, run the development server:
+## Bắt đầu từ đâu
+
+| Muốn làm gì | Đọc file nào |
+|---|---|
+| **Đưa trang lên thật** | **[BAT-DAU-TAI-DAY.md](BAT-DAU-TAI-DAY.md)** ← bắt đầu ở đây |
+| Nhận thông tin khách đăng ký vào Google Sheet | [NHAN-DANG-KY.md](NHAN-DANG-KY.md) |
+| Điền số liệu dự án (giá, quỹ căn, tiến độ) | [DIEN-DU-LIEU.md](DIEN-DU-LIEU.md) |
+| So sánh nhà cung cấp máy chủ | [NGHIEN-CUU-MAY-CHU.md](NGHIEN-CUU-MAY-CHU.md) |
+
+Bốn file `TRIEN-KHAI.md`, `LEN-VPS.md`, `DANH-SACH-TRIEN-KHAI.md` và
+`DEPLOY-VERCEL.md` viết trước khi chốt hướng triển khai và mâu thuẫn nhau. Chúng
+còn trong kho để tra cứu chi tiết, **không phải để làm theo** — mỗi file đã có
+bảng báo ở đầu.
+
+## Chạy ở máy
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env      # rồi mở ra điền
+npm run dev               # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Chưa điền `DATABASE_URL` thì trang vẫn chạy: phần bài viết đọc từ
+`.data/bai-viet.jsonl` để xem được giao diện mà không phải dựng cơ sở dữ liệu
+trước.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Các lệnh
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Lệnh | Làm gì |
+|---|---|
+| `npm run dev` | Chạy ở máy |
+| `npm run build` | Dựng bản chạy thật |
+| `npm run lint` | Soát mã (không cho phép cảnh báo nào) |
+| `npm run typecheck` | Kiểm kiểu TypeScript |
+| `npm run db:generate` | Sinh migration sau khi sửa `src/db/schema.ts` |
+| `npm run db:migrate` | Áp migration lên cơ sở dữ liệu |
+| `npm run audit` | Đo trang bằng trình duyệt thật |
+| `npm run assets` | Tải và nén ảnh |
 
-## Learn More
+## Hai hàng rào cần biết trước khi sửa mã
 
-To learn more about Next.js, take a look at the following resources:
+**Bài do Antigravity đẩy sang KHÔNG lên thẳng trang.** Chúng vào hàng chờ tại
+`/duyet-bai` và chỉ hiện sau khi có người bấm duyệt. Trước hàng chờ còn một cổng
+chặn tự động (`src/lib/cong-chan.ts`) từ chối nội dung chạm luật cấm — mã
+voucher, cam kết lợi nhuận, danh xưng "nhất", số điện thoại lạ.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Không được bịa số.** Giá, quỹ căn, chính sách, pháp lý, tiến độ, khoảng cách —
+mọi con số trên trang đều phải đối chiếu hồ sơ gốc và ghi rõ căn cứ. Xem
+`AGENTS.md`.

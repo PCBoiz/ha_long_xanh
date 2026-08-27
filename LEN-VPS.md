@@ -1,3 +1,12 @@
+> ## ⚠️ TÀI LIỆU NÀY KHÔNG CÒN DÙNG ĐỂ LÀM THEO
+>
+> Nó viết trước khi chốt hướng triển khai, và **mâu thuẫn với các tài liệu khác
+> trong kho ở năm chỗ**. Nó bảo chạy `npm run db:migrate` thẳng trên VPS — không làm được, vì VPS không cài Node. Nó cũng đặt mã nguồn ở thư mục nhà trong khi dòng cron canh gác lại đóng cứng `/opt/halongxanh`.
+>
+> **Đọc [BAT-DAU-TAI-DAY.md](BAT-DAU-TAI-DAY.md) thay cho file này.**
+>
+> File này giữ lại để tra cứu chi tiết kỹ thuật, không phải để làm theo từng bước.
+
 # Đưa halongxanh360.vn lên VPS
 
 Tài liệu này thay phần "trỏ tên miền" trong [TRIEN-KHAI.md](TRIEN-KHAI.md) bằng

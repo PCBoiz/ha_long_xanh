@@ -1,0 +1,81 @@
+# Những thứ KHÔNG được đưa vào thư mục dựng ảnh Docker.
+#
+# ⚠️ THIẾU FILE NÀY LÀ HAI CÁI HẠI CÙNG LÚC, VÀ CẢ HAI ĐỀU IM LẶNG.
+#
+# `Dockerfile` ở chặng 2 làm đúng hai bước, theo thứ tự này:
+#
+#     COPY --from=thuvien /app/node_modules ./node_modules
+#     COPY . .
+#
+# Bước sau chép TOÀN BỘ thư mục hiện tại đè lên. Nên:
+#
+#   1. BÍ MẬT ĐỌNG LẠI TRONG ẢNH. Trên máy chủ, `.env` nằm ngay cạnh
+#      `docker-compose.yml`, tức là nằm trong thư mục dựng. Không chặn thì chuỗi
+#      kết nối cơ sở dữ liệu, khoá đăng bài và địa chỉ nhận thông tin khách được
+#      chép vào một lớp ảnh Docker. Ảnh cuối cùng không mang nó theo — nhưng lớp
+#      trung gian thì có, và lớp đó nằm lại trong bộ đệm của máy chủ. Đẩy ảnh lên
+#      kho ảnh nào đó về sau là đẩy luôn cả bí mật.
+#
+#   2. THƯ VIỆN CỦA MÁY WINDOWS ĐÈ LÊN THƯ VIỆN CỦA LINUX. Nếu ai dựng ảnh từ
+#      một thư mục đã từng chạy `npm install` ở máy cá nhân, `COPY . .` mang
+#      `node_modules` của Windows đè lên bản Alpine vừa cài đúng ở bước trước.
+#      Trong đó có `sharp` — thư viện xử lý ảnh, có phần mã máy biên dịch riêng
+#      cho từng hệ điều hành. Bản Windows không chạy được trên Alpine, nên hoặc
+#      bản dựng chết, hoặc tệ hơn: nó dựng xong và trang mất khả năng tối ưu ảnh
+#      mà không báo gì.
+#
+# Ngoài ra còn một lý do đời thường: không chặn thì thư mục dựng gồm cả
+# `node_modules` và `.next`, tức hơn 1GB phải nén và gửi cho Docker trước MỖI
+# lần dựng — trên máy chủ thuê ở Việt Nam, đó là vài phút chờ mỗi lần.
+
+# ── Thư viện và bản dựng: hộp chứa tự cài lại, không được mang từ máy sang ───
+node_modules
+.next
+out
+build
+
+# ── ⚠️ BÍ MẬT — dòng quan trọng nhất trong file này ─────────────────────────
+# Giá trị thật đi vào hộp chứa qua `environment:` trong docker-compose.yml, ĐỌC
+# LÚC CHẠY. Nó không cần và không được nằm trong ảnh.
+.env
+.env.*
+!.env.example
+
+# ── Dữ liệu cá nhân của khách ───────────────────────────────────────────────
+# Lượt đăng ký nhận tạm khi chưa cấu hình LEAD_WEBHOOK_URL. CHỨA SỐ ĐIỆN THOẠI
+# THẬT của người thật.
+.data
+
+# ── Tài liệu thương mại nội bộ ──────────────────────────────────────────────
+# Ảnh gốc chủ trang gửi tay, trong đó có bảng chính sách và sơ đồ quỹ căn độc
+# quyền. Trang chỉ cần bản đã nén trong `public/images`.
+anh-goc
+.asset-cache
+
+# ── Kết quả đo và ảnh chụp: sinh lại được bằng một lệnh ─────────────────────
+.audit
+.audit-dt
+.audit-*.log
+.tmp
+
+# ── Lịch sử mã nguồn: hộp chứa không cần, mà nó khá nặng ────────────────────
+.git
+.gitignore
+.gitattributes
+
+# ── Công cụ chỉ dùng lúc phát triển ─────────────────────────────────────────
+.agents
+.claude
+.vercel
+.vercelignore
+
+# ── Tài liệu: đọc bằng mắt người, không phải bằng máy chủ ───────────────────
+*.md
+
+# ── Bộ triển khai: nằm ngoài ảnh, vì chúng ĐIỀU KHIỂN ảnh chứ không chạy trong
+#    ảnh. Để `Dockerfile` tự chép chính nó vào ảnh là chép thừa.
+Dockerfile
+.dockerignore
+docker-compose.yml
+Caddyfile
+*.sh

@@ -30,7 +30,50 @@ ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_CHO_LAP_CHI_MUC=$NEXT_PUBLIC_CHO_LAP_CHI_MUC
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# DỪNG NGAY NẾU THIẾU ĐỊA CHỈ TRANG, thay vì dựng ra một bản hỏng câm.
+#
+# Không truyền `--build-arg NEXT_PUBLIC_SITE_URL` thì dòng `ENV` ở trên đặt nó
+# thành CHUỖI RỖNG — và chuỗi rỗng vẫn tính là "đã đặt". Next.js không ghi đè
+# biến đã có mặt khi nạp `.env`, nên chuỗi rỗng THẮNG, kể cả khi `.env` điền
+# đúng.
+#
+# Hậu quả nếu để trôi: `diaChiGoc()` trong `src/lib/site.ts` rơi xuống nhánh
+# cuối và trả `http://localhost:3000`. Địa chỉ đó bị nướng cứng vào canonical,
+# vào sitemap, vào thẻ chia sẻ và vào toàn bộ dữ liệu có cấu trúc. Luật gom tên
+# miền trong `next.config.ts` cũng tự tắt, vì nó thoát sớm khi biến rỗng.
+#
+# Và trang vẫn CHẠY BÌNH THƯỜNG. Mở bằng trình duyệt không thấy gì sai — chỉ có
+# Google đi thu thập một trang tự khai mình sống trên máy của người khác.
+#
+# `docker compose build` luôn truyền hai biến này (xem `docker-compose.yml`).
+# Dòng dưới đây bắt trường hợp ai đó gõ tay `docker build`.
+RUN test -n "$NEXT_PUBLIC_SITE_URL" || ( \
+      echo "" >&2; \
+      echo "✗ THIẾU NEXT_PUBLIC_SITE_URL lúc dựng ảnh." >&2; \
+      echo "  Biến này bị nướng cứng vào mã chạy trên trình duyệt, nên nó phải" >&2; \
+      echo "  có mặt Ở ĐÂY — truyền lúc chạy là quá muộn." >&2; \
+      echo "" >&2; \
+      echo "  Dựng bằng:  docker compose build" >&2; \
+      echo "  (compose tự đọc .env rồi truyền vào; đừng gọi docker build tay)" >&2; \
+      echo "" >&2; \
+      exit 1 )
+
 RUN npm run build
+
+# ⚠️ KHÔNG BAO GIỜ chép `.env` vào chặng 3.
+#
+# Đây từng là một lỗ rò thật, và nó rò theo đường không ai ngờ: Next.js KHÔNG
+# chỉ ĐỌC `.env` lúc dựng — nó CHÉP LUÔN file đó vào `.next/standalone/`
+# (`writeStandaloneDirectory` trong `next/dist/build/index.js`). Mà dòng 48 bên
+# dưới chép nguyên thư mục `standalone` vào ảnh chạy thật.
+#
+# Nghĩa là chuỗi kết nối cơ sở dữ liệu và địa chỉ nhận thông tin khách nằm
+# trong ẢNH CUỐI CÙNG — thứ được `docker save`, được đẩy lên kho ảnh, được chép
+# sang máy khác. Không phải lớp trung gian, mà là bản giao đi.
+#
+# Thứ chặn việc đó là file `.dockerignore` (loại `.env` khỏi thư mục dựng).
+# XOÁ FILE ĐÓ LÀ MỞ LẠI LỖ RÒ NÀY. Kiểm sau mỗi lần dựng:
+#     docker compose exec web sh -c 'ls -l /app/.env'   → phải báo No such file
 
 # ─────────────────────────── 3. Ảnh chạy thật ───────────────────────────────
 FROM node:22-alpine AS chay
