@@ -4,9 +4,30 @@
 # chụp audit (vài chục MB), ảnh gốc tải từ Drive, và thư mục `.data` chứa THÔNG
 # TIN CÁ NHÂN của khách đã đăng ký thử ở máy.
 
-# Kết quả audit — sinh lại được bằng `npm run audit`
+# ⚠️ BA FILE CHẶN, VÀ CHÚNG ĐÃ TRÔI KHỎI NHAU.
+#
+# Dự án có `.gitignore`, `.vercelignore` và `.dockerignore` — ba danh sách cho
+# ba đích đến khác nhau, và không có gì buộc chúng khớp. Hậu quả đo được ở lần
+# triển khai ngày 28/08: `.audit-dt/` (37 MB ảnh chụp) và `.claude/` (14 MB)
+# nằm trong `.gitignore` nhưng KHÔNG có ở đây, nên `vercel --prod` ngồi tải
+# 51 MB thừa trước khi bản dựng kịp bắt đầu. Người dùng nhìn thấy "Building…"
+# đứng im hơn tám phút và tưởng bản dựng treo.
+#
+# Thêm thư mục mới thì kiểm cả ba file. Không có bộ máy nào nhắc.
+
+# Kết quả audit — sinh lại được bằng `npm run audit` / `npm run audit:sau`
 .audit/
 .audit-*.log
+# ⚠️ `.audit-*.log` KHÔNG khớp thư mục này: mẫu đó đòi phần đuôi `.log`, còn
+# đây là một thư mục. Phải khai riêng.
+.audit-dt/
+
+# Kịch bản dùng một lần khi dò lỗi
+.tmp/
+
+# Kỹ năng và công cụ chỉ dùng lúc phát triển (driver Chrome, ảnh chụp)
+.claude/
+.agents/
 
 # Dữ liệu chạy thử ở máy. CHỨA SỐ ĐIỆN THOẠI THẬT — tuyệt đối không đẩy lên.
 .data/
@@ -24,9 +45,7 @@ trien-khai.sh
 .next/
 node_modules/
 
-# Kỹ năng thiết kế hallmark — mã của bên thứ ba, 1,2MB, chỉ dùng lúc phát
-# triển. Cài lại bằng `npx skills add nutlope/hallmark`.
-.agents/
+# (`.agents/` và `.claude/` đã khai ở khối công cụ phát triển phía trên.)
 
 # Ảnh gốc chưa nén + tài liệu thương mại nội bộ — không đẩy lên máy chủ
 anh-goc/
