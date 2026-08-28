@@ -58,14 +58,53 @@ Với tên miền `.vn`, **"đã mua" và "đang hoạt động" là hai việc 
 2. Đã đăng ký xong nhưng **chưa khai báo máy chủ DNS** — bước này phải tự làm
    trong trang quản lý, không tự động.
 
-**Làm gì:** đăng nhập <https://access.pavietnam.vn/> → mở tên miền
-`halongxanh360.vn` → xem hai thứ:
+### Bước 1 — Tra cứu để biết đang tắc ở đâu (2 phút, làm bằng điện thoại)
 
-- [ ] Trạng thái tên miền — có phải "Đang hoạt động" không?
-- [ ] Mục **Cấu hình DNS** — có mở được không, hay báo chưa khai báo máy chủ tên?
+Mở <https://whois.vn> → gõ `halongxanh360.vn`. Kết quả rơi vào một trong ba
+trường hợp, và **mỗi trường hợp đi một hướng khác nhau**:
 
-Nếu vướng bất kỳ chỗ nào: gọi thẳng hỗ trợ P.A Việt Nam, đọc số hoá đơn. Đây là
-việc của họ, không phải việc mình sửa được bằng kỹ thuật.
+| Kết quả | Nghĩa là | Làm tiếp |
+|---|---|---|
+| Không tìm thấy / không có dữ liệu | Hồ sơ chưa hoàn tất — chưa vào hệ thống | Bước 2 |
+| Có thông tin, mục **Máy chủ DNS** trống | Đã đăng ký, chưa khai máy chủ tên | Bước 3 |
+| Có thông tin, có máy chủ DNS | Tắc ở chỗ khác — chụp màn hình rồi hỏi | — |
+
+### Bước 2 — Hoàn tất bản khai (nhiều khả năng là đây)
+
+`.vn` yêu cầu bản khai đăng ký **có xác thực danh tính**. Cá nhân: ký chữ ký số,
+hoặc ký tay rồi scan gửi lại. Công ty: in ra, ký, đóng dấu, gửi lại.
+
+Gọi P.A Việt Nam và đọc đúng câu này — nó chứa mọi thứ họ cần để tra:
+
+> *"Tôi đã thanh toán hoá đơn ngày 05/08/2026 cho hai tên miền halongxanh360.vn
+> và halongxanh360.com.vn, tổng 800.000 đồng. Tôi tra trên whois.vn thì cả hai
+> chưa có trong hệ thống. Cho tôi hỏi bản khai đăng ký của tôi đã hoàn tất chưa,
+> và còn thiếu giấy tờ gì?"*
+
+Hỏi thêm hai câu: **giấy tờ gửi về đâu**, và **bao lâu sau khi nhận thì tên miền
+hoạt động**.
+
+### Bước 3 — Khai máy chủ DNS
+
+<https://access.pavietnam.vn/> → chọn tên miền → **Cấu hình DNS** → khai ba máy
+chủ tên miễn phí của P.A:
+
+```
+ns1.pavietnam.vn
+ns2.pavietnam.vn
+nsbak.pavietnam.net
+```
+
+Làm y hệt cho `halongxanh360.com.vn`.
+
+> **Bước này làm được NGAY, không cần chờ VPS.** Khai máy chủ tên là khai "ai
+> quản lý vùng DNS của tên miền này", chưa phải "trang nằm ở máy nào". Làm trước
+> thì lúc có VPS chỉ còn thêm một bản ghi A (mục 3.1 bên dưới).
+
+### Bước 4 — Kiểm
+
+Chờ khoảng 30 phút (chậm nhất 24 giờ) rồi tra lại whois.vn — mục Máy chủ DNS
+phải có ba dòng vừa khai. Xong bước này là tên miền **sống**.
 
 > **Đừng làm gì tiếp cho tới khi tên miền trả lời được.** Mọi bước sau đều dựa
 > vào nó: chứng chỉ SSL cần tên miền để xác minh, Antigravity cần địa chỉ để đẩy
