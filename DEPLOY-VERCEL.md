@@ -11,6 +11,48 @@
 
 Bản xem thử, để gửi link cho người khác xem. Không cần tên miền, không cần máy chủ.
 
+---
+
+## ⚠️ Cái bẫy trông y hệt "build chậm"
+
+**Triệu chứng:** `npx vercel --prod --yes` in ra `Building…` rồi đứng im hàng
+chục phút. Bấm vào link Inspect cũng không thấy nhật ký nào.
+
+**Thực tế:** bản dựng chưa chạy một giây nào. Hỏi API thì thấy:
+
+```
+readyState        BLOCKED
+readyStateReason  Git author <email> must have access to the team … on Vercel
+                  to create deployments.
+```
+
+Vercel CLI gắn **email tác giả của commit** vào mỗi bản triển khai, và chặn nếu
+email đó không thuộc team. `vercel ls` **không hiện** bản bị chặn, nên nhìn từ
+mọi phía đều giống như đang tải lên rất lâu.
+
+**Vì sao nó mới xuất hiện:** phép kiểm này chỉ chạy khi kho mã có `remote`. Ngày
+28/08 kho được nối lên GitHub, và từ lần triển khai kế tiếp mọi bản đều mang
+theo email tác giả. Trước đó không có remote nên không có gì để kiểm.
+
+**Cách sửa** — đặt email tác giả của kho này trùng với tài khoản Vercel:
+
+```bash
+git config user.email "email-cua-tai-khoan-vercel@gmail.com"
+git commit --allow-empty -m "Doi tac gia cho khop tai khoan Vercel"
+npx vercel --prod --yes
+```
+
+`git config` không có `--global`, nên chỉ đổi trong kho này. Bản triển khai đọc
+tác giả của commit **HEAD**, nên phải có một commit MỚI sau khi đổi — sửa cấu
+hình thôi thì chưa đủ.
+
+Kiểm nhanh xem có đang bị chặn không, thay `<id>` bằng id ở link Inspect:
+
+```bash
+npx vercel inspect <url-ban-trien-khai>
+```
+`status BLOCKED` là dính bẫy này; `status BUILDING` mới thật sự là đang dựng.
+
 **Thời gian: khoảng 5 phút.** Lần đầu lâu hơn vì phải trả lời vài câu hỏi.
 
 ---
