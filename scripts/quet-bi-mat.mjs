@@ -40,6 +40,14 @@ const BO_QUA = [
   /nguoi_dung:mat_khau/,
   /ten:matkhau/,
   /ten_db/,
+  // Chuỗi kết nối mẫu trong file cấu hình drizzle của Antigravity:
+  // `postgresql://app_placeholder:…@localhost/app_placeholder`. Mật khẩu là
+  // chuỗi ngẫu nhiên nên mẫu "mat_khau|password" không bắt được, và bộ quét
+  // báo đỏ hai lần cho hai file hoàn toàn vô hại.
+  //
+  // Chỉ miễn trừ đúng chữ `placeholder`, KHÔNG miễn trừ `localhost`: một chuỗi
+  // trỏ localhost vẫn có thể mang mật khẩu thật của máy ai đó.
+  /placeholder/i,
   /VINHOMESKIEMTHU/,
   /AKfy\.\.\./,
   /<INGEST_TOKEN>/,
