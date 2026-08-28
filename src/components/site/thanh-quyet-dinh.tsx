@@ -34,7 +34,12 @@ const MUC: Muc[] = [
   },
   {
     nhan: "Tìm dòng hợp với tôi",
-    phu: "Ba câu hỏi",
+    // Dòng phụ của các mục khác đều trả lời "được gì / phải lưu ý gì"
+    // ("Những gì đã công bố", "Trước khi đặt cọc", "Cả cơ hội và rủi ro").
+    // "Ba câu hỏi" thì chỉ mô tả cơ chế — nói công cụ hoạt động ra sao, trong
+    // khi thứ người đọc đang cân nhắc là có nên bấm vào hay không. Điều giữ
+    // họ lại là sợ bị đòi số điện thoại, nên trả lời đúng nỗi sợ đó.
+    phu: "Không cần để lại số",
     href: "/#tim-can",
   },
   {

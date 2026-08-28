@@ -21,7 +21,14 @@ import { dongSanPham } from "@/data/project";
  *
  * Nên bộ chọn này chấm điểm HOÀN TOÀN dựa trên hai thứ đã xác nhận:
  * `moTa` (do chủ đầu tư mô tả) và `dienTich` (đọc từ bộ bản vẽ mặt bằng).
- * Kết quả cũng nói rõ nó là GỢI Ý MỞ ĐẦU, không phải lời khuyên chốt.
+ *
+ * Sự dè dặt đó nằm ở CHỖ CHẤM ĐIỂM, không nằm ở câu chữ. Trước đây còn một
+ * đoạn nói thêm rằng kết quả "không phải lời khuyên chốt" — đã bỏ. Nó rào đón
+ * cho một thứ chưa ai trách, và người đang cân nhắc mua nhà không cần được
+ * nhắc rằng ba cái nút bấm thì không quyết thay họ được.
+ *
+ * Điều đáng nói thì vẫn ở lại, ngay dưới kết quả: quỹ căn đổi từng ngày nên
+ * phải hỏi lại. Đó là thông tin, không phải lời xin lỗi.
  * ═══════════════════════════════════════════════════════════════════════════
  *
  * VÌ SAO ĐÁNG LÀM DÙ DỮ LIỆU CÒN MỎNG: nó đổi bản chất của lượt để lại số. Một
@@ -187,19 +194,26 @@ export function TimCanPhuHop() {
       className="scroll-mt-24 border-t border-ink-line py-nhip"
     >
       <Khung>
-        <div className="grid gap-x-16 gap-y-6 md:grid-cols-12">
-          <div className="md:col-span-6">
-            <h2 className="font-display text-h1 font-normal text-balance">
-              Dòng nào hợp với bạn
-            </h2>
-          </div>
-          <div className="md:col-span-5 md:col-start-8 md:self-end">
-            <p className="text-body leading-relaxed text-paper-dim">
-              Ba câu hỏi, không cần để lại thông tin. Kết quả là điểm khởi đầu
-              để nói chuyện, không phải lời khuyên chốt.
-            </p>
-          </div>
-        </div>
+        {/* TIÊU ĐỀ LÀ LỜI MỜI, KHÔNG PHẢI NHÃN DÁN — và nó ăn luôn phần chú
+            thích cũ.
+
+            Bản trước: tiêu đề "Dòng nào hợp với bạn" (một câu hỏi bâng quơ,
+            không bảo người đọc làm gì), cộng một đoạn bên phải: "Ba câu hỏi,
+            không cần để lại thông tin. Kết quả là điểm khởi đầu để nói chuyện,
+            không phải lời khuyên chốt."
+
+            Vế sau của đoạn đó là kiểu rào đón đọc lên là thấy máy viết: nó
+            xin lỗi trước cho một thứ chưa ai trách. Người đang cân nhắc mua
+            nhà không cần được nhắc rằng ba cái nút bấm không phải lời khuyên
+            chốt — họ biết rồi.
+
+            Vế trước thì CÓ giá trị: "ba câu" cho biết mất bao lâu. Nên chuyển
+            nó vào tiêu đề. Giờ tiêu đề vừa là mệnh lệnh, vừa nói cái giá phải
+            trả, vừa nói được gì — và đoạn văn kia không mất thông tin nào khi
+            bị xoá, nó chỉ mất phần rào đón. */}
+        <h2 className="max-w-[22ch] font-display text-h1 font-normal text-balance">
+          Trả lời ba câu, xem dòng nào hợp
+        </h2>
 
         <div className="mt-12 grid gap-x-16 gap-y-12 md:grid-cols-12">
           <div className="flex flex-col gap-9 md:col-span-7">
@@ -297,25 +311,36 @@ export function TimCanPhuHop() {
                   </div>
                 ) : null}
 
+                {/* GIỮ CÂU NÀY, NHƯNG BỎ PHẦN RÀO ĐÓN Ở ĐẦU.
+                    Bản trước mở bằng "Gợi ý này dựa trên mô tả và diện tích do
+                    chủ đầu tư công bố" — một câu tự hạ thấp mình trước khi nói
+                    điều đáng nói. Phần đáng nói là: quỹ căn đổi hằng ngày, nên
+                    phải hỏi lại. Đó là thông tin thật và dẫn thẳng tới việc
+                    người đọc cần làm tiếp, nên nó ở lại. */}
                 {daTraLoiHet ? (
                   <p className="mt-8 border-t border-ink-line pt-5 text-small leading-relaxed text-paper-dim">
-                    Gợi ý này dựa trên mô tả và diện tích do chủ đầu tư công bố.
-                    Căn cụ thể còn hay hết, hướng nào, giá thực trả bao nhiêu thì
-                    phải đối chiếu quỹ căn tại thời điểm bạn hỏi —{" "}
+                    Căn cụ thể còn hay hết, hướng nào, giá thực trả bao nhiêu —
+                    quỹ căn đổi từng ngày nên phải hỏi lại tại thời điểm bạn
+                    mua.{" "}
                     <Link href="/lien-he" className="link-underline text-jade">
-                      nhờ tư vấn viên kiểm giúp
+                      Nhờ tư vấn viên kiểm giúp
                     </Link>
                     .
                   </p>
                 ) : null}
               </div>
-            ) : (
-              <div className="border-t border-ink-line pt-6">
-                <p className="text-small leading-relaxed text-paper-dim">
-                  Chọn một phương án ở câu đầu tiên, gợi ý hiện ra ngay tại đây.
-                </p>
-              </div>
-            )}
+            ) : null}
+            {/* CHƯA CHỌN GÌ THÌ KHÔNG HIỆN GÌ.
+
+                Bản trước để một ô viền ghi "Chọn một phương án ở câu đầu tiên,
+                gợi ý hiện ra ngay tại đây." Câu đó không nói cho ai điều gì họ
+                chưa biết: ba câu hỏi đang nằm ngay bên trái, và bấm vào là
+                thấy. Nó chiếm chỗ của kết quả để giải thích cách dùng một thứ
+                không cần giải thích.
+
+                Ô kết quả xuất hiện ngay sau lựa chọn ĐẦU TIÊN (`dauBang` có
+                giá trị từ lúc đó, với nhãn "Đang nghiêng về"), nên khoảng
+                trống này chỉ tồn tại tới cú bấm đầu. */}
           </div>
         </div>
       </Khung>
