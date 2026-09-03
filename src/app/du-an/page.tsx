@@ -15,13 +15,35 @@ export const metadata: Metadata = {
   description: `Thông số, quy hoạch, tiện ích, pháp lý và thư viện phối cảnh ${duAn.ten}.`,
 };
 
+/**
+ * Thư viện phối cảnh.
+ *
+ * ⚠️ KHÔNG ĐƯỢC CHỨA ẢNH ĐANG LÀM ẢNH MỞ ĐẦU CỦA CHÍNH TRANG NÀY.
+ *
+ * Ô đầu tiên từng là `khu-1-view-bien` — đúng tấm phủ kín màn hình ngay phía
+ * trên. Người xem cuộn một nhịp là gặp lại y nguyên tấm vừa nhìn, và thứ đọng
+ * lại là "trang này có mỗi mấy tấm ảnh", trong khi danh mục có năm mươi hai
+ * tấm. Trùng trong cùng một màn hình đắt hơn trùng giữa hai trang rất nhiều.
+ *
+ * Ô cuối từng là `khu-1-cong-vien-hoang-hon`, chú thích "Công viên trung tâm".
+ * Mở ảnh ra xem thì đó là ảnh chụp cả bán đảo từ trên cao — không có công viên
+ * nào trong khung hình. Chú thích sai kiểu này tệ hơn không chú thích: người
+ * mua tìm công viên trong ảnh, không thấy, rồi bắt đầu ngờ những con số khác
+ * trên trang.
+ *
+ * Hai tấm thay vào đều thuộc nhóm chưa trang nào dùng, và cùng chụp ở TẦM MẮT
+ * NGƯỜI ĐỨNG DƯỚI ĐẤT — thứ mà sáu tấm phối cảnh từ trên cao không cho thấy.
+ */
 const thuVien: { anh: ProjectImageName; chuThich: string }[] = [
-  { anh: "khu-1-view-bien", chuThich: "Phân khu hướng vịnh" },
+  { anh: "vbm-hoan-thien-03", chuThich: "Dãy nhà phố ven kênh lúc hoàng hôn" },
   { anh: "view-san-golf", chuThich: "Khu biệt thự cạnh sân golf" },
   { anh: "cao-tang-02", chuThich: "Quần thể căn hộ cao tầng" },
   { anh: "san-pham-biet-thu-bien", chuThich: "Biệt thự hướng biển" },
   { anh: "san-pham-lien-ke", chuThich: "Dãy phố liền kề" },
-  { anh: "khu-1-cong-vien-hoang-hon", chuThich: "Công viên trung tâm" },
+  {
+    anh: "kien-truc-don-lap-02",
+    chuThich: "Biệt thự đơn lập nhìn từ đường nội khu",
+  },
 ];
 
 const thongSo = [

@@ -60,7 +60,7 @@ const ASSETS = [
   {
     id: "1VqOIDc3tTNvdZ3T8vkBjS5vCF5I4p47m",
     name: "khu-1-cong-vien-hoang-hon",
-    alt: "Công viên trung tâm phân khu 1 lúc hoàng hôn",
+    alt: "Bán đảo dự án nhìn từ trên cao lúc hoàng hôn",
   },
 
   // Sơ đồ quy hoạch — nền cho phần bấm chọn phân khu ở trang chủ. Đây là bản
@@ -191,7 +191,7 @@ const ASSETS = [
   {
     id: "1H_Lvdd_XZSXdk0SxC0or7HmCZzLEG7jg",
     name: "vbm-hoan-thien-03",
-    alt: "Mặt tiền căn hoàn thiện tại Vịnh Bình Minh",
+    alt: "Dãy nhà phố ven kênh tại Vịnh Bình Minh lúc hoàng hôn",
   },
   {
     id: "1UQj_flkV3cYsO5ljeXE_tHvsFztfX-Ow",
@@ -201,7 +201,7 @@ const ASSETS = [
   {
     id: "1TtL72AcoivthCoiC_xgBZe-0SuKHrVVJ",
     name: "vbm-lien-ke-goc-hai",
-    alt: "Căn liền kề hoàn thiện nhìn từ góc thứ hai",
+    alt: "Dãy shophouse hoàn thiện, các gian hàng ở tầng một",
   },
 
   /* ─────────────── Kiến trúc theo TỪNG DÒNG SẢN PHẨM ───────────────
@@ -225,7 +225,7 @@ const ASSETS = [
   {
     id: "1RMWAczC4r-55z9SKcNcLQuf83GQGhkSo",
     name: "kien-truc-shophouse",
-    alt: "Kiến trúc căn shophouse mặt phố",
+    alt: "Dãy nhà phố nhìn từ đại lộ ven vịnh",
   },
   {
     id: "1tVrjm1IWMc0pNiBv31LKHJ4gjP98ur8U",
@@ -288,7 +288,7 @@ const ANH_CUC_BO = [
   {
     file: "tien-do-0826-ha-tang-hoan-thien.jpg",
     name: "tien-do-0826-ha-tang-hoan-thien",
-    alt: "Khu dân cư đã có đường trải nhựa và cây trồng, tháng 08/2026",
+    alt: "Đường trục và hàng cây đã xong giữa các lô đất còn trống, tháng 08/2026",
   },
   {
     file: "tien-do-0826-toan-canh-khu-o.jpg",

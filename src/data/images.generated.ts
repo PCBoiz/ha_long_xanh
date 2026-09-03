@@ -54,7 +54,7 @@ export const projectImages = {
     src: "/images/khu-1-cong-vien-hoang-hon.webp",
     width: 2560,
     height: 1428,
-    alt: "Công viên trung tâm phân khu 1 lúc hoàng hôn",
+    alt: "Bán đảo dự án nhìn từ trên cao lúc hoàng hôn",
     blurDataURL:
       "data:image/webp;base64,UklGRrAAAABXRUJQVlA4WAoAAAAQAAAAFwAADAAAQUxQSBEAAAABD9D/iAgIBJL2N58gov8RDwBWUDggeAAAANADAJ0BKhgADQA+7WaqTamlpCIwCAEwHYlAF2AD1cnLMqNsy4yXgAD9O/ugNlYRQ5g4i8xRK9jw+LUcbaXQbRuc90SJ5/OQh48vfC9uK6JOoypf26mQPtS1IIsKdRk/V8ZEcgeV9k65mDdbyq/ryiYUw3n7CcAAAA==",
   },
@@ -214,7 +214,7 @@ export const projectImages = {
     src: "/images/vbm-hoan-thien-03.webp",
     width: 2560,
     height: 1877,
-    alt: "Mặt tiền căn hoàn thiện tại Vịnh Bình Minh",
+    alt: "Dãy nhà phố ven kênh tại Vịnh Bình Minh lúc hoàng hôn",
     blurDataURL:
       "data:image/webp;base64,UklGRtAAAABXRUJQVlA4IMQAAABwBQCdASoYABIAPu1sq1EppaOiqAqpMB2JQBOmabLQAFO7cbsdYImWhjSULcr0lNDv2hwAAP7TWIt49XrD/ic7nb6m7wb820PVRDtlAcdyO0+RbUo4goX1MdRPNTHNVEhIELoxiW5C/ZTBsIKoAfuLytyR4BTy7NdTA7wnn7qrXcHOKOeBgalCKnJWSclWACUnwQJxQ6ZQhF+Xf83d8RSz3hUgSlr3arc/d2q3QrSIcfCUSZYDctKqJzBRkihUlRxgAAAA",
   },
@@ -230,7 +230,7 @@ export const projectImages = {
     src: "/images/vbm-lien-ke-goc-hai.webp",
     width: 2560,
     height: 1539,
-    alt: "Căn liền kề hoàn thiện nhìn từ góc thứ hai",
+    alt: "Dãy shophouse hoàn thiện, các gian hàng ở tầng một",
     blurDataURL:
       "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAABwBACdASoYAA4APu1iqU2ppaQiMAgBMB2JaACdH8Aguxex5IjDB1e+sw+LgADiZmNq58ioWZWwVcFsZfO126jUbUXXGfX8flgVbKZTZOTtWdVMNOUvUyYrsmfqVGlyPaiBNx2B9Oa1C0bn5RoOuHbL8knrTB3vC4JDyxZruNaTmMkb3WvdtmyGGMjIaBIp7UIOvvP2Rz6rD+nwK1T3o4dvRCDAAA==",
   },
@@ -238,7 +238,7 @@ export const projectImages = {
     src: "/images/kien-truc-shophouse.webp",
     width: 2560,
     height: 1707,
-    alt: "Kiến trúc căn shophouse mặt phố",
+    alt: "Dãy nhà phố nhìn từ đại lộ ven vịnh",
     blurDataURL:
       "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAABwBACdASoYABAAPu1iqU2ppaOiMAgBMB2JYgCdL1yB05q1fBZ0s0bKxzQUAAD+jDI44ipJvwS+qd/Fl0m8Y9ukp+qBvJMpXIRGjb81G0kRpP9s4vdyD0LfmVThoz09MeovG2scytlyULWFe4WLQc5qFvQmM2LiHgqFgb22Zl+pncoojYVtmrYZbVb475KpllteC0lCE2ZAAA==",
   },
@@ -294,7 +294,7 @@ export const projectImages = {
     src: "/images/tien-do-0826-ha-tang-hoan-thien.webp",
     width: 1549,
     height: 957,
-    alt: "Khu dân cư đã có đường trải nhựa và cây trồng, tháng 08/2026",
+    alt: "Đường trục và hàng cây đã xong giữa các lô đất còn trống, tháng 08/2026",
     blurDataURL:
       "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoYAA8APu1kqU2ppaOiMAgBMB2JagCdEf/gPGS8aSggTohw75AA/sTU+l0lNN13SF75ag6ofwzFUdcqUXSZp+OLyhDca6CQAgeqYJm+BARHkYiYUDtFL/jBOVYtURYMkJc0Wv7bzgFoBZfe7FMqoOVPKX6fyA/7uTwAO7V6O5b3x2CmIAA=",
   },

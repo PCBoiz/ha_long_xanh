@@ -31,11 +31,16 @@ const NHOM_ANH = [
   {
     tieuDe: "Quy mô hiện tại",
     hoi: "Phần đất đã hình thành tới đâu",
-    anh: [
-      "tien-do-0826-toan-canh-vinh",
-      "tien-do-0826-toan-canh-khu-o",
-      "tien-do-0826-san-lap-bien",
-    ],
+    // HAI TẤM CHỨ KHÔNG PHẢI BA, và đây là chủ ý.
+    //
+    // `tien-do-0826-toan-canh-vinh` từng đứng đầu nhóm này — nhưng nó chính là
+    // ảnh phủ kín màn hình ngay phía trên. Người xem gặp lại nó sau đúng một
+    // nhịp cuộn. Ảnh mở đầu đã trả lời "quy mô tới đâu" ở khổ lớn nhất trang;
+    // lặp lại cùng tấm ở khổ nhỏ không thêm được gì, chỉ làm bộ mười hai ảnh
+    // trông như bộ mười một.
+    //
+    // Nhóm "Giao thông kết nối" cũng chỉ có hai tấm, nên số lẻ không phá bố cục.
+    anh: ["tien-do-0826-toan-canh-khu-o", "tien-do-0826-san-lap-bien"],
   },
   {
     tieuDe: "Hạ tầng và san nền",
