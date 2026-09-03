@@ -92,6 +92,20 @@ COPY --from=dung --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=dung --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=dung --chown=nextjs:nodejs /app/public ./public
 
+# Thư mục dữ liệu rơi-về, tạo sẵn và giao quyền cho `nextjs` NGAY TẠI ĐÂY.
+#
+# ⚠️ DÒNG NÀY TRÔNG THỪA. KHÔNG PHẢI. Đọc trước khi gỡ.
+#
+# `docker-compose.yml` gắn một ổ đĩa có tên vào đúng `/app/.data` để dữ liệu
+# sống sót qua mỗi lần triển khai. Docker chỉ chép quyền sở hữu từ ẢNH sang ổ
+# đĩa ở LẦN TẠO ĐẦU TIÊN, và chỉ khi đường dẫn đó đã tồn tại sẵn trong ảnh.
+#
+# Không có dòng này thì lúc gắn, thư mục chưa tồn tại — Docker tự tạo và giao
+# cho `root`. Ứng dụng chạy bằng `nextjs` không ghi được, `appendFile` ném
+# EACCES, và cổng nhận bài trả 500 cho MỌI bài gửi tới, trong khi trang vẫn
+# chạy đúng ở mọi mặt khác. Tức là đổi một kiểu mất dữ liệu lấy một kiểu khác.
+RUN mkdir -p /app/.data && chown nextjs:nodejs /app/.data
+
 USER nextjs
 EXPOSE 3000
 

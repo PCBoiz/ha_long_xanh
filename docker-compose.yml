@@ -37,6 +37,22 @@ services:
       # Hỏng hoàn toàn im lặng: khách điền xong thấy màn hình cảm ơn, hệ thống
       # không báo lỗi gì, chỉ là không ai gọi lại cho họ.
       LEAD_WEBHOOK_URL: ${LEAD_WEBHOOK_URL:-}
+    volumes:
+      # ĐƯỜNG RƠI-VỀ PHẢI SỐNG SÓT QUA MỖI LẦN TRIỂN KHAI.
+      #
+      # Hai nhánh trong mã ghi xuống `.data/`: lượt khách đăng ký khi chưa đặt
+      # `LEAD_WEBHOOK_URL`, và bài gửi tới cổng nhận khi chưa có `DATABASE_URL`.
+      # Cả hai đều được cảnh báo to lúc triển khai — nhưng cảnh báo chỉ có tác
+      # dụng với người đọc nó.
+      #
+      # Thiếu dòng gắn ổ đĩa này thì `.data` nằm trong lớp ghi của hộp chứa.
+      # `docker compose up --build` dựng hộp chứa MỚI và lớp ghi cũ biến mất
+      # cùng hộp cũ — nghĩa là mất dữ liệu ở MỖI LẦN đẩy bản mới lên, không
+      # phải chỉ khi mất máy chủ. Sửa một dòng chữ rồi triển khai lại cũng đủ.
+      #
+      # Đây là lưới an toàn, KHÔNG phải chỗ chứa chính thức. Chỗ đúng vẫn là
+      # `LEAD_WEBHOOK_URL` và `DATABASE_URL`.
+      - du_lieu_roi_ve:/app/.data
     # KHÔNG mở cổng ra ngoài internet. Chỉ Caddy nói chuyện được với hộp này,
     # qua mạng nội bộ của Docker. Mở cổng 3000 ra ngoài nghĩa là ai cũng vào
     # được trang bằng http://<ip>:3000, bỏ qua HTTPS.
@@ -92,3 +108,6 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  # Giữ `.data` của ứng dụng nằm ngoài vòng đời hộp chứa. Xem lời giải thích
+  # đầy đủ ở chỗ gắn ổ đĩa trong service `web`.
+  du_lieu_roi_ve:
