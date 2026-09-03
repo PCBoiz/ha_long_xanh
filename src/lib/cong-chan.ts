@@ -61,6 +61,65 @@ interface Luat {
   mau: RegExp;
   /** `true` thì soi chuỗi HTML thô thay vì phần chữ đã bóc thẻ. */
   soiTho?: boolean;
+  /**
+   * Nếu CÂU chứa chỗ chạm cũng khớp mẫu này thì luật HẠ TỪ CHẶN XUỐNG CỜ: bài
+   * vẫn vào hàng chờ, nhưng chỗ đó được chỉ đích danh để người duyệt kiểm lại.
+   *
+   * ⚠️ SO TRÊN TỪNG CÂU, KHÔNG PHẢI CẢ BÀI. So trên cả bài thì một dẫn chứng ở
+   * đoạn cuối sẽ tha cho một câu khoe suông ở đoạn đầu — tức là chỉ cần bài có
+   * đúng một nguồn ở đâu đó là luật mở toang cho mọi câu còn lại.
+   */
+  xuongCoKhi?: RegExp;
+}
+
+/**
+ * ═══ THẾ NÀO LÀ "CÓ DẪN NGUỒN" ═══
+ *
+ * Chủ trang quyết định: câu xếp hạng CÓ dẫn nguồn thì không chặn nữa, chỉ gắn
+ * cờ để tự kiểm khi duyệt.
+ *
+ * Mẫu này KHÔNG kiểm nguồn đúng hay sai — máy không làm được việc đó. Nó chỉ
+ * hỏi: câu này có nêu ra một thứ CÓ THỂ TRA LẠI ĐƯỢC không. Phần đúng/sai là
+ * việc của người bấm duyệt, và đó chính là lý do luật xuống CỜ chứ không biến
+ * mất hẳn.
+ *
+ * CỐ Ý HẸP. Rộng thì mô hình sẽ tìm ra và dùng — nó đã làm đúng thế với vế
+ * "không chứng minh được" trong prompt: dẫn mã chứng khoán, tự thấy hợp lệ, rồi
+ * viết. Ba dạng dưới đây đều tra lại được trong một phút:
+ *
+ *   · "theo <cơ quan / tài liệu>"   — có nơi để hỏi lại
+ *   · mã chứng khoán / sàn niêm yết — tra được trên HoSE, HNX, UPCoM
+ *   · "nguồn: …"                    — người viết tự chỉ chỗ tra
+ *
+ * Và loại trừ thẳng "theo chúng tôi / theo tôi / theo đánh giá của chúng tôi":
+ * tự dẫn chính mình không phải dẫn nguồn, nó chỉ là cùng một lời khoe viết dài
+ * hơn — và đó là lỗ hổng đầu tiên mà một mô hình ngôn ngữ sẽ tìm thấy.
+ */
+const CO_DAN_NGUON =
+  /(?:theo\s+(?:báo\s*cáo|thống\s*kê|số\s*liệu|công\s*bố|quy\s*hoạch|giấy\s*phép|nghị\s*quyết|quyết\s*định|niên\s*giám|bộ\s|sở\s|cục\s|tổng\s*cục|ubnd|vnrea)|mã\s+chứng\s+khoán\s+[A-Z]{3}|niêm\s+yết\s+trên\s+(?:hose|hnx|upcom)|nguồn\s*:)/i;
+
+/** Tự dẫn chính mình — không tính là nguồn. */
+const TU_DAN_CHINH_MINH =
+  /theo\s+(?:chúng\s*tôi|tôi|đánh\s*giá\s+của\s+chúng\s*tôi|cảm\s*nhận)/i;
+
+/**
+ * Cắt lấy đúng CÂU chứa vị trí `viTri`.
+ *
+ * Ranh giới câu: dấu chấm/hỏi/than, hoặc xuống dòng. Không dùng thư viện tách
+ * câu vì tiếng Việt có "TP.", "Q.1", "m2." — nhưng ở đây sai sót đó vô hại: cắt
+ * hụt chỉ làm luật CHẶT hơn (ít chữ hơn để tìm dẫn nguồn), không lỏng hơn.
+ */
+function cauChua(chu: string, viTri: number): string {
+  const dau = Math.max(
+    chu.lastIndexOf(".", viTri - 1),
+    chu.lastIndexOf("!", viTri - 1),
+    chu.lastIndexOf("?", viTri - 1),
+    chu.lastIndexOf("\n", viTri - 1),
+  );
+  const sau = [".", "!", "?", "\n"]
+    .map((k) => chu.indexOf(k, viTri))
+    .filter((i) => i !== -1);
+  return chu.slice(dau + 1, sau.length ? Math.min(...sau) + 1 : chu.length);
 }
 
 /**
@@ -103,9 +162,13 @@ const LUAT_CHAN: Luat[] = [
   {
     luat: "danh-xung-nhat",
     lyDo:
-      "Danh xưng “nhất”. Chủ trang đã yêu cầu bỏ hết loại danh xưng này khỏi " +
-      "trang vì không có nguồn nào chứng minh được.",
+      "Danh xưng “nhất” không kèm nguồn tra lại được. Câu xếp hạng mà không " +
+      "chỉ ra chỗ tra thì không ai kiểm được — kể cả chính mình khi khách hỏi " +
+      "lại. Viết kèm nguồn (“theo báo cáo…”, “mã chứng khoán VHM”, “nguồn: …”) " +
+      "thì bài vẫn qua, chỉ bị gắn cờ để đọc lại lúc duyệt.",
     mau: /(?:lớn|to|đẹp|tốt|sang|hiện đại|đẳng cấp|quy mô|cao)\s*(?:[^.!?]{0,12})?\s+nhất\s+(?:thế giới|việt nam|đông nam á|châu á|miền bắc|khu vực|cả nước)/i,
+    // Có dẫn nguồn thì hạ xuống cờ — xem `CO_DAN_NGUON` phía trên.
+    xuongCoKhi: CO_DAN_NGUON,
   },
   {
     luat: "cam-ket-loi-nhuan",
@@ -193,19 +256,43 @@ function trichQuanh(chu: string, tai: number, dai: number): string {
   }`;
 }
 
-function ap(luat: Luat[], tho: string, chu: string): ViPham[] {
-  const thay: ViPham[] = [];
+function ap(
+  luat: Luat[],
+  tho: string,
+  chu: string,
+): { giu: ViPham[]; haXuongCo: ViPham[] } {
+  const giu: ViPham[] = [];
+  const haXuongCo: ViPham[] = [];
   for (const l of luat) {
     const nguon = l.soiTho ? tho : chu;
     const khop = nguon.match(l.mau);
     if (!khop || khop.index === undefined) continue;
-    thay.push({
+
+    const vp: ViPham = {
       luat: l.luat,
       lyDo: l.lyDo,
       trichDan: trichQuanh(nguon, khop.index, khop[0].length),
-    });
+    };
+
+    // Hạ chặn xuống cờ khi CÂU chứa chỗ chạm có dẫn nguồn tra lại được.
+    // Tự dẫn chính mình ("theo chúng tôi") không tính — chặn như thường.
+    if (l.xuongCoKhi) {
+      const cau = cauChua(nguon, khop.index);
+      if (l.xuongCoKhi.test(cau) && !TU_DAN_CHINH_MINH.test(cau)) {
+        haXuongCo.push({
+          ...vp,
+          lyDo:
+            `${l.lyDo} — CÂU NÀY CÓ DẪN NGUỒN nên không bị chặn, nhưng phải ` +
+            `tự kiểm nguồn đó trước khi duyệt. Máy chỉ thấy có nguồn được nêu, ` +
+            `nó không kiểm được nguồn đúng hay sai.`,
+        });
+        continue;
+      }
+    }
+
+    giu.push(vp);
   }
-  return thay;
+  return { giu, haXuongCo };
 }
 
 /**
@@ -279,9 +366,13 @@ export function quetBai(bai: {
 }): KetQuaQuet {
   const tho = [bai.tieuDe, bai.moTa, bai.noiDung ?? ""].join("\n\n");
   const chu = bocThe(tho);
+  const chan = ap(LUAT_CHAN, tho, chu);
+  const co = ap(LUAT_CO, tho, chu);
   return {
-    chan: [...ap(LUAT_CHAN, tho, chu), ...soLa(chu)],
-    co: ap(LUAT_CO, tho, chu),
+    chan: [...chan.giu, ...soLa(chu)],
+    // Luật chặn được hạ cấp đi thẳng vào nhóm cờ — bài qua cổng, nhưng chỗ đó
+    // vẫn hiện ở màn duyệt để người đọc kiểm nguồn.
+    co: [...co.giu, ...chan.haXuongCo],
   };
 }
 

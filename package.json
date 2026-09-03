@@ -13,7 +13,8 @@
     "db:migrate": "drizzle-kit migrate",
     "audit": "node scripts/audit.mjs",
     "audit:sau": "node scripts/audit-sau.mjs",
-    "quet-bi-mat": "node scripts/quet-bi-mat.mjs"
+    "quet-bi-mat": "node scripts/quet-bi-mat.mjs",
+    "kiem-cong-chan": "tsx scripts/kiem-cong-chan.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
@@ -34,6 +35,7 @@
     "eslint-config-next": "16.3.0",
     "playwright": "^1.62.1",
     "tailwindcss": "^4",
+    "tsx": "^4.20.3",
     "typescript": "^5"
   }
 }
