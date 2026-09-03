@@ -209,21 +209,19 @@ const ASSETS = [
      biệt thự biển — nên mỗi dòng sản phẩm có ảnh kiến trúc riêng thay vì dùng
      chung một tấm toàn cảnh. Đây là chỗ ảnh nói được điều chữ không nói: hai
      dòng khác nhau thì trông khác nhau ở đâu. */
-  {
-    id: "1bIjH_YLKXiJyf3L6H6Jbsl9AZMtOnxJM",
-    name: "kien-truc-don-lap",
-    alt: "Kiến trúc biệt thự đơn lập",
-  },
-  {
-    id: "1w7eNA6Ne0c5w9-p-IJPp4Xis6iVl5p_1",
-    name: "kien-truc-song-lap",
-    alt: "Kiến trúc biệt thự song lập",
-  },
-  {
-    id: "1Njc8JjEqotz8f41Sa2dIrQvbdZ6Zmup6",
-    name: "kien-truc-lien-ke",
-    alt: "Kiến trúc nhà liền kề",
-  },
+  // ⚠️ BA MỤC TỪNG ĐỨNG Ở ĐÂY ĐÃ BỊ GỠ — `kien-truc-don-lap`,
+  // `kien-truc-song-lap`, `kien-truc-lien-ke`. Đừng thêm lại.
+  //
+  // Cả ba khai LẠI ĐÚNG ba mã Drive đã có ở khối "sản phẩm" phía trên, chỉ đổi
+  // tên. Không có `crop`, nên script tải về ba file giống hệt bản gốc TỪNG
+  // BYTE, chỉ khác tên — đã đối chiếu mã băm md5. Thừa 2,63 MB, và không một
+  // trang nào gọi tới chúng.
+  //
+  // Ý định ban đầu (mỗi dòng sản phẩm một tấm kiến trúc riêng) là đúng, nhưng
+  // ba tấm đó KHÔNG khác gì `san-pham-don-lap` / `-song-lap` / `-lien-ke` đã
+  // có. Cần ảnh kiến trúc cho ba dòng này thì dùng thẳng tên `san-pham-*`.
+  //
+  // Hai tấm kiến trúc THẬT SỰ mới thì giữ lại, nằm ngay dưới.
   {
     id: "1RMWAczC4r-55z9SKcNcLQuf83GQGhkSo",
     name: "kien-truc-shophouse",
@@ -467,18 +465,80 @@ async function catPhanKhu() {
   return ra;
 }
 
+/**
+ * Chặn khai một nguồn ảnh hai lần dưới hai cái tên.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * VÌ SAO CẦN MÁY KIỂM CHỨ KHÔNG PHẢI MẮT NGƯỜI
+ *
+ * Danh sách này dài hơn năm mươi mục, mỗi mục là một chuỗi mã Drive ngẫu nhiên
+ * ba mươi ba ký tự. Hai mục cách nhau tám mươi dòng mang cùng một mã thì không
+ * ai đọc ra — nhưng máy đối chiếu hết trong một phần nghìn giây.
+ *
+ * Đã xảy ra thật: ba mã bị khai hai lần, script tải về ba cặp file giống nhau
+ * từng byte, và không ai thấy suốt nhiều tuần vì mọi thứ vẫn "chạy đúng".
+ *
+ * TRÙNG MÃ KÈM `crop` LÀ HỢP LỆ, và đó là lý do không thể chỉ so mã. Cắt hai
+ * vùng khác nhau từ cùng một tấm sơ đồ ra hai ảnh khác nhau là đúng ý đồ — bộ
+ * ảnh phân khu làm đúng như vậy. Chỉ trùng mã mà CẢ HAI đều không cắt mới là
+ * lỗi, vì khi đó hai mục cho ra hai file giống hệt nhau.
+ *
+ * Dừng hẳn chứ không cảnh báo: một cảnh báo giữa hơn năm mươi dòng nhật ký
+ * "✓ đã tải" là một cảnh báo không ai đọc.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+function kiemTrung(danhSach) {
+  const theoMa = new Map();
+  for (const a of danhSach) {
+    if (!a.id) continue; // ảnh cục bộ không có mã Drive
+    if (!theoMa.has(a.id)) theoMa.set(a.id, []);
+    theoMa.get(a.id).push(a);
+  }
+
+  const loi = [];
+  for (const [ma, nhom] of theoMa) {
+    if (nhom.length < 2) continue;
+    const khongCat = nhom.filter((a) => !a.crop);
+    if (khongCat.length > 1) {
+      loi.push(`  ${ma}\n    → ${khongCat.map((a) => a.name).join(", ")}`);
+    }
+  }
+
+  const trungTen = danhSach
+    .map((a) => a.name)
+    .filter((t, i, ds) => ds.indexOf(t) !== i);
+  if (trungTen.length) {
+    loi.push(`  Trùng TÊN (ảnh sau ghi đè ảnh trước): ${[...new Set(trungTen)].join(", ")}`);
+  }
+
+  if (loi.length) {
+    console.error(
+      "\n✗ Danh sách ảnh khai trùng nguồn — sẽ tải về các file giống hệt nhau:\n" +
+        `${loi.join("\n")}\n\n` +
+        "  Cùng một mã Drive chỉ được khai nhiều lần khi MỖI mục có `crop`\n" +
+        "  riêng. Không cắt thì gộp lại thành một mục và dùng chung tên.\n",
+    );
+    process.exit(1);
+  }
+}
+
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   await mkdir(TMP_DIR, { recursive: true });
   await mkdir(path.dirname(MANIFEST), { recursive: true });
 
   const tatCa = [...ASSETS, ...ANH_CUC_BO];
+  kiemTrung(tatCa);
   console.log(`Xử lý ${tatCa.length} ảnh…`);
   const entries = [];
+  // ĐẾM HỎNG NGAY TẠI CHỖ HỎNG, đừng suy ra từ tên ở cuối. Xem chú thích tại
+  // dòng báo kết quả bên dưới để biết vì sao.
+  let hong = 0;
   for (const asset of tatCa) {
     try {
       entries.push(await prepare(asset));
     } catch (error) {
+      hong++;
       console.error(`  ✗ ${asset.name}: ${error.message}`);
     }
   }
@@ -488,6 +548,7 @@ async function main() {
     try {
       entries.push(await prepare({ ...khu, id: "" }));
     } catch (error) {
+      hong++;
       console.error(`  ✗ ${khu.name}: ${error.message}`);
     }
   }
@@ -518,8 +579,20 @@ async function main() {
   );
 
   await rm(TMP_DIR, { recursive: true, force: true });
-  // Đếm cả ảnh cắt từ sơ đồ quy hoạch, nên tổng lớn hơn số nguồn khai ở trên.
-  const thieu = tatCa.length - entries.filter((e) => !e.name.startsWith("khu-")).length;
+  // ⚠️ DÒNG NÀY TỪNG SUY RA SỐ ẢNH HỎNG TỪ TIỀN TỐ TÊN, VÀ NÓ NÓI DỐI.
+  //
+  // Bản cũ: `tatCa.length - entries.filter(e => !e.name.startsWith("khu-"))`.
+  // Ý định đúng — loại ảnh cắt từ sơ đồ ra khỏi phép đếm, vì chúng không nằm
+  // trong danh sách khai. Nhưng phép loại dựa vào TÊN, mà hai ảnh khai tay là
+  // `khu-1-view-bien` và `khu-1-cong-vien-hoang-hon` cũng bắt đầu bằng `khu-`.
+  //
+  // Nên script báo "THIẾU 2 ảnh" ở MỌI lần chạy thành công, kèm lời khuyên
+  // "xem dòng ✗ ở trên" trong khi không có dòng ✗ nào. Một cảnh báo luôn bật
+  // là một cảnh báo đã tắt: chạy vài lần là người ta thôi đọc nó, và lần thật
+  // sự thiếu ảnh sẽ trôi qua không ai thấy.
+  //
+  // Giờ đếm thẳng số lần `prepare()` ném lỗi. Không suy diễn, không tiền tố.
+  const thieu = hong;
   console.log(
     `\nHoàn tất: ${entries.length} ảnh trong manifest` +
       (thieu > 0 ? ` — THIẾU ${thieu} ảnh, xem dòng ✗ ở trên` : "") +

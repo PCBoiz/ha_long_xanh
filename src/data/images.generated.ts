@@ -234,30 +234,6 @@ export const projectImages = {
     blurDataURL:
       "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAABwBACdASoYAA4APu1iqU2ppaQiMAgBMB2JaACdH8Aguxex5IjDB1e+sw+LgADiZmNq58ioWZWwVcFsZfO126jUbUXXGfX8flgVbKZTZOTtWdVMNOUvUyYrsmfqVGlyPaiBNx2B9Oa1C0bn5RoOuHbL8knrTB3vC4JDyxZruNaTmMkb3WvdtmyGGMjIaBIp7UIOvvP2Rz6rD+nwK1T3o4dvRCDAAA==",
   },
-  "kien-truc-don-lap": {
-    src: "/images/kien-truc-don-lap.webp",
-    width: 2560,
-    height: 1707,
-    alt: "Kiến trúc biệt thự đơn lập",
-    blurDataURL:
-      "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABwBACdASoYABAAPu1iqU2ppaQiMAgBMB2JYgC1CHAgtBem+idzqKqYvHmEoAD+3pe7IbqraJw3e4zB5jNlVHDpz4K3SXeBOf42M8J2vJdOXWknLSfcOIABa2NoeqQqqFp8PQ6kQVVyiic3mqvWWdQit8uRkmwH3YlaUboN2ChmSjPmT4zpUk1k8S6ujuMKdOCS/ZwgAAA=",
-  },
-  "kien-truc-song-lap": {
-    src: "/images/kien-truc-song-lap.webp",
-    width: 2560,
-    height: 1749,
-    alt: "Kiến trúc biệt thự song lập",
-    blurDataURL:
-      "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACQBACdASoYABAAPu1iqU2ppaOiMAgBMB2JZACdAywBzmrsol+MU/R+rkOSXwAA4V+ZxvuuzQD6bpMxYENSplNq2+wrlZM1al+/OvQrT9bIimVQj9Vlibc3MMgYvVov/QGj5fJUycpvltIoe0oKs8ChGvtxc5/o2zPs8t2fBRR342+Ff991VAGKmzb0oLAiGfByYATXSQxZpmqsRuiAAA==",
-  },
-  "kien-truc-lien-ke": {
-    src: "/images/kien-truc-lien-ke.webp",
-    width: 2560,
-    height: 1705,
-    alt: "Kiến trúc nhà liền kề",
-    blurDataURL:
-      "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAABwBACdASoYABAAPu1iqU2ppaQiMAgBMB2JYgCdIExDMAn7TJPd/IKfLN8qYADiABH6wtTLBaDZMRB+4WalrG19XcNLg5NaS/o8IEAucsDUe7INOf0/lGcVJhDRI5BL2ZEO9tcJ5ZAG59v93u4AYJWygCQW0CMCWtuE2xW9CxncDLEgm/7e3dLsUawZv/xVbWLw7V3F7rDfzvpQgAA=",
-  },
   "kien-truc-shophouse": {
     src: "/images/kien-truc-shophouse.webp",
     width: 2560,
