@@ -25,12 +25,39 @@ import type { KetQuaDuyet, KetQuaHangCho } from "@/lib/duyet-bai-kieu";
  */
 
 import { timingSafeEqual } from "node:crypto";
+import { headers } from "next/headers";
+import { demMotLuotTuHeader } from "@/lib/gioi-han-tan-suat";
 
 function tokenKhop(nhanDuoc: string, mongDoi: string): boolean {
   const a = Buffer.from(nhanDuoc, "utf8");
   const b = Buffer.from(mongDoi, "utf8");
   if (a.length !== b.length) return false;
   return timingSafeEqual(a, b);
+}
+
+/**
+ * Đếm một lượt gõ khoá. Gọi TRƯỚC khi so khoá.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ⚠️ CHẶN DÒ KHOÁ Ở ĐÂY LÀ BẮT BUỘC, KHÔNG PHẢI THÊM CHO ĐỦ BỘ.
+ *
+ * `INGEST_TOKEN` mở được HAI cửa: `/api/ingest` để ghi bài, và trang này để
+ * đọc hàng chờ và duyệt bài. Cổng nhận bài đã có hạn mức 20 lượt/phút, còn
+ * trang này thì chưa có gì — nên kẻ dò chỉ việc bỏ qua cửa có gác mà gõ cửa
+ * còn lại, nhanh tuỳ ý. Hạn mức bên kia khi đó chỉ còn là trang trí.
+ *
+ * ĐẾM TRƯỚC KHI SO KHOÁ, đúng như ở cổng nhận bài: đếm sau thì lượt đoán sai
+ * không bao giờ được tính, mà lượt đoán sai mới chính là thứ cần chặn.
+ *
+ * 10 lượt/phút: chủ trang gõ nhầm khoá vài lần là cùng. Với máy dò thì nó biến
+ * việc thử một khoá 64 ký tự thành việc không bao giờ xong.
+ *
+ * Thông báo trả về CỐ Ý giống hệt thông báo khoá sai. Nói rõ "đang bị chặn" là
+ * nói cho kẻ dò biết chính xác nó cần chờ bao lâu rồi thử tiếp.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+async function conLuot(): Promise<boolean> {
+  return !demMotLuotTuHeader("duyet-bai", await headers(), 10, 60).vuot;
 }
 
 /**
@@ -61,7 +88,7 @@ export async function layHangCho(
     return { trangThai: "loi", thongBao: "Máy chủ chưa cấu hình INGEST_TOKEN." };
   }
   const khoa = String(duLieu.get("khoa") ?? "");
-  if (!khoa || !tokenKhop(khoa, token)) {
+  if (!(await conLuot()) || !khoa || !tokenKhop(khoa, token)) {
     return { trangThai: "loi", thongBao: "Khoá không đúng." };
   }
 
@@ -133,7 +160,7 @@ export async function duyetBai(
   }
 
   const khoa = String(duLieu.get("khoa") ?? "");
-  if (!khoa || !tokenKhop(khoa, token)) {
+  if (!(await conLuot()) || !khoa || !tokenKhop(khoa, token)) {
     return { trangThai: "loi", thongBao: "Khoá không đúng." };
   }
 

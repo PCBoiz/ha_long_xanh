@@ -77,12 +77,12 @@ function don(bayGio: number): void {
  * Không có header thì gom hết vào một khoá chung. Chặt hơn mức cần, nhưng
  * hướng sai an toàn: chạy ở máy thì mọi yêu cầu đều là của chính mình.
  */
-function khoaTu(yeuCau: Request): string {
-  const thuc = yeuCau.headers.get("x-real-ip");
+function khoaTu(dau: Headers): string {
+  const thuc = dau.get("x-real-ip");
   if (thuc) return thuc;
 
   // `X-Forwarded-For` là một danh sách; mục ĐẦU là khách gốc.
-  const chuyenTiep = yeuCau.headers.get("x-forwarded-for");
+  const chuyenTiep = dau.get("x-forwarded-for");
   if (chuyenTiep) return chuyenTiep.split(",")[0]!.trim();
 
   return "khong-ro";
@@ -115,8 +115,36 @@ export function demMotLuot(
   soLuot: number,
   giay: number,
 ): KetQuaGioiHan {
+  return demMotLuotTuHeader(cong, yeuCau.headers, soLuot, giay);
+}
+
+/**
+ * Bản nhận thẳng `Headers` — dùng cho SERVER ACTION.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * VÌ SAO PHẢI CÓ BẢN NÀY, VÀ NÓ VÁ LỖ GÌ
+ *
+ * Server action không nhận được đối tượng `Request` như route handler, nên nó
+ * KHÔNG gọi được `demMotLuot`. Hệ quả đo được: `/api/ingest` có chặn dò khoá
+ * (20 lượt/phút) còn `/duyet-bai` thì không — trong khi CẢ HAI dùng chung đúng
+ * một `INGEST_TOKEN`.
+ *
+ * Tức là khoá có hai cửa, chỉ một cửa có người gác. Kẻ dò chỉ cần bỏ qua cửa
+ * có gác và gõ cửa còn lại với tốc độ tuỳ thích. Hạn mức đặt ở cổng nhận bài
+ * trở thành trang trí.
+ *
+ * Lấy header trong server action bằng `headers()` của `next/headers` — hàm
+ * BẤT ĐỒNG BỘ ở Next 16, phải `await`.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+export function demMotLuotTuHeader(
+  cong: string,
+  dau: Headers,
+  soLuot: number,
+  giay: number,
+): KetQuaGioiHan {
   const bayGio = Date.now();
-  const khoa = `${cong}:${khoaTu(yeuCau)}`;
+  const khoa = `${cong}:${khoaTu(dau)}`;
 
   if (bang.size >= TRAN_SO_KHOA) don(bayGio);
 

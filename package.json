@@ -14,7 +14,8 @@
     "audit": "node scripts/audit.mjs",
     "audit:sau": "node scripts/audit-sau.mjs",
     "quet-bi-mat": "node scripts/quet-bi-mat.mjs",
-    "kiem-cong-chan": "tsx scripts/kiem-cong-chan.ts"
+    "kiem-cong-chan": "tsx scripts/kiem-cong-chan.ts",
+    "kiem-gioi-han": "tsx scripts/kiem-gioi-han.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
