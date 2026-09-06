@@ -41,7 +41,7 @@ export function DanhSachSanPham() {
           và giờ cả thẻ đã dẫn sang đó. */}
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-8 md:gap-y-14 lg:grid-cols-3">
         {dongSanPham.map((dong, thuTu) => (
-          <Reveal key={dong.ma} delay={(thuTu % 3) * 90}>
+          <Reveal key={dong.ma} delay={(thuTu % 3) * 90} className="h-full">
             {/* CẢ THẺ LÀ MỘT LIÊN KẾT, dẫn sang trang riêng của dòng sản phẩm.
                 Trước đây thẻ không dẫn đi đâu; chỉ có một liên kết nhỏ ở đáy,
                 và cả năm thẻ đều trỏ về cùng một chỗ là /lien-he. Nghĩa là năm
@@ -66,7 +66,20 @@ export function DanhSachSanPham() {
               <h3 className="mt-5 font-display text-h3 font-normal transition-colors group-hover:text-jade">
                 {dong.ten}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-paper-dim">
+              {/* ⚠️ `flex-1` GIỮ CÁC THẺ THẲNG HÀNG NHAU. ĐỪNG GỠ.
+
+                  Nhìn bằng trình duyệt thật ngày 07/09/2026, khung 390×844:
+                  mô tả "Nhà liền kề" dài BA dòng, "Biệt thự song lập" chỉ
+                  HAI. Không có `flex-1` thì đường kẻ ngang và dòng "Diện
+                  tích" của hai thẻ nằm cạnh nhau LỆCH nhau một dòng chữ.
+
+                  Mắt bắt được ngay dù người xem không gọi tên được — và đó
+                  đúng là thứ làm một trang trông cẩu thả. Còn tệ hơn ở hai
+                  dòng sản phẩm chưa có diện tích: thẻ đó thiếu hẳn một hàng.
+
+                  `flex-1` cho đoạn mô tả nuốt hết chỗ thừa, đẩy khối thông số
+                  xuống đáy thẻ. Cả hàng thẳng nhau bất kể chữ dài ngắn. */}
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-paper-dim">
                 {dong.moTa}
               </p>
 

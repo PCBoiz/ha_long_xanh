@@ -198,7 +198,20 @@ function CotLienKet({
   return (
     <div>
       <p className="text-label uppercase text-jade">{tieuDe}</p>
-      <ul className="mt-5 flex flex-col text-small">
+      {/* HAI CỘT TRÊN ĐIỆN THOẠI, MỘT CỘT TỪ MÀN HÌNH VỪA TRỞ LÊN.
+
+          Đo bằng trình duyệt thật ngày 07/09/2026, khung 390×844:
+          chân trang cao 1.788px = 2,4 màn hình — MẢNG CAO NHẤT TRANG CHỦ,
+          cao hơn cả mảng mở đầu. Trong đó 836px là mười tám đường dẫn xếp
+          một cột dọc.
+
+          Mỗi ô vẫn giữ chiều cao tối thiểu 44px (`min-h-11`) nên vùng chạm
+          không nhỏ đi — chỉ là hai đường dẫn nằm cạnh nhau thay vì chồng
+          lên nhau. Tiết kiệm khoảng 400px, tức nửa màn hình cuộn.
+
+          Từ `md` trở lên giữ nguyên một cột, vì ở đó chân trang đã là lưới
+          bốn cột — thêm cột nữa là chia bốn thành tám. */}
+      <ul className="mt-5 grid grid-cols-2 gap-x-6 text-small md:flex md:flex-col">
         {muc.map((m) => (
           <li key={m.href}>
             <Link
