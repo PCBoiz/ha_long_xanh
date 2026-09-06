@@ -182,7 +182,7 @@ function TheNguoi({
           href="/lien-he"
           className="link-underline inline-flex min-h-11 items-center text-nav uppercase text-jade"
         >
-          Gửi phương án tôi đang cân nhắc
+          Tôi đã có báo giá, nhờ xem lại
         </Link>
       </div>
     </article>

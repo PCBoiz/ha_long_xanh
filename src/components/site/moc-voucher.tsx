@@ -72,23 +72,34 @@ export function MocVoucher() {
                 chênh KHÔNG nằm ở voucher, nên chưa có voucher vẫn còn nguyên
                 phần đáng rà.
                 ═══════════════════════════════════════════════════════════ */}
+            {/* ⚠️ ĐÃ GỘP HAI ĐOẠN THÀNH MỘT. ĐỪNG TÁCH LẠI.
+
+                Bản trước có một đoạn riêng mở đầu bằng "Thứ làm số tiền đổi
+                đi là chính sách đang áp dụng lúc anh/chị ký, tiến độ thanh
+                toán chọn theo…" — đặt NGAY DƯỚI câu phụ ở cột trái vốn đã
+                nói đúng điều đó bằng chữ khác.
+
+                Đo ngày 07/09/2026 bằng cách bóc toàn bộ chữ trên trang chủ:
+                cùng một ý được nói lại NĂM LẦN ở năm khối khác nhau. Đó là
+                dấu hiệu rõ nhất của chữ do máy viết — mỗi khối sinh ra riêng
+                lẻ nên khối nào cũng nhắc lại luận điểm chung.
+
+                Bản này giữ nguyên phần cụ thể (chính sách, tiến độ) nhưng
+                nhét vào đúng câu mang thông điệp riêng của khối — câu về
+                voucher. Mất một đoạn, không mất thông tin nào. */}
             <p className="text-body leading-relaxed text-paper-dim">
-              Thứ làm số tiền đổi đi là chính sách đang áp dụng lúc anh/chị ký,
-              tiến độ thanh toán chọn theo, và các quyền lợi áp dụng được cho
-              từng trường hợp.
-            </p>
-            <p className="mt-5 text-body leading-relaxed text-paper-dim">
               <strong className="text-paper">
                 Chưa có voucher cũng không sao
               </strong>{" "}
-              — phần lớn khoản chênh không nằm ở voucher. Việc của tôi là rà hết
-              một lượt, rồi dựng một phương án thực trả để anh/chị có cơ sở so
-              sánh trước khi quyết định.
+              — phần lớn khoản chênh nằm ở chính sách đang áp dụng lúc ký và
+              tiến độ thanh toán chọn theo, không nằm ở voucher. Việc của tôi
+              là rà hết một lượt, rồi dựng một phương án thực trả để anh/chị có
+              cơ sở so sánh trước khi quyết định.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link href={DUONG_DAN.voucher} className="nut nut-chinh">
-                Xem phương án của tôi
+                Xem cách tôi rà quyền lợi
               </Link>
               <Link
                 href={DUONG_DAN.giaThucTra}

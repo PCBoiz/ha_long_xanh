@@ -35,7 +35,7 @@ export function GiaThucTra() {
           </div>
           <div className="md:col-span-5 md:col-start-8 md:self-end">
             <p className="text-body leading-relaxed text-paper-dim">
-              {dinhViGiaThucTra.phu}
+              {dinhViGiaThucTra.phuTrangChu}
             </p>
           </div>
         </div>
@@ -99,7 +99,7 @@ export function GiaThucTra() {
             href="/lien-he"
             className="link-underline inline-flex min-h-11 items-center text-nav uppercase text-jade"
           >
-            Nhờ rà soát phương án của tôi
+            Nhờ tôi kiểm hộ
           </Link>
         </div>
       </Khung>

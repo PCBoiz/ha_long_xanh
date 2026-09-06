@@ -917,6 +917,29 @@ export const dinhViGiaThucTra = {
   // KHÔNG được đổi thành lời hứa giá thấp — hàng rào duyệt nội dung chặn
   // "giá thấp nhất", "chiết khấu bí mật" và mọi cam kết tương tự.
   phu: "Cùng một căn, số tiền thực trả đổi theo chính sách đang áp dụng lúc ký và tiến độ thanh toán chọn theo. Việc của tôi là dựng đúng con số đó ra trước khi anh/chị đặt cọc.",
+
+  /**
+   * Câu phụ dùng RIÊNG cho khối trên TRANG CHỦ. Không dùng `phu` ở đó nữa.
+   *
+   * ⚠️ VÌ SAO PHẢI TÁCH LÀM HAI, DÙ HAI KHỐI CÓ CÙNG TIÊU ĐỀ.
+   *
+   * `phu` ở trên là câu MỞ ĐẦU của trang giá thực trả — chỗ người đọc vừa
+   * đặt chân tới, chưa biết gì. Nhắc lại luận điểm ở đó là đúng việc.
+   *
+   * Nhưng trên trang chủ, khối này là chỗ thứ BA nói cùng một điều. Đo ngày
+   * 07/09/2026 bằng cách bóc toàn bộ chữ trang chủ ra đọc: ý "cùng một căn,
+   * số tiền đổi theo chính sách và tiến độ" xuất hiện NĂM LẦN, có hai lần gần
+   * như trùng từng chữ. Người viết thật không lặp lại mình như thế trong một
+   * trang; máy thì có, vì mỗi khối được sinh ra riêng lẻ.
+   *
+   * Một hằng số phục vụ hai ngữ cảnh khác nhau chính là cách sự trùng lặp đó
+   * lọt lưới: sửa chỗ này thì hỏng chỗ kia, nên không ai dám sửa.
+   *
+   * Câu dưới đây làm đúng việc của nó ở trang chủ: DẪN VÀO sáu bước bên dưới,
+   * thay vì nói lại điều đã nói ở hai khối trên.
+   */
+  phuTrangChu:
+    "Sáu việc dưới đây làm xong trước khi anh/chị đặt cọc. Mỗi việc ghi kèm điều gì hỏng nếu bỏ qua nó.",
 } as const;
 
 /**
