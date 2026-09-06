@@ -155,7 +155,23 @@ docker run --rm \
 # ba làm chết biểu mẫu liên hệ trên máy chủ thật. Nó KHÔNG gãy lúc dựng ảnh,
 # nên phải chặn ở đây; để lọt là phát hiện bằng cách mất khách.
 xanh "→ Kiểm luật \"use server\"…"
-node scripts/kiem-use-server.mjs
+# ⚠️ MÁY CHỦ KHÔNG CÀI NODE — và điều đó là bình thường: mọi thứ chạy trong
+# Docker nên host chưa bao giờ cần tới nó.
+#
+# Gọi `node` thẳng ở đây đã làm gãy nguyên một buổi triển khai ngày 07/09/2026
+# với đúng một dòng — `node: command not found` — và `set -e` cho dừng ngay,
+# trước cả bước dựng ảnh. Trang không lên được bản mới, mà nguyên nhân thì nằm
+# ở một bước kiểm vốn chỉ để phòng xa.
+#
+# Dùng lại đúng cách đã áp cho Caddyfile ngay bên trên: mượn một hộp chứa dùng
+# một lần. Ảnh `node:22-alpine` vốn đã có sẵn trên máy vì Dockerfile dựng bằng
+# chính nó, nên không phải tải thêm gì.
+if command -v node >/dev/null 2>&1; then
+  node scripts/kiem-use-server.mjs
+else
+  docker run --rm -v "$THU_MUC:/app:ro" -w /app node:22-alpine \
+    node scripts/kiem-use-server.mjs
+fi
 
 xanh "→ Dựng ảnh mới (vài phút)…"
 docker compose build
