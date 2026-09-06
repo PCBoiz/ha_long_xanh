@@ -49,9 +49,24 @@ type Chang = "anh" | "chu" | "mo" | "xong";
  * sau khi trang chạy được JavaScript, để bản HTML máy chủ và bản trình duyệt
  * dựng lại luôn khớp nhau — nếu chọn ngẫu nhiên ngay lúc dựng thì React sẽ báo
  * lệch và dựng lại cả cây.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ⚠️ KHÔNG ĐƯỢC CHỨA `toan-canh-hoang-hon`. ĐÓ LÀ ẢNH HERO CỦA TRANG CHỦ.
+ *
+ * Danh sách này từng có nó, và hậu quả tính được: bốc ngẫu nhiên 1 trong 4 nên
+ * CỨ BỐN LẦN VÀO TRANG LÀ MỘT LẦN người xem nhìn đúng một tấm ảnh hai lần liên
+ * tiếp — một lần ở màn chờ, rồi màn chờ tan ra và lộ ra chính tấm đó làm nền
+ * hero. Hiệu ứng lao xuyên khi đó không mở ra cái gì mới cả.
+ *
+ * Đây chính là thứ khiến trang bị nhận xét "sao cứ thấy mấy tấm ảnh giống
+ * nhau": bốn tấm trong danh sách đều là cảnh chụp từ trên cao, cùng vịnh, cùng
+ * dải màu — nên trùng lặp ở đây đắt hơn ở bất kỳ chỗ nào khác trên trang.
+ *
+ * Ba tấm còn lại vẫn giữ được ý đồ ban đầu (mỗi lượt vào một cảnh khác), mà
+ * KHÔNG BAO GIỜ đụng vào ảnh hero.
+ * ═══════════════════════════════════════════════════════════════════════════
  */
 const ANH_MO_DAU = [
-  "toan-canh-hoang-hon",
   "khu-1-cong-vien-hoang-hon",
   "view-bien-sang-som",
   "toan-canh-sang-som",

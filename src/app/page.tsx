@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitReveal } from "@/components/ui/split-reveal";
-import { ProjectImage } from "@/components/ui/project-image";
 import { Khung } from "@/components/ui/khung";
 import { DUONG_DAN } from "@/lib/duong-dan";
 import { Preloader } from "@/components/ui/preloader";
 import { TieuDeMang } from "@/components/ui/tieu-de-mang";
 import { ClipReveal, CountUp } from "@/components/motion/scroll-effects";
-import { ExpandOnScroll } from "@/components/motion/expand-on-scroll";
 import { HeroAnh } from "@/components/site/hero-anh";
 import { DanhSachSanPham } from "@/components/site/danh-sach-san-pham";
 import { DangKyForm } from "@/components/site/dang-ky-form";
@@ -20,7 +18,6 @@ import { ThanhQuyetDinh } from "@/components/site/thanh-quyet-dinh";
 import { TimCanPhuHop } from "@/components/site/tim-can-phu-hop";
 import { GiaThucTra } from "@/components/site/gia-thuc-tra";
 import {
-  anhPhanKhu,
   diemTinCay,
   duAn,
   lienKet,
@@ -39,6 +36,23 @@ import {
 // tích trang. Trang tham chiếu market.vinhomes.vn: 504px mỗi mảng, chữ 20,6%.
 // Cách sửa không phải là bỏ bớt mảng mà là bỏ khoảng trống bên trong mỗi mảng
 // và cho mảng nào cũng có nội dung thật để đọc.
+//
+// ĐỢT RÚT GỌN 06/09/2026 — đo bằng trình duyệt thật, không ước lượng:
+//
+//              trước      sau      bớt
+//   1440px    13.223px  11.266px   −15%   (14,7 → 12,5 màn hình)
+//    390px    18.188px  13.910px   −24%   (21,5 → 16,5 màn hình)
+//
+// Bốn chỗ cắt, và KHÔNG cắt mảng nào — cắt phần thừa BÊN TRONG mảng, đúng
+// nguyên tắc ở trên:
+//   · gỡ hẳn khối ảnh phủ toàn màn (1.392px điện thoại, không mang thông tin)
+//   · bỏ ảnh khỏi bốn thẻ phân khu (cùng cắt từ một tấm sơ đồ, nhìn như nhau)
+//   · bỏ bộ lọc sáu nút đứng trên một danh sách năm mục
+//   · xếp thẻ sản phẩm hai cột ngay từ khổ điện thoại (3.345px → 1.478px)
+//
+// Muốn đo lại: mở trang bằng trình duyệt ở đúng hai khổ trên rồi đọc
+// `document.body.scrollHeight`, SAU khi đã cuộn hết trang một lượt — không cuộn
+// thì các mảng hiện-khi-cuộn chưa dựng và số đo thiếu.
 //
 // Sơ đồ quy hoạch đã CHUYỂN sang trang riêng `/quy-hoach`: nó là thứ giữ chân
 // lâu nhất nên xứng đáng có địa chỉ riêng để gửi cho khách, thay vì là một cái
@@ -132,7 +146,7 @@ export default function TrangChu() {
       </HeroAnh>
 
       {/* ==================== DẢI QUYẾT ĐỊNH NHANH ==========================
-          Năm đường tắt, đặt ngay dưới mảng mở đầu. Trang chủ cao mười bảy màn
+          Năm đường tắt, đặt ngay dưới mảng mở đầu. Trang chủ cao mười sáu màn
           hình; người vào với một câu hỏi cụ thể không nên phải cuộn hết phần
           kể chuyện mới tới được câu trả lời. */}
       <ThanhQuyetDinh />
@@ -272,51 +286,45 @@ export default function TrangChu() {
             lienKet={{ nhan: "Mở sơ đồ quy hoạch", href: "/quy-hoach" }}
           />
 
-          <div className="mt-12 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {phanKhuNoiBat.map((khu, thuTu) => {
-              const anh = anhPhanKhu(khu.ma);
-              return (
-                <Reveal key={khu.ma} delay={(thuTu % 4) * 80}>
-                  <Link href={`/phan-khu/${khu.ma}`} className="group block">
-                    {anh ? (
-                      <div className="overflow-hidden bg-ink-soft">
-                        <ProjectImage
-                          name={anh}
-                          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                          className="aspect-4/3 w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.05]"
-                        />
-                      </div>
-                    ) : null}
-                    <h3 className="mt-4 font-display text-h3 font-normal transition-colors group-hover:text-jade">
-                      {khu.ten}
-                    </h3>
-                    {khu.diemNhan[0] ? (
-                      <p className="mt-2 text-small leading-relaxed text-paper-dim">
-                        {khu.diemNhan[0]}
-                      </p>
-                    ) : null}
-                  </Link>
-                </Reveal>
-              );
-            })}
+          {/* BỐN THẺ NÀY KHÔNG CÒN ẢNH, và đó là chủ ý.
+              Ảnh phân khu đều được CẮT RA TỪ CÙNG MỘT TẤM sơ đồ quy hoạch. Bày
+              bốn tấm cạnh nhau thì hai khu liền kề ra gần như cùng một hình —
+              cùng nền hồng tím, cùng nét vẽ, chỉ lệch khung. Người xem không
+              đọc ra "bốn nơi khác nhau", họ đọc ra "một tấm ảnh lặp bốn lần".
+              Đo trên điện thoại: bốn thẻ có ảnh chiếm 1.828px, tức hơn hai màn
+              hình rưỡi, để nói bốn cái tên.
+              Sơ đồ THẬT — bản tương tác, xem được cả chín khu và vị trí giáp
+              ranh — nằm ở /quy-hoach, và liên kết đã có ngay phía trên. */}
+          <div className="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+            {phanKhuNoiBat.map((khu, thuTu) => (
+              <Reveal key={khu.ma} delay={(thuTu % 4) * 80}>
+                <Link
+                  href={`/phan-khu/${khu.ma}`}
+                  className="group block border-t border-ink-line pt-5"
+                >
+                  <h3 className="font-display text-h3 font-normal transition-colors group-hover:text-jade">
+                    {khu.ten}
+                  </h3>
+                  {khu.diemNhan[0] ? (
+                    <p className="mt-2 text-small leading-relaxed text-paper-dim">
+                      {khu.diemNhan[0]}
+                    </p>
+                  ) : null}
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </Khung>
       </section>
 
-      {/* ======================== ẢNH NỞ RA TOÀN MÀN ========================= */}
-      <ExpandOnScroll
-        chuThich={
-          <p className="font-display text-h1 font-normal drop-shadow-lg">
-            Một đô thị mở ra <span className="italic">từ mặt nước</span>
-          </p>
-        }
-      >
-        <ProjectImage
-          name="toan-canh-sang-som"
-          sizes="100vw"
-          className="h-full w-full object-cover"
-        />
-      </ExpandOnScroll>
+      {/* ⚠️ KHỐI "ẢNH NỞ RA TOÀN MÀN" TỪNG ĐỨNG Ở ĐÂY — ĐÃ GỠ.
+          Một tấm ảnh phủ kín màn hình kèm dòng chữ "Một đô thị mở ra từ mặt
+          nước". Đo được: 1.485px trên máy tính, 1.392px trên điện thoại — gần
+          hai màn hình điện thoại cho MỘT câu không mang thông tin nào.
+          Và tấm ảnh đó là `toan-canh-sang-som`, đúng tấm màn mở đầu vừa chiếu
+          cho người xem vài giây trước. Nên nó không chỉ dài, nó còn lặp.
+          Muốn có nhịp nghỉ giữa hai mảng thương mại thì mảng "Hồ sơ mở" ngay
+          dưới đã làm việc đó, bằng nền sáng và bằng nội dung thật. */}
 
       {/* ====================== HỒ SƠ MỞ — MẢNG NỀN SÁNG ======================
           Đặt giữa hai mảng thương mại, và vị trí này là chủ ý. Khách vừa được

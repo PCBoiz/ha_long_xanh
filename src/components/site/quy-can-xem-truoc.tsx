@@ -15,28 +15,35 @@ import quyCan from "@/data/quy-can.generated.json";
  * trọng nhất trang chủ phải nói KHÔNG phải là "dự án đẹp" mà là "ở đây có số,
  * xem được ngay, không cần để lại gì".
  *
- * Bốn con số dưới đây làm đúng việc đó trong một màn hình: bao nhiêu căn, giá
- * trải từ đâu tới đâu, đọc lúc nào. Dấu thời gian là phần thuyết phục nhất —
- * nó nói rằng đây là dữ liệu sống, không phải một trang tĩnh viết từ năm ngoái.
+ * Các con số dưới đây làm đúng việc đó trong một màn hình: bao nhiêu căn, mấy
+ * dòng sản phẩm, đọc lúc nào. Dấu thời gian là phần thuyết phục nhất — nó nói
+ * rằng đây là dữ liệu sống, không phải một trang tĩnh viết từ năm ngoái.
  *
  * ⚠️ KHÔNG in bảng ba mươi hai dòng ở đây. Trang chủ chỉ cần chứng minh là có
  * số; xem chi tiết là việc của trang quỹ căn. Nhồi cả bảng vào đây vừa dài vừa
  * làm hai trang trùng nội dung.
  *
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⚠️ KHỐI NÀY TỪNG IN KHOẢNG GIÁ. ĐỪNG THÊM LẠI.
+ *
+ * Nó hiển thị "6,1 – 32,6 tỷ" dưới nhãn "giá đầy đủ, đã gồm VAT + phí bảo trì"
+ * — số tính tự động từ bảng hàng, không ai gõ tay, nên rất dễ tưởng là vô hại.
+ *
+ * Chủ trang đã quyết định KHÔNG công khai con số giá nào trên trang, chỉ mời
+ * liên hệ để nhận bảng giá. Quyết định đó nằm ngoài mã nguồn, nên không có
+ * kiểu dữ liệu hay bộ kiểm nào chặn được việc thêm lại — chỉ có dòng chú thích
+ * này. Cần khoảng giá thì đọc ở trang quỹ căn, sau khi đã liên hệ.
+ *
+ * Hai con số còn giữ — SỐ CĂN và SỐ DÒNG SẢN PHẨM — không phải là giá, và
+ * chúng vẫn làm trọn việc của khối này: chứng minh trang có dữ liệu thật, cập
+ * nhật theo ngày.
+ * ───────────────────────────────────────────────────────────────────────────
+ *
  * MỌI SỐ TÍNH TỪ `quy-can.generated.json`, không chép tay.
  * ═══════════════════════════════════════════════════════════════════════════
  */
 export function QuyCanXemTruoc() {
-  const gia = quyCan.can.map((c) => c.giaGomVat);
-  const reNhat = Math.min(...gia);
-  const datNhat = Math.max(...gia);
   const capNhat = new Date(quyCan.docLuc);
-
-  const ty = (n: number) =>
-    (n / 1e9).toLocaleString("vi-VN", {
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    });
 
   return (
     <section className="mang-sang py-nhip">
@@ -81,13 +88,22 @@ export function QuyCanXemTruoc() {
                 {quyCan.theoLoaiHinh.length}
               </dd>
             </div>
+            {/* Ô thứ ba từng in khoảng giá — xem chú thích đầu tệp. Thay bằng
+                điều KHÁC BIỆT THẬT SỰ của trang: giá ghi rõ đã gồm những gì.
+                Nói được điều đó mà không nêu con số nào. */}
             <div className="col-span-2 border-t border-ink-line pt-7">
-              <dt className="text-label uppercase text-jade">
-                Giá đầy đủ, đã gồm VAT + phí bảo trì
-              </dt>
-              <dd className="tabular mt-2 font-display text-h1 font-normal">
-                {ty(reNhat)} – {ty(datNhat)}
-                <span className="ml-2 text-body text-paper-dim">tỷ</span>
+              <dt className="text-label uppercase text-jade">Giá từng căn</dt>
+              <dd className="mt-2 text-body leading-relaxed text-paper-dim">
+                Tách rõ <span className="text-paper">giá trước thuế</span> và{" "}
+                <span className="text-paper">giá đầy đủ đã gồm VAT + phí bảo
+                trì</span> — hai con số chênh nhau đáng kể.{" "}
+                <Link
+                  href={DUONG_DAN.lienHe}
+                  className="link-underline text-jade"
+                >
+                  Liên hệ để nhận bảng giá
+                </Link>
+                .
               </dd>
             </div>
           </dl>
