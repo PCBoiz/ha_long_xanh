@@ -62,6 +62,31 @@ export function QuyCanXemTruoc() {
               Đọc lúc {gioNgayVN(capNhat)}
             </p>
 
+            {/* CẢNH BÁO LUÔN HIỆN, KHÔNG PHẢI CHỈ KHI DỮ LIỆU CŨ.
+                ═══════════════════════════════════════════════════════════
+                Dấu thời gian "đọc lúc …" ngay trên là phần thuyết phục nhất
+                của khối này — nó nói đây là dữ liệu sống. Nhưng chính vì thế,
+                khi nó cũ đi thì nó quay sang chống lại trang: người đọc thấy
+                một con số cụ thể kèm một ngày tháng, rồi hiểu con số đó là của
+                hôm nay. Đo ngày 06/09/2026: bảng hàng đọc lần cuối 15/08, tức
+                đã ba tuần, mà trang không nói gì thêm.
+
+                ĐÃ THỬ TÍNH SỐ NGÀY RỒI BỎ, và lý do đáng ghi lại: trang này
+                dựng sẵn ở máy chủ, nên `Date.now()` chỉ chạy MỘT LẦN lúc dựng
+                rồi đông cứng ở đó. Con số "đã 22 ngày" sẽ đứng im trong khi
+                thời gian trôi tiếp — một cảnh báo về dữ liệu cũ mà bản thân nó
+                cũng cũ. Bộ kiểm mã cũng chặn thẳng: gọi hàm không thuần khiết
+                lúc dựng.
+
+                Câu dưới đây ĐÚNG ở mọi thời điểm, kể cả khi bảng hàng vừa được
+                cập nhật sáng nay — quỹ căn vẫn đổi từng ngày. Nên nó không cần
+                đồng hồ, và không bao giờ tự sai. */}
+            <p className="mt-3 max-w-md border-l-2 border-jade pl-4 text-small leading-relaxed text-paper">
+              Đây là số liệu <strong>tại thời điểm trên</strong>, không phải quỹ
+              căn hôm nay. Quỹ căn đổi từng ngày — hãy đối chiếu lại trước khi
+              quyết định.
+            </p>
+
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link href={DUONG_DAN.quyCan} className="nut nut-chinh">
                 Xem bảng quỹ căn

@@ -304,7 +304,18 @@ export const dongSanPham: DongSanPham[] = [
 
 /** Khối niềm tin ngắn đặt ở trang chủ. */
 export const diemTinCay = [
-  { nhan: "Pháp lý", giaTri: "Sở hữu lâu dài" },
+  // ⚠️ ĐÁNH DẤU CẦN ĐỐI CHIẾU — claim này đang nói CHO CẢ NĂM DÒNG SẢN PHẨM.
+  //
+  // "Sở hữu lâu dài" đúng với nhà thấp tầng gắn liền với đất. Nhưng dự án này
+  // còn có căn hộ cao tầng, và hình thức sở hữu của căn hộ không mặc nhiên
+  // giống nhà đất. Câu ở đây không phân biệt dòng nào, nên nó đang khẳng định
+  // rộng hơn mức hồ sơ có thể chứng minh.
+  //
+  // KHÔNG XOÁ VÀ CŨNG KHÔNG SỬA THÀNH CÂU KHÁC khi chưa có hồ sơ trong tay —
+  // sửa mò một câu pháp lý còn tệ hơn để nguyên. Việc phải làm là mở hồ sơ
+  // pháp lý của TỪNG dòng sản phẩm, đối chiếu, rồi hoặc bỏ cờ này đi, hoặc
+  // tách câu theo từng dòng.
+  { nhan: "Pháp lý", giaTri: "Sở hữu lâu dài", canXacNhan: true },
   { nhan: "Tiến độ", giaTri: "Đã khởi công 2025" },
   { nhan: "Chủ đầu tư", giaTri: "Vingroup – Vinhomes" },
   { nhan: "Bảo lãnh", giaTri: "Ngân hàng Techcombank", canXacNhan: true },
@@ -747,10 +758,20 @@ export const buocGiaThucTra: BuocGiaThucTra[] = [
       "Tính dòng tiền theo một bảng tiến độ đã hết hiệu lực, sai ngay từ đợt đóng tiền đầu tiên.",
   },
   {
-    ten: "Rà soát quyền lợi bạn đủ điều kiện",
-    moTa: "Chiết khấu thanh toán sớm, ưu đãi theo nhóm khách, voucher, hỗ trợ lãi suất — mỗi loại có điều kiện riêng và không tự động cộng vào.",
+    // ⚠️ TÊN BƯỚC NÀY TỪNG LÀ "Rà soát quyền lợi BẠN ĐỦ ĐIỀU KIỆN". ĐỪNG QUAY LẠI.
+    //
+    // Nó đọc ra thành một điều kiện đầu vào: phải có sẵn quyền lợi thì mới có
+    // gì để rà. Nhóm khách trang này muốn kéo lại đúng là người CHƯA có
+    // voucher, chưa thuộc nhóm ưu đãi nào — nghe câu đó xong họ tự loại mình
+    // ra trước khi kịp gọi.
+    //
+    // Cả trang mở đầu bằng "Chưa có voucher Vin? Hãy xem phương án của tôi",
+    // rồi tới bước 03 lại nói ngược. Hai câu cùng một trang chống nhau, và câu
+    // đứng sau thắng.
+    ten: "Tìm hết các quyền lợi có thể áp dụng",
+    moTa: "Chiết khấu thanh toán sớm, ưu đãi theo đợt mở bán, voucher, hỗ trợ lãi suất — mỗi loại một điều kiện riêng, và không loại nào tự động cộng vào. Chưa sẵn có quyền lợi nào thì vẫn còn nguyên phần này để rà.",
     neuBoQua:
-      "Bỏ sót một quyền lợi mình vốn đủ điều kiện, và sau khi ký thì không xin lại được.",
+      "Bỏ sót một quyền lợi vốn áp dụng được, và sau khi ký thì không xin lại được.",
   },
   {
     ten: "Tính ra số tiền thật sự phải trả",
@@ -883,7 +904,19 @@ export function chuTron(cau: string): string {
  */
 export const dinhViGiaThucTra = {
   chinh: chuTron(thongDiepChot.muaDungCan),
-  phu: "Chúng tôi không hứa giá rẻ nhất. Chúng tôi kiểm tra để bạn không trả nhiều hơn mức đáng trả, và không bỏ sót quyền lợi nào bạn vốn đủ điều kiện.",
+  // ⚠️ CÂU NÀY TỪNG MỞ ĐẦU BẰNG "Chúng tôi KHÔNG hứa giá rẻ nhất". ĐÃ BỎ.
+  //
+  // Ý thì đúng và trung thực, nhưng nó là câu đầu tiên người đọc gặp ở mảng
+  // bán hàng mạnh nhất trang — và nó mở bằng một lời phủ định về chính mình.
+  // Người đang cân nhắc đọc câu đó nhận được thông tin đầu tiên là "chỗ này
+  // không rẻ nhất", trước khi kịp biết chỗ này làm được gì.
+  //
+  // Bản mới nói cùng một sự thật theo chiều khẳng định: số tiền thực trả đổi
+  // theo cái gì, và việc của người tư vấn là dựng ra con số đó.
+  //
+  // KHÔNG được đổi thành lời hứa giá thấp — hàng rào duyệt nội dung chặn
+  // "giá thấp nhất", "chiết khấu bí mật" và mọi cam kết tương tự.
+  phu: "Cùng một căn, số tiền thực trả đổi theo chính sách đang áp dụng lúc ký và tiến độ thanh toán chọn theo. Việc của tôi là dựng đúng con số đó ra trước khi anh/chị đặt cọc.",
 } as const;
 
 /**
@@ -1002,6 +1035,25 @@ export const cauHoiThuongGap: CauHoi[] = [
   {
     hoi: "Vì sao giá trên các trang khác nhau lại chênh nhau nhiều thế?",
     dap: "Hai lý do. Thứ nhất, phần lớn trang không ghi con số của họ là giá trước thuế hay giá đã gồm thuế và phí bảo trì — chênh lệch giữa hai cách báo khoảng 10% cộng phí bảo trì. Thứ hai, nhiều mức giá đang lan truyền là giá dự kiến của các đợt khác nhau chứ không phải quỹ căn hiện có. Bảng ở trang Quỹ căn ghi rõ cả hai cột và thời điểm đọc, để bạn so sánh được thay vì phải đoán.",
+  },
+  {
+    /*
+     * CÂU NÀY ĐẶT SỚM LÀ CHỦ Ý, và nó là câu FAQ riêng của trang này.
+     *
+     * Mọi trang bán dự án đều trả lời được "giá bao nhiêu", "chủ đầu tư là ai",
+     * "sở hữu lâu dài không". Không trang nào trả lời câu dưới đây, vì nó chỉ
+     * có nghĩa với một người tư vấn độc lập.
+     *
+     * Nó cũng vá đúng chỗ hở lớn nhất của trang: khối "Chưa có voucher Vin?"
+     * mời người chưa có gì vào, nhưng nếu họ đi thẳng xuống phần câu hỏi thì
+     * không có câu nào nói tiếp với họ.
+     *
+     * ⚠️ KHÔNG được viết thành "chắc chắn có voucher", không nêu mức chiết
+     * khấu, không nói nguồn quyền lợi đến từ đâu. Hàng rào duyệt chặn ba thứ
+     * đó, và chúng cũng là điều chủ trang đã dặn không công khai.
+     */
+    hoi: "Tôi chưa có voucher Vin thì sao?",
+    dap: "Vẫn dựng được phương án. Voucher chỉ là một trong nhiều thứ làm số tiền thực trả đổi đi — chính sách bán hàng đang áp dụng lúc ký và tiến độ thanh toán chọn theo cũng tác động, và hai thứ đó không đòi hỏi bạn phải có sẵn gì. Việc của tôi là rà hết một lượt rồi dựng ra con số thực trả để bạn có cơ sở so sánh, kể cả khi bắt đầu từ con số không.",
   },
   {
     hoi: "Sở hữu lâu dài hay có thời hạn?",

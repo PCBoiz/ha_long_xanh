@@ -63,11 +63,23 @@ interface CauHoi {
 const CAU_HOI: CauHoi[] = [
   {
     ma: "mucDich",
-    hoi: "Bạn mua để làm gì?",
+    // ⚠️ CÂU HỎI NÀY TỪNG LÀ "Bạn mua để làm gì?". ĐÃ ĐỔI, ĐỪNG QUAY LẠI.
+    //
+    // Nó hỏi thẳng vào ĐỘNG CƠ, và buộc người đọc tự xếp mình vào một phe: ở
+    // hay đầu tư. Định vị đã chốt không dựng ranh giới đó — nó nói mua để ở,
+    // và căn đó vẫn giữ giá trị. Hỏi kiểu cũ là dựng lại đúng cái ranh giới
+    // vừa bỏ đi, ngay ở khối nằm giữa trang chủ.
+    //
+    // Câu mới hỏi CÁCH DÙNG chứ không hỏi động cơ. Trả lời được ngay mà không
+    // phải khai mình thuộc loại khách nào.
+    //
+    // BẢNG ĐIỂM BÊN DƯỚI KHÔNG ĐỔI: mã `ma` của từng lựa chọn giữ nguyên nên
+    // kết quả gợi ý ra y hệt. Chỉ chữ hiển thị đổi.
+    hoi: "Căn này sẽ dùng thế nào?",
     chon: [
       {
         ma: "o",
-        nhan: "Để gia đình ở",
+        nhan: "Gia đình ở",
         // Ba dòng biệt thự đều mô tả không gian sống; liền kề mô tả "vừa ở vừa
         // kinh doanh" nên vẫn tính nhưng thấp hơn.
         diem: { "song-lap": 2, "don-lap": 2, "biet-thu-bien": 1, "lien-ke": 1 },
@@ -81,7 +93,10 @@ const CAU_HOI: CauHoi[] = [
       },
       {
         ma: "taiSan",
-        nhan: "Giữ tài sản dài hạn",
+        // "Giữ tài sản dài hạn" đọc ra như một lựa chọn ĐẦU TƯ, tách khỏi việc
+        // ở. Nhãn mới gộp cả hai đúng như định vị: ở hôm nay, giữ giá trị ngày
+        // mai.
+        nhan: "Ở, và giữ giá trị lâu dài",
         // Dòng giới hạn và tầm nhìn trực diện ra vịnh là hai đặc điểm không
         // tạo thêm được — cơ sở duy nhất mà dữ liệu hiện có cho phép dùng.
         diem: { "biet-thu-bien": 3, "don-lap": 2 },

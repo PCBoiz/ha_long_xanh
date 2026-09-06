@@ -235,7 +235,13 @@ export default function TrangChu() {
       >
         <Khung>
           <TieuDeMang
-            tieuDe="Năm cách để *thuộc về* nơi này"
+            // ĐỔI TỪ "Năm cách để *thuộc về* nơi này".
+            //
+            // Câu cũ đẹp nhưng là câu thơ: nó nói về cảm giác chứ không giúp
+            // người đọc chọn. Đứng ngay trên năm thẻ sản phẩm — chỗ người mua
+            // đang cần biết mình chọn giữa những gì — thì một tiêu đề gợi cảm
+            // xúc làm chậm đúng việc khối này sinh ra để làm.
+            tieuDe="Năm dòng sản phẩm, *chọn theo cách sống*"
             dan={
               <p>
                 Từ nhà liền kề trong lõi đô thị tới biệt thự đứng riêng bên mặt

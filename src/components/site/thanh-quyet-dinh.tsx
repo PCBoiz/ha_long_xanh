@@ -53,9 +53,19 @@ const MUC: Muc[] = [
     href: "/tai-lieu",
   },
   {
-    nhan: "Xem tiềm năng đầu tư",
-    phu: "Cả cơ hội và rủi ro",
-    href: "/dau-tu",
+    // ĐỔI TỪ "Xem tiềm năng đầu tư" — VÀ ĐỔI CẢ ĐÍCH ĐẾN, không chỉ đổi chữ.
+    //
+    // Nhãn cũ trỏ sang `/dau-tu`, trang phân tích cơ hội và rủi ro, viết cho
+    // người mua để đầu tư. Định vị đã chốt thì ngược lại: mua để Ở, và căn đó
+    // vẫn giữ được giá trị.
+    //
+    // `/gia-tri-tai-san-…` mới đúng là trang trả lời câu đó — nó đọc số liệu
+    // từ bảng hàng thật để xem một căn có giữ giá và dễ sang tay không, không
+    // dự báo giá. Đổi mỗi cái nhãn mà vẫn trỏ sang trang đầu tư thì chữ nói
+    // một đằng, trang mở ra một nẻo.
+    nhan: "Giá trị tài sản",
+    phu: "Ở hôm nay · giữ giá trị ngày mai",
+    href: "/gia-tri-tai-san-global-gate-ha-long",
   },
 ];
 

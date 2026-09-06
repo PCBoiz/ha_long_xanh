@@ -54,15 +54,36 @@ export function MocVoucher() {
             {/* Đoạn này ĐÃ RÚT NGẮN. Bản trước mở đầu bằng "cùng một căn,
                 hai người có thể trả hai con số khác nhau" — giờ chính là câu
                 tiêu đề phụ ở cột trái, nên nhắc lại là bắt người đọc đọc hai
-                lần cùng một ý ngay trong một màn hình. */}
+                lần cùng một ý ngay trong một màn hình.
+
+                ═══════════════════════════════════════════════════════════
+                ⚠️ ĐÃ BỎ CÁCH NÓI "NHÓM QUYỀN LỢI MÀ RIÊNG BẠN CHẠM TỚI".
+
+                Tiêu đề khối này mời đúng người CHƯA CÓ voucher. Rồi hai câu
+                ngay bên cạnh lại nói về "nhóm quyền lợi bạn chạm tới" và "rà
+                xem bạn đang chạm được vào nhóm nào" — tức là vẫn đặt điều kiện
+                lên người đọc, và người chưa có gì sẽ tự trả lời: chắc mình
+                không chạm được nhóm nào.
+
+                Nửa trên của khối kéo họ vào, nửa dưới đẩy họ ra. Câu đứng sau
+                là câu họ mang đi.
+
+                Bản mới nói thẳng điều làm nên khác biệt: phần lớn số tiền
+                chênh KHÔNG nằm ở voucher, nên chưa có voucher vẫn còn nguyên
+                phần đáng rà.
+                ═══════════════════════════════════════════════════════════ */}
             <p className="text-body leading-relaxed text-paper-dim">
-              Thứ làm số tiền đổi đi là chính sách đang áp dụng, tiến độ thanh
-              toán chọn theo, và các nhóm quyền lợi mà riêng bạn chạm tới.
+              Thứ làm số tiền đổi đi là chính sách đang áp dụng lúc anh/chị ký,
+              tiến độ thanh toán chọn theo, và các quyền lợi áp dụng được cho
+              từng trường hợp.
             </p>
             <p className="mt-5 text-body leading-relaxed text-paper-dim">
-              Việc của tôi là rà xem bạn đang chạm được vào nhóm nào, rồi dựng
-              một phương án thực trả để bạn có cơ sở so sánh trước khi quyết
-              định.
+              <strong className="text-paper">
+                Chưa có voucher cũng không sao
+              </strong>{" "}
+              — phần lớn khoản chênh không nằm ở voucher. Việc của tôi là rà hết
+              một lượt, rồi dựng một phương án thực trả để anh/chị có cơ sở so
+              sánh trước khi quyết định.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">

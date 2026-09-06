@@ -61,10 +61,23 @@ export function SiteFooter() {
               { nhan: "Quỹ căn đang bán", href: "/quy-can-global-gate-ha-long" },
               { nhan: "Giá thực trả", href: "/gia-thuc-tra-global-gate-ha-long" },
               { nhan: "Chính sách bán hàng", href: "/chinh-sach-global-gate-ha-long" },
-              { nhan: "Hỗ trợ quyền lợi", href: "/voucher-vinhomes" },
+              // HAI NHÃN NÀY ĐÃ ĐỔI ĐỂ KHỚP THANH ĐIỀU HƯỚNG TRÊN ĐẦU.
+              //
+              // Chân trang dễ thành kho lưu dấu vết của bản chiến lược cũ nhất:
+              // nó ít bị nhìn tới nên mỗi lần đổi định vị là bị bỏ quên. Đo được
+              // lần này: cùng một trang `/voucher-vinhomes` mang HAI cái tên
+              // khác nhau ở hai chỗ điều hướng.
+              //
+              // "Hỗ trợ quyền lợi" hàm ý người đọc PHẢI CÓ SẴN quyền lợi nào đó
+              // thì mới được hỗ trợ — đúng ngược với nhóm khách trang này muốn
+              // kéo, là người CHƯA có voucher.
+              { nhan: "Chưa có voucher Vin?", href: "/voucher-vinhomes" },
               { nhan: "Giá trị tài sản", href: "/gia-tri-tai-san-global-gate-ha-long" },
               { nhan: "Pháp lý", href: "/phap-ly-global-gate-ha-long" },
-              { nhan: "Phân tích đầu tư", href: "/dau-tu" },
+              // "Phân tích đầu tư" đặt trọng tâm vào mua-để-đầu-tư. Trang này
+              // nói cả cơ hội lẫn rủi ro, nên gọi đúng nội dung của nó vừa
+              // trung thực hơn vừa không lệch định vị.
+              { nhan: "Cơ hội và rủi ro", href: "/dau-tu" },
               { nhan: "Tài liệu", href: "/tai-lieu" },
               { nhan: "Liên hệ tư vấn", href: "/lien-he" },
             ]}
