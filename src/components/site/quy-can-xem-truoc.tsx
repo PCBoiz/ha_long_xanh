@@ -108,7 +108,19 @@ export function QuyCanXemTruoc() {
               </dd>
             </div>
             <div>
-              <dt className="text-label uppercase text-jade">Dòng sản phẩm</dt>
+            {/* ⚠️ NHÃN NÀY TỪNG MÂU THUẪN VỚI CHÍNH TRANG CHỦ. ĐỪNG ĐỔI LẠI.
+
+                Con số là `theoLoaiHinh.length` — số dòng CÓ HÀNG trong bảng
+                hàng, đo ngày 07/09/2026 là 2 (liền kề, song lập).
+
+                Nhưng cách khối sản phẩm phía trên có tiêu đề "Năm dòng sản
+                phẩm" và liệt kê đủ năm. Nên nhãn cũ "Dòng sản phẩm" đặt số 2
+                cạnh chữ "Năm" — hai con số chọi nhau trong một màn hình.
+
+                Cả hai đều đúng, và đó mới là chỗ nguy: người đọc không có cách
+                nào biết cái nào nói về gì. Họ chỉ thấy trang tự mâu thuẫn, rồi
+                thôi không tin những con số còn lại — kể cả những con số đúng. */}
+            <dt className="text-label uppercase text-jade">Dòng đang có hàng</dt>
               <dd className="tabular mt-2 font-display text-display font-normal leading-none">
                 {quyCan.theoLoaiHinh.length}
               </dd>

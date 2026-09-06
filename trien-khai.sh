@@ -133,7 +133,28 @@ if [[ -d .git ]]; then
     vang "⚠ Có thay đổi chưa lưu ngay trên máy chủ. Đang cất tạm để không mất."
     git stash push -m "trien-khai tự cất $(date -Iseconds)"
   fi
+  # ⚠️ SCRIPT NÀY TỰ CẬP NHẬT CHÍNH MÌNH. PHẢI CHẠY LẠI SAU KHI ĐỔI.
+  #
+  # `bash` không nạp cả file vào bộ nhớ; nó đọc dần theo VỊ TRÍ BYTE trong lúc
+  # chạy. `git pull` thay nội dung file ngay giữa chừng thì bash vẫn đọc tiếp
+  # từ vị trí cũ — nhưng trong một file đã khác. Nó chạy nhầm dòng, hoặc chạy
+  # lại dòng cũ đã bị xoá.
+  #
+  # Đo ngày 07/09/2026: bản vá cho bước kiểm `use server` được kéo về thành
+  # công (17 dòng thêm), nhưng buổi triển khai vẫn chết đúng lỗi mà bản vá đó
+  # sửa. Nhìn nhật ký thì thấy `git pull` báo thành công ngay phía trên dòng
+  # lỗi — một cảnh tượng không thể giải thích nếu chưa biết bash đọc file kiểu
+  # gì.
+  #
+  # Lỗi này CÓ SẴN từ đầu, chỉ chưa lộ vì chưa lần nào bản kéo về đụng vào
+  # chính file này.
+  bam_truoc="$(cksum "$0" | cut -d" " -f1,2)"
   git pull --ff-only
+  bam_sau="$(cksum "$0" | cut -d" " -f1,2)"
+  if [[ "$bam_truoc" != "$bam_sau" ]]; then
+    vang "⚠ Bản kéo về có sửa chính script triển khai. Chạy lại bản mới…"
+    exec bash "$0" "$@"
+  fi
 else
   vang "⚠ Thư mục này không phải kho git — bỏ qua bước lấy mã mới."
 fi
