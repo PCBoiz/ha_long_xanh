@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { SplitReveal } from "@/components/ui/split-reveal";
 import { ProjectImage } from "@/components/ui/project-image";
 import { ClipReveal } from "@/components/motion/scroll-effects";
-import { anhPhanKhu, duAn, phanKhu } from "@/data/project";
+import { duAn, phanKhu } from "@/data/project";
 
 // Chín trang phân khu sinh thẳng từ `data/project.ts`. Thêm một phân khu vào
 // mảng đó là có ngay một trang mới — không phải đụng vào file này.
@@ -36,9 +36,7 @@ export default async function TrangPhanKhu({
 }: PageProps<"/phan-khu/[ma]">) {
   const { ma } = await params;
   const khu = phanKhu.find((muc) => muc.ma === ma);
-  if (!khu) notFound();
-
-  const anhKhu = anhPhanKhu(khu.ma);
+  if (!khu) notFound();
   const thuTu = phanKhu.findIndex((muc) => muc.ma === ma);
   const truoc = phanKhu[(thuTu - 1 + phanKhu.length) % phanKhu.length];
   const sau = phanKhu[(thuTu + 1) % phanKhu.length];
@@ -64,26 +62,37 @@ export default async function TrangPhanKhu({
         </div>
       </section>
 
-      {/* Cận cảnh khu này, cắt từ sơ đồ quy hoạch — bên cạnh là vị trí của nó
-          trong toàn cảnh, để người xem hiểu cả "trông ra sao" lẫn "nằm ở đâu". */}
-      <section className="px-6 md:px-10">
-        <div className="mx-auto grid max-w-[92rem] gap-6 lg:grid-cols-5">
-          {anhKhu ? (
-            <ClipReveal className="lg:col-span-2">
-              <ProjectImage
-                name={anhKhu}
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="h-full w-full object-cover"
-              />
-            </ClipReveal>
-          ) : null}
+      {/* ⚠️ ĐÃ GỠ Ô "CẬN CẢNH KHU NÀY". ĐỪNG ĐƯA LẠI.
 
-          <ClipReveal delay={120} className={anhKhu ? "lg:col-span-3" : "lg:col-span-5"}>
+          Ô đó hiện `khu-{ma}` — một ảnh cắt ra từ chính tấm `tmb-ban-do`
+          nằm ngay bên cạnh nó. Chín phân khu, chín ảnh cắt, và cả chín đều
+          ĐÚNG 922×830 pixel: dấu vết của việc cắt máy móc theo khung cố định.
+
+          Hai vấn đề, và vấn đề thứ hai nặng hơn nhiều.
+
+          MỘT — TRÔNG NHƯ NHAU. Cùng nền hồng cam, cùng khinh khí cầu, cùng
+          nét vẽ, chỉ lệch khung. Chủ trang phàn nàn "ảnh trùng nhau" nhiều
+          lần. Đo bằng máy ba cách — băm tri giác, màu chủ đạo, độ bão hoà —
+          cả ba đều báo SẠCH, vì hai vùng khác nhau của một bản vẽ lớn thật sự
+          có cấu trúc điểm ảnh khác nhau. Máy so pixel; mắt so tài vật.
+
+          HAI — NÓI SAI. Khung cắt rộng hơn phân khu nó mang tên, nên tấm
+          `khu-festa-bay` hiện ba nhãn (Wonder Island, Festa Bay, Elite Sport
+          Island), `khu-crystal-island` hiện hai. Người đọc tin mình đang nhìn
+          một phân khu, thực ra đang nhìn một góc bản đồ có cả hàng xóm.
+
+          Bản đồ tổng kèm điểm đánh dấu bên dưới nói đúng một điều và nói
+          đúng: khu này NẰM Ở ĐÂY. Toạ độ `khu.x/khu.y` đã được dò lại độc lập
+          bằng phép so mẫu trượt trên ảnh gốc — cả chín khớp trong vòng 0,6
+          điểm phần trăm. */}
+      <section className="px-6 md:px-10">
+        <div className="mx-auto max-w-[92rem]">
+          <ClipReveal delay={120}>
             <div className="relative overflow-hidden bg-ink-soft">
               <ProjectImage
                 name="tmb-ban-do"
                 alt={`Vị trí ${khu.ten} trong toàn cảnh quy hoạch`}
-                sizes="(min-width: 1024px) 60vw, 100vw"
+                sizes="(min-width: 92rem) 92rem, 100vw"
                 className="w-full object-cover opacity-70"
               />
               <span
