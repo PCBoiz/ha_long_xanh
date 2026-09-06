@@ -3,6 +3,7 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { DIEU_UU_TIEN } from "./uu-tien";
+import type { KetQuaDangKy } from "./dang-ky-kieu";
 
 // Tiếp nhận đăng ký tư vấn.
 //
@@ -14,16 +15,6 @@ import { DIEU_UU_TIEN } from "./uu-tien";
 // Trên Vercel thư mục dự án CHỈ ĐỌC, nên đường (2) sẽ lỗi. Đó là cố ý: thà báo
 // lỗi ngay còn hơn nhận thông tin khách rồi đánh rơi im lặng. Trước khi phát
 // hành, owner phải cấu hình LEAD_WEBHOOK_URL hoặc thay bằng cơ sở dữ liệu.
-
-export interface KetQuaDangKy {
-  trangThai: "cho" | "thanhCong" | "loi";
-  thongBao?: string;
-  /** Lỗi theo từng ô, để hiện ngay dưới ô đó. */
-  loiTruong?: Partial<Record<"dienThoai" | "uuTien", string>>;
-}
-
-
-export const ketQuaBanDau: KetQuaDangKy = { trangThai: "cho" };
 
 /** Số di động Việt Nam: 10 chữ số bắt đầu bằng 0, hoặc dạng +84. */
 function chuanHoaSoDienThoai(thoInput: string): string | null {

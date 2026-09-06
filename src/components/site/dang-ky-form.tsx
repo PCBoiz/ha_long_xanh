@@ -1,7 +1,8 @@
 "use client";
 
 import { useActionState, useEffect, useId, useRef } from "react";
-import { guiDangKy, ketQuaBanDau } from "@/lib/lead/dang-ky-action";
+import { guiDangKy } from "@/lib/lead/dang-ky-action";
+import { ketQuaBanDau } from "@/lib/lead/dang-ky-kieu";
 import { DIEU_UU_TIEN } from "@/lib/lead/uu-tien";
 import { ghiSuKien } from "@/lib/do-luong";
 import { dongSanPham, lienHe } from "@/data/project";
