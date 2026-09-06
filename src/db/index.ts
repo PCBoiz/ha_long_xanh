@@ -77,3 +77,57 @@ export function layDb() {
 }
 
 export { schema };
+
+/**
+ * Chạy một truy vấn, và THỬ LẠI ĐÚNG MỘT LẦN nếu cơ sở dữ liệu đang ngủ dậy.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ⚠️ KHÔNG PHẢI "THỬ LẠI CHO CHẮC". ĐÂY LÀ BẢN VÁ CHO MỘT LỖI ĐO ĐƯỢC.
+ *
+ * Neon gói miễn phí thu máy tính toán về 0 khi không ai dùng. Lần gọi đầu tiên
+ * sau khi ngủ KHÔNG chờ máy dậy — nó thất bại luôn.
+ *
+ * Đo ngày 07/09/2026 trên máy chủ thật, gọi liên tiếp 5 lần cách nhau 2 giây:
+ *
+ *     lần 1   503  hỏng      761ms     ← thất bại
+ *     lần 2   200  ok       1271ms     ← chậm, đang thức dậy
+ *     lần 3   200  ok        254ms     ← đã ấm
+ *     lần 4   200  ok        254ms
+ *     lần 5   200  ok        251ms
+ *
+ * Hậu quả nếu không vá: trang ít khách thì cơ sở dữ liệu ngủ gần như liên tục,
+ * nên MỖI VỊ KHÁCH ĐẦU TIÊN sau mỗi quãng vắng đều thấy mục tin tức rỗng. Hỏng
+ * im lặng và ngắt quãng — kiểm lần thứ hai lại thấy bình thường, nên rất dễ
+ * kết luận là "đã tự khỏi".
+ *
+ * KHÔNG giữ ấm bằng cách gọi định kỳ: 100 giờ tính toán/tháng, mà một tháng có
+ * 730 giờ. Thức 24/7 là vượt trần khoảng ngày thứ mười sáu, và vượt trần thì
+ * Neon treo tới đầu tháng sau.
+ *
+ * ───────────────────────────────────────────────────────────────────────────
+ * CHỈ THỬ LẠI KHI LỖI KHÔNG CÓ MÃ POSTGRES.
+ *
+ * Máy đang ngủ thì hỏng ở tầng vận chuyển — không có mã lỗi Postgres nào cả.
+ * Còn `42P01` (bảng không tồn tại) hay `28P01` (sai mật khẩu) là lỗi thật: thử
+ * lại chỉ làm mọi trang chậm gấp đôi rồi vẫn hỏng, và làm nhật ký khó đọc hơn.
+ *
+ * ĐÚNG MỘT LẦN, không phải vòng lặp. Máy đã dậy thì một lần là đủ; máy chết
+ * thật thì thử mười lần cũng thế, mà khách phải chờ mười lần lâu hơn.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+export async function thuLaiKhiNguDay<T>(chay: () => Promise<T>): Promise<T> {
+  try {
+    return await chay();
+  } catch (loi) {
+    const layMa = (x: unknown) => (x as { code?: string } | undefined)?.code;
+    const ma = layMa(loi) ?? layMa((loi as { cause?: unknown }).cause);
+    if (ma) throw loi; // Lỗi Postgres thật — thử lại vô ích.
+
+    console.warn(
+      "[db] Truy vấn đầu tiên thất bại không kèm mã Postgres — nhiều khả năng " +
+        "Neon đang ngủ dậy. Chờ 1,2 giây rồi thử lại một lần.",
+    );
+    await new Promise((tiep) => setTimeout(tiep, 1200));
+    return await chay();
+  }
+}

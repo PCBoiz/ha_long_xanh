@@ -6,9 +6,54 @@ thường mất *im lặng*.
 
 ---
 
-## 🔴 H1 · Cơ sở dữ liệu không đọc được
+## ✅ H1 · Cơ sở dữ liệu không đọc được — ĐÃ CHẨN ĐOÁN VÀ VÁ
 
-**Trạng thái:** ĐANG HỎNG, trên máy chủ thật, ngay lúc này.
+**Trạng thái:** xong ngày 07/09/2026. Giữ lại toàn bộ mô tả bên dưới vì cách
+chẩn đoán sai lúc đầu đáng ghi lại hơn cả kết luận.
+
+### Nguyên nhân thật: Neon ngủ, và lần gọi đầu tiên sau khi ngủ thì thất bại
+
+Gọi `/api/suc-khoe` liên tiếp 5 lần, cách nhau 2 giây:
+
+```
+lần 1   503  hỏng      761ms     ← thất bại
+lần 2   200  ok       1271ms     ← chậm, đang thức dậy
+lần 3   200  ok        254ms     ← đã ấm
+lần 4   200  ok        254ms
+lần 5   200  ok        251ms
+```
+
+Không phải bảng thiếu, không phải sai chuỗi kết nối, không phải mất mạng. Neon
+gói miễn phí thu máy tính toán về 0 khi không ai dùng, và lần gọi đầu tiên sau
+đó **không chờ máy dậy** — nó hỏng luôn.
+
+**Vì sao đây là kiểu hỏng tệ nhất:** trang ít khách thì cơ sở dữ liệu ngủ gần
+như liên tục, nên **mỗi vị khách đầu tiên sau mỗi quãng vắng đều thấy mục tin
+tức rỗng**. Im lặng, ngắt quãng, và kiểm lần thứ hai là lại thấy bình thường.
+
+**Không giữ ấm được bằng cách gọi định kỳ:** 100 giờ tính toán/tháng, mà một
+tháng có 730 giờ. Thức 24/7 là vượt trần khoảng ngày thứ mười sáu, và vượt trần
+thì Neon treo tới đầu tháng sau.
+
+**Đã vá:** `thuLaiKhiNguDay()` trong `src/db/index.ts` — thử lại ĐÚNG MỘT
+LẦN sau 1,2 giây, và **chỉ khi lỗi không kèm mã Postgres**. Lỗi thật như
+`42P01` thì không thử lại, vì thử lại chỉ làm mọi trang chậm gấp đôi rồi vẫn
+hỏng.
+
+### Ba lần chẩn đoán sai trước khi ra kết quả — ghi lại để không lặp
+
+1. **"200 nghĩa là cơ sở dữ liệu chạy tốt"** — sai. `/tin-tuc` bắt lỗi rồi trả
+   danh sách rỗng, nên trang vẫn 200 khi cơ sở dữ liệu đã hỏng.
+2. **"Bảng chưa tồn tại"** — sai. Truy vấn thẳng Neon cho thấy đủ cả ba bảng
+   `bai_viet`, `dang_ky`, `su_kien`.
+3. **Bảng điều khiển Neon đã ghi sẵn `Primary ● Idle`** ngay trong ảnh chụp từ
+   hôm trước. Đọc lướt qua mà không nối được với triệu chứng.
+
+---
+
+## 🔴 H1-cũ · Mô tả gốc lúc chưa biết nguyên nhân
+
+**Trạng thái lúc ghi:** ĐANG HỎNG, trên máy chủ thật.
 
 Nhật ký máy chủ ngày 07/09/2026 lặp lại liên tục:
 

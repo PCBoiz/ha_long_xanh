@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { and, desc, eq, lte } from "drizzle-orm";
-import { layDb, schema } from "@/db";
+import { layDb, schema, thuLaiKhiNguDay } from "@/db";
 import { baiViet as baiTinh, type BaiViet } from "@/data/news";
 import { homNayVN } from "@/lib/thoi-gian";
 
@@ -274,7 +274,7 @@ async function docTuFile(): Promise<BaiViet[]> {
  */
 async function docAnToan<T>(viec: string, chay: () => Promise<T>, khiHong: T): Promise<T> {
   try {
-    return await chay();
+    return await thuLaiKhiNguDay(chay);
   } catch (loi) {
     // ═══════════════════════════════════════════════════════════════════════
     // ⚠️ PHẢI ĐỌC CẢ `cause`, KHÔNG CHỈ LỚP NGOÀI. ĐỌC TRƯỚC KHI SỬA.

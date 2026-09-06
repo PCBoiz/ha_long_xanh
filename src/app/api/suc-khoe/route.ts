@@ -1,6 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { headers } from "next/headers";
-import { layDb, schema } from "@/db";
+import { layDb, schema, thuLaiKhiNguDay } from "@/db";
 import { demMotLuotTuHeader } from "@/lib/gioi-han-tan-suat";
 
 /**
@@ -95,7 +95,9 @@ export async function GET(): Promise<Response> {
   try {
     // Đọc THẬT một dòng. `select 1` không đủ: nó chạy được cả khi bảng không
     // tồn tại hoặc không có quyền đọc — đúng hai thứ cần phát hiện.
-    await db.select({ slug: schema.baiViet.slug }).from(schema.baiViet).limit(1);
+    await thuLaiKhiNguDay(() =>
+      db.select({ slug: schema.baiViet.slug }).from(schema.baiViet).limit(1),
+    );
     return Response.json({
       trangThai: "ok",
       csdl: "ok",
