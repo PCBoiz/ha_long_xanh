@@ -151,6 +151,12 @@ docker run --rm \
 
 # ───────────────────────── 4. Dựng và bật ───────────────────────────────────
 
+# Chốt chặn `"use server"` — cái bẫy đã sập BA LẦN trong kho này, và lần thứ
+# ba làm chết biểu mẫu liên hệ trên máy chủ thật. Nó KHÔNG gãy lúc dựng ảnh,
+# nên phải chặn ở đây; để lọt là phát hiện bằng cách mất khách.
+xanh "→ Kiểm luật \"use server\"…"
+node scripts/kiem-use-server.mjs
+
 xanh "→ Dựng ảnh mới (vài phút)…"
 docker compose build
 
