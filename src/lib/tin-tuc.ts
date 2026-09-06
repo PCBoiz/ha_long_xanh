@@ -276,23 +276,48 @@ async function docAnToan<T>(viec: string, chay: () => Promise<T>, khiHong: T): P
   try {
     return await chay();
   } catch (loi) {
-    // Dịch mã lỗi Postgres sang câu người vận hành làm được gì với nó.
+    // ═══════════════════════════════════════════════════════════════════════
+    // ⚠️ PHẢI ĐỌC CẢ `cause`, KHÔNG CHỈ LỚP NGOÀI. ĐỌC TRƯỚC KHI SỬA.
     //
-    // `42P01` là "bảng không tồn tại" — gần như luôn có đúng một nguyên nhân:
-    // chưa chạy migration, hoặc chạy nhầm database. Nói thẳng ra thay vì để
-    // người đọc tự tra mã lỗi.
-    const ma = (loi as { code?: string })?.code;
+    // Drizzle bọc mọi lỗi truy vấn vào một lớp riêng. Lớp ngoài mang
+    // `message` = "Failed query: <câu SQL>" và KHÔNG mang `code`. Mã lỗi
+    // Postgres thật, cùng câu mô tả thật, nằm ở `cause`.
+    //
+    // Bản trước đọc `loi.code` của lớp ngoài — luôn ra `undefined`, nên luôn
+    // rơi vào nhánh chung chung "Kiểm DATABASE_URL". Nhánh nhận biết `42P01`
+    // viết ra rồi nhưng KHÔNG BAO GIỜ chạy được.
+    //
+    // Đo ngày 07/09/2026 trên máy chủ thật: nhật ký in ra nguyên câu SQL dài
+    // ba dòng, nhưng không in điều duy nhất cần biết là vì sao nó hỏng. Mất
+    // một vòng chẩn đoán chỉ để phát hiện chính bộ chẩn đoán đang mù.
+    //
+    // Một khối chẩn đoán không bao giờ chẩn đúng còn tệ hơn không có khối
+    // nào: nó làm người đọc tin rằng mình đã biết bệnh.
+    // ═══════════════════════════════════════════════════════════════════════
+    const goc = (loi as { cause?: unknown }).cause;
+    const layMa = (x: unknown) => (x as { code?: string } | undefined)?.code;
+    const ma = layMa(loi) ?? layMa(goc);
+
+    // Dịch mã lỗi Postgres sang câu người vận hành làm được gì với nó.
     const chanDoan =
       ma === "42P01"
         ? "Bảng chưa tồn tại. Chạy `npm run db:migrate` — và kiểm chuỗi kết nối " +
           "có đang trỏ đúng database không (dễ nhầm nhất là để nguyên `neondb` " +
           "mặc định thay vì database của trang)."
-        : "Kiểm DATABASE_URL và trạng thái Neon.";
+        : ma === "3D000"
+          ? "Database không tồn tại. Tên database ở cuối DATABASE_URL đang sai."
+          : ma === "28P01" || ma === "28000"
+            ? "Sai thông tin đăng nhập. Lấy lại chuỗi kết nối ở bảng điều khiển Neon."
+            : ma === "53300"
+              ? "Hết hạn mức kết nối. Phải dùng chuỗi có `-pooler`."
+              : "Kiểm DATABASE_URL và trạng thái Neon.";
 
     console.error(
       `[tin-tuc] KHÔNG ĐỌC ĐƯỢC cơ sở dữ liệu khi ${viec}. ${chanDoan}\n` +
         `          Trang vẫn chạy nhưng phần bài viết sẽ TRỐNG.\n` +
-        `          Lỗi gốc: ${(loi as Error)?.message ?? loi}`,
+        `          Mã lỗi Postgres: ${ma ?? "(không có mã)"}\n` +
+        `          Nguyên nhân thật: ${(goc as Error | undefined)?.message ?? "(cause rỗng)"}\n` +
+        `          Truy vấn hỏng: ${(loi as Error)?.message ?? loi}`,
     );
     return khiHong;
   }
