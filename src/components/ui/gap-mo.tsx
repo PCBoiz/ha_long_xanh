@@ -37,11 +37,31 @@ export function GapMo({
   tomTat,
   children,
   className = "",
+  gapCaOMayBan = false,
 }: {
   /** Phần luôn nhìn thấy — câu hỏi, hoặc tên bước. */
   tomTat: ReactNode;
   children: ReactNode;
   className?: string;
+  /**
+   * Gấp lại ở MỌI kích thước màn hình, không riêng màn hẹp.
+   *
+   * Ghi chú đầu file lập luận rằng máy bàn nên mở sẵn, vì nội dung phải bấm
+   * mới thấy thì phần lớn người đọc không bấm. Lập luận đó đúng cho MỘT khối.
+   *
+   * Nhưng đo ngày 07/09/2026: trang chủ có 2.434 từ, tức hơn 12 phút đọc trên
+   * máy bàn — gấp ba tới bốn lần một trang chủ bất động sản thường thấy. Lập
+   * luận cũ được đưa ra khi chưa ai đếm tổng.
+   *
+   * Với những khối mà GIÁ TRỊ NẰM Ở DANH SÁCH chứ không ở từng câu trả lời —
+   * chín câu hỏi thường gặp, sáu bước kiểm giá — thì gấp lại vẫn giữ nguyên
+   * phần đáng giá: người đọc thấy TRỌN danh sách trong một màn, biết ngay ở
+   * đây có gì, rồi tự mở đúng mục mình cần.
+   *
+   * Chữ vẫn nằm trong HTML ở cả hai trạng thái, nên công cụ tìm kiếm và trình
+   * đọc màn hình không mất gì.
+   */
+  gapCaOMayBan?: boolean;
 }) {
   const nut = useRef<HTMLDetailsElement>(null);
 
@@ -53,12 +73,12 @@ export function GapMo({
     // Chỉ ĐÓNG khi màn hẹp. Không tự mở lại khi người dùng xoay ngang máy —
     // mở bung một khối họ vừa chủ động đóng lại là giành quyền của họ.
     const theo = () => {
-      if (hep.matches) el.open = false;
+      if (gapCaOMayBan || hep.matches) el.open = false;
     };
     theo();
     hep.addEventListener("change", theo);
     return () => hep.removeEventListener("change", theo);
-  }, []);
+  }, [gapCaOMayBan]);
 
   return (
     <details ref={nut} open className={`gap-mo ${className}`}>

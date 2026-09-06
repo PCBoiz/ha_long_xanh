@@ -62,9 +62,22 @@ export function CauHoiThuongGap() {
             Quan hệ hỏi–đáp cho MÁY vẫn còn nguyên trong dữ liệu có cấu trúc
             FAQPage, sinh từ cùng một mảng dữ liệu. */}
         <ul className="mt-12 grid gap-x-16 gap-y-10 md:grid-cols-2">
-          {cauHoiThuongGap.map((muc) => (
+          {cauHoiThuongGap.map((muc, thuTu) => (
             <li key={muc.hoi} className="border-t border-ink-line pt-4 md:pt-6">
+              {/* BA CÂU ĐẦU MỞ SẴN, SÁU CÂU SAU GẤP LẠI — KỂ CẢ MÁY BÀN.
+
+                  Đo ngày 07/09/2026: trang chủ 2.434 từ, hơn 12 phút đọc.
+                  Riêng khối này khoảng 540 từ, và trên máy bàn mở hết chín câu.
+
+                  Giá trị của khối KHÔNG nằm ở việc đọc hết chín câu trả lời —
+                  nó nằm ở việc thấy được CHÍN CÂU HỎI, tức biết ngay ở đây có
+                  trả lời những gì. Gấp lại vẫn giữ nguyên phần đó.
+
+                  Ba câu đầu mở sẵn để khối không trông như một hàng nút câm,
+                  và để người lướt nhanh vẫn nhận được câu trả lời hay hỏi nhất
+                  mà không phải bấm. */}
               <GapMo
+                gapCaOMayBan={thuTu >= 3}
                 tomTat={
                   <h3 className="font-display text-h3 font-normal text-balance">
                     {muc.hoi}

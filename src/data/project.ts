@@ -1174,7 +1174,17 @@ export const doiNguTuVan: NguoiTuVan[] = [
     chucDanh: "Tư vấn lựa chọn sản phẩm & phương án mua",
     dienThoai: "0941 328 658",
     gioiThieu:
-      "Tôi muốn biết điều anh/chị thực sự muốn trước khi nói về một căn cụ thể: nơi anh/chị muốn sống như thế nào, điều gì quan trọng nhất khi lựa chọn, và giá trị nào anh/chị muốn giữ lại sau quyết định này. Từ đó tôi mới lọc căn, đối chiếu chính sách, so các cách thanh toán và xây phương án thực trả.",
+      // ⚠️ ĐÃ RÚT TỪ 63 TỪ XUỐNG 34. ĐỪNG VIẾT DÀI LẠI.
+      //
+      // Bản cũ mang đủ ba dấu hiệu của câu do máy viết:
+      //   · một câu dài với ba mệnh đề song song nối bằng "và"
+      //   · "anh/chị" ba lần trong một câu
+      //   · và nhắc lại lần thứ sáu cái ý "đối chiếu chính sách, xây phương
+      //     án thực trả" mà cả trang đã nói năm lần trước đó
+      //
+      // Bản này ngắn hơn một nửa và mang một Ý THẬT ở câu cuối — câu đó nói
+      // được điều bản cũ không nói: vì sao phải hỏi trước khi tư vấn.
+      "Tôi hỏi trước khi tư vấn: anh/chị muốn sống thế nào, và điều gì quan trọng nhất khi chọn. Chưa biết hai điều đó thì mọi căn tôi giới thiệu đều là đoán.",
     /**
      * Câu chốt — đặt sau phần giới thiệu, in khác đi.
      *
@@ -1184,7 +1194,10 @@ export const doiNguTuVan: NguoiTuVan[] = [
      * khi xuống tiền. Không chê bên kia, không hứa rẻ hơn.
      */
     cauChot:
-      "Nếu anh/chị đã có một căn hoặc một phương án đang cân nhắc, hãy gọi cho tôi trước khi quyết định. Có thể anh/chị sẽ muốn nhìn thêm một phương án nữa trước khi xuống tiền.",
+      // Rút từ 33 từ xuống 26, và bỏ hai chữ "phương án" — chữ đó đã xuất
+      // hiện dày đặc ở bảy nút bấm khác trên cùng trang. Mở bằng một câu hỏi
+      // vì đây là chỗ duy nhất trên trang có một người thật đang nói.
+      "Đang cân nhắc một căn ở đâu đó rồi? Gọi cho tôi trước khi đặt cọc — xem thêm một cách tính nữa thì không mất gì.",
   },
 ];
 

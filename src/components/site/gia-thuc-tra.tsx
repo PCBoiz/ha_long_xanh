@@ -54,7 +54,15 @@ export function GiaThucTra() {
                   giữa phễu. Gấp lại thì người đọc thấy trọn cả sáu tên bước
                   trong một màn — tức là nắm được QUY TRÌNH ngay, rồi tự mở
                   bước nào họ quan tâm. Máy bàn vẫn mở hết như cũ. */}
+              {/* GẤP CẢ Ở MÁY BÀN. Sáu tên bước vẫn nhìn thấy hết — và đó mới
+                  là thứ đáng giá: người đọc nắm được QUY TRÌNH trong một màn,
+                  rồi tự mở đúng bước mình quan tâm.
+
+                  Phần mô tả cộng cột hậu quả khoảng 450 từ. Trên trang chủ
+                  chúng là khối thứ chín trong mười bốn khối; ai muốn đọc kỹ thì
+                  đã có trang riêng, và nút dẫn sang trang đó nằm ngay dưới. */}
               <GapMo
+                gapCaOMayBan
                 tomTat={
                   <span className="flex items-baseline gap-4">
                     <span className="tabular text-label text-jade">
