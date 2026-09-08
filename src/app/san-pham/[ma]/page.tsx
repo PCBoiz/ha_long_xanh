@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SplitReveal } from "@/components/ui/split-reveal";
 import { ProjectImage } from "@/components/ui/project-image";
+import { SoLieuDongSanPham } from "@/components/site/so-lieu-dong-san-pham";
 import { ClipReveal, Parallax } from "@/components/motion/scroll-effects";
 import { duAn, dongSanPham, taiLieu, duongDanDrive } from "@/data/project";
 import { projectImages } from "@/data/images.generated";
@@ -125,6 +126,18 @@ export default async function TrangSanPham({
       </section>
 
       {/* Mặt bằng — chỉ hiện khi có bản vẽ thật cho dòng này. */}
+      {/* SỐ LIỆU THẬT, đặt NGAY SAU phần giới thiệu và TRƯỚC mặt bằng.
+
+          Đo ngày 09/09/2026: năm trang /san-pham/* chỉ có 338–365 từ — một
+          tấm ảnh lớn, một câu mô tả, một dòng diện tích, hết. Người mở trang
+          "Nhà liền kề" xong vẫn không biết còn bao nhiêu căn, xây bao nhiêu
+          mét, bàn giao mức nào. Toàn bộ những câu đó đã có sẵn câu trả lời
+          trong bảng hàng, chỉ là chưa ai đưa lên.
+
+          Đặt trước mặt bằng vì thứ tự câu hỏi của người mua là: còn hàng
+          không → bao nhiêu tiền → rồi mới tới nhà trông thế nào. */}
+      <SoLieuDongSanPham ma={ma} />
+
       {dong.matBang && dong.matBang.length > 0 ? (
         <section className="border-t border-ink-line px-6 py-nhip md:px-10">
           <div className="mx-auto max-w-[92rem]">
