@@ -41,7 +41,36 @@ export function BangHangQuanhDay() {
           nên đây là số của toàn dự án, không phải riêng khu này. Đọc lúc
           <TuoiDuLieu moc={d.docLuc} />.
         </p>
+        <TomTatBangHang />
+      </div>
+    </section>
+  );
+}
 
+/**
+ * Phần ruột — con số và hai nút, không có tiêu đề hay khung ngoài.
+ *
+ * ⚠️ TỒN TẠI ĐỂ TRANG `/du-an` THÔI NHÚNG CẢ BẢNG 616 DÒNG.
+ *
+ * Đo ngày 09/09/2026: `/du-an` trả về 1,45 MB HTML và 34.442 từ — gần bằng
+ * chính trang bảng hàng. Nguyên nhân: nó nhúng `<BangHang />` đầy đủ, tức là
+ * toàn bộ 616 căn, trên một trang lẽ ra chỉ giới thiệu dự án.
+ *
+ * Hai hậu quả, và cái thứ hai âm thầm hơn:
+ *
+ *   · NẶNG. 1,45 MB cho một trang giới thiệu, tải trên 4G là thấy ngay.
+ *
+ *   · TRÙNG NỘI DUNG. Đúng bảng đó đã nằm ở `/quy-can-global-gate-ha-long`.
+ *     Hai địa chỉ cùng mang một khối nội dung lớn thì Google phải tự chọn cái
+ *     nào đáng xếp hạng cho truy vấn quỹ căn — và nó có thể chọn trang mình
+ *     không muốn. Trang bảng hàng nên là nơi duy nhất giữ bảng.
+ */
+export function TomTatBangHang() {
+  const d = bangHangDangMo();
+  if (!d) return null;
+
+  return (
+    <>
         <dl className="mt-8 grid gap-x-12 border-t border-ink-line sm:grid-cols-2">
           <div className="flex items-baseline justify-between gap-6 border-b border-ink-line py-4">
             <dt className="text-small text-paper-dim">Căn còn hàng</dt>
@@ -90,7 +119,6 @@ export function BangHangQuanhDay() {
             Giá thực trả gồm những gì
           </Link>
         </div>
-      </div>
-    </section>
+    </>
   );
 }

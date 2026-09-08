@@ -4,7 +4,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { SplitReveal } from "@/components/ui/split-reveal";
 import { ProjectImage } from "@/components/ui/project-image";
 import { ClipReveal, CountUp } from "@/components/motion/scroll-effects";
-import { BangHang } from "@/components/site/bang-hang";
+import { TomTatBangHang } from "@/components/site/bang-hang-quanh-day";
 import { BangSoSanh, TienDoThanhToan } from "@/components/site/bang-so-sanh";
 import { duAn, lienKet, phanKhu, soLieu } from "@/data/project";
 import type { ProjectImageName } from "@/data/images.generated";
@@ -213,8 +213,11 @@ export default function TrangDuAn() {
           <h2 className="max-w-3xl font-display text-h1 font-normal">
             <SplitReveal text="Quỹ căn *đang mở bán*" />
           </h2>
+          {/* TÓM TẮT, KHÔNG PHẢI CẢ BẢNG. Xem ghi chú trong
+              `bang-hang-quanh-day.tsx` về 1,45 MB và chuyện trùng nội dung
+              với `/quy-can-global-gate-ha-long`. */}
           <ClipReveal delay={140} className="mt-12">
-            <BangHang />
+            <TomTatBangHang />
           </ClipReveal>
         </div>
       </section>
