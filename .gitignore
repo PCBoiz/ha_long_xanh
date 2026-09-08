@@ -89,3 +89,6 @@ next-env.d.ts
 
 # Kết quả đo điện thoại — ảnh chụp toàn trang, sinh lại được bằng lệnh.
 /.audit-dt/
+
+# Báo cáo sinh ra để gửi — dựng lại được, không cần theo dõi
+/BAO-CAO-*.pdf
