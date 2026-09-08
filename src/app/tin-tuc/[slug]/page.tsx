@@ -6,6 +6,7 @@ import { ClipReveal } from "@/components/motion/scroll-effects";
 import { dinhDangNgay } from "@/data/news";
 import { docBaiViet, docMotBai } from "@/lib/tin-tuc";
 import { lamSachHtml } from "@/lib/lam-sach-html";
+import { noiLienKet } from "@/lib/noi-lien-ket";
 import { duAn } from "@/data/project";
 import { duLieuBaiViet } from "@/lib/du-lieu-bai-viet";
 import { anhChoBai, chuThichAnh } from "@/lib/anh-cho-bai";
@@ -120,7 +121,17 @@ export default async function TrangBaiViet({
                 className="bai-viet mt-12 border-t border-ink-line pt-10"
                 // Đã lọc qua danh sách thẻ cho phép ở `lamSachHtml`; xem ghi chú
                 // về giới hạn của bộ lọc trong chính file đó.
-                dangerouslySetInnerHTML={{ __html: lamSachHtml(bai.noiDung) }}
+                //
+                // NỐI LIÊN KẾT SAU KHI LỌC, không phải trước. Lọc trước thì bộ
+                // lọc còn cơ hội xem xét từng thẻ do mô hình sinh ra; nối sau
+                // thì những thẻ `<a>` thêm vào đây là của chính kho mã này,
+                // địa chỉ lấy từ `DUONG_DAN` nên không thể trỏ sai.
+                //
+                // Ngược lại — nối trước rồi lọc — là tự đưa liên kết của mình
+                // qua một bộ lọc thiết kế để phòng nội dung bên ngoài.
+                dangerouslySetInnerHTML={{
+                  __html: noiLienKet(lamSachHtml(bai.noiDung)),
+                }}
               />
             ) : (
               <p className="mt-12 border-t border-ink-line pt-10 text-body text-paper-dim">

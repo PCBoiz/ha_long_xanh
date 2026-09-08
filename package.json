@@ -21,7 +21,8 @@
     "kiem-anh-treo": "node scripts/kiem-anh-treo.mjs",
     "kiem-ai-search": "node scripts/kiem-ai-search.mjs",
     "log-bot": "node scripts/log-bot.mjs",
-    "kiem-du-lieu-bai-viet": "node scripts/kiem-du-lieu-bai-viet.mjs"
+    "kiem-du-lieu-bai-viet": "node scripts/kiem-du-lieu-bai-viet.mjs",
+    "kiem-noi-lien-ket": "node scripts/kiem-noi-lien-ket.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
