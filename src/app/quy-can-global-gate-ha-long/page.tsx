@@ -73,8 +73,9 @@ export default function TrangBangHang() {
               <ClipReveal delay={120}>
                 <p className="text-body leading-relaxed text-paper-dim">
                   Bảng hàng thật, giá từng căn, kèm giờ đọc file. Mỗi căn có hai
-                  cột giá ghi rõ trước và sau thuế — vì hai con số đó lệch nhau
-                  hơn 10%, và phần lớn nơi khác không nói mình đang báo cột nào.
+                  con số: giá đầy đủ đã gồm thuế và phí bảo trì, và giá nếu chọn
+                  thanh toán sớm — vì đó là hai số tiền thực trả khác nhau, tuỳ
+                  phương án anh/chị chọn.
                 </p>
               </ClipReveal>
             </div>

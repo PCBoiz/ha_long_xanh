@@ -230,9 +230,9 @@ export function BangHang() {
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-4">
-                <dt className="text-paper-dim">Giá trước VAT</dt>
+                <dt className="text-paper-dim">Nếu thanh toán sớm</dt>
                 <dd className="tabular text-paper-dim">
-                  {tyDong(c.giaTruocVat)} tỷ
+                  {c.giaThanhToanSom ? `${tyDong(c.giaThanhToanSom)} tỷ` : "—"}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-4">
@@ -265,7 +265,7 @@ export function BangHang() {
               {/* HAI CỘT GIÁ CÓ NHÃN RÕ RÀNG — khác biệt lớn nhất so với mọi
                   trang khác, và nó chỉ là hai dòng chữ nhỏ. */}
               <Th right>
-                Giá bán<Don>trước VAT · tỷ</Don>
+                Thanh toán sớm<Don>tỷ</Don>
               </Th>
               <Th right>
                 Giá đầy đủ<Don>gồm VAT + phí bảo trì · tỷ</Don>
@@ -294,7 +294,7 @@ export function BangHang() {
                 <Td>
                   <span className="capitalize">{c.banGiao}</span>
                 </Td>
-                <Td right>{tyDong(c.giaTruocVat)}</Td>
+                <Td right>{c.giaThanhToanSom ? tyDong(c.giaThanhToanSom) : "—"}</Td>
                 <Td right>
                   <span className="text-paper">{tyDong(c.giaGomVat)}</span>
                 </Td>
@@ -347,9 +347,10 @@ export function BangHang() {
         <div>
           <p className="text-label uppercase text-jade">Vì sao có hai cột giá</p>
           <p className="mt-2 text-small leading-relaxed text-paper-dim">
-            Chênh lệch giữa hai cột là thuế giá trị gia tăng cộng phí bảo trì.
-            Trang khác thường chỉ đăng một con số mà không ghi đó là cột nào —
-            nên hai mức giá đọc được ở hai nơi có thể không so được với nhau.
+            Cột trái là giá nếu chọn thanh toán sớm theo chính sách chủ đầu
+            tư. Cột phải là giá đầy đủ, đã gồm thuế giá trị gia tăng và phí
+            bảo trì. Cả hai đều là số tiền thực trả — khác nhau ở phương án
+            thanh toán, không phải ở cách trình bày.
           </p>
         </div>
         <div>

@@ -44,6 +44,11 @@ export const metadata: Metadata = {
 export default function TrangGia() {
   const capNhat = new Date(quyCan.docLuc);
 
+  // Mốc của phép đo chênh VAT — KHÁC mốc bảng hàng, và phải hiện ra là khác.
+  const mocChenhVat = quyCan.chenhVat
+    ? new Date(quyCan.chenhVat.moc).toLocaleDateString("vi-VN")
+    : null;
+
   /** Khoảng giá đầy đủ theo từng dòng sản phẩm, tính từ chính bảng hàng. */
   const theoDong = quyCan.theoLoaiHinh.map((loai) => {
     const cua = quyCan.can.filter((c) => c.loaiHinh === loai.ten);
@@ -65,10 +70,15 @@ export default function TrangGia() {
 
   // Chênh lệch trung bình giữa hai cột giá, tính bằng phần trăm. Đây là con số
   // trả lời đúng câu "vì sao chỗ khác báo giá thấp hơn".
-  const chenhVat =
-    (quyCan.can.reduce((t, c) => t + (c.giaGomVat / c.giaTruocVat - 1), 0) /
-      quyCan.can.length) *
-    100;
+  // Chênh giữa giá trước VAT và giá đầy đủ. ĐO TRÊN BẢNG EXCEL TRƯỚC ĐÓ, không
+  // phải trên bảng hàng hiện tại — bảng sống của nền tảng phân phối chỉ có một
+  // cột giá (đã gồm VAT và phí bảo trì), nên không tách ngược ra được.
+  //
+  // Chia ngược từ giá sau thuế là BỊA: thuế suất phần đất khác phần xây, tỉ lệ
+  // hai phần lại khác nhau ở từng căn. Thà nói "đo trên 32 căn ngày ấy" còn hơn
+  // đưa một con số trông như đo trên cả bảng.
+  const chenhVat = (quyCan.chenhVat?.tiLe ?? 0) * 100;
+  const chenhVatSoCan = quyCan.chenhVat?.soCan ?? 0;
 
   const ty = (n: number) =>
     (n / 1e9).toLocaleString("vi-VN", {
@@ -222,7 +232,9 @@ export default function TrangGia() {
                 <strong className="text-paper">
                   giá đầy đủ đã gồm thuế giá trị gia tăng cộng phí bảo trì
                 </strong>
-                . Đo trên chính bảng hàng này, hai mức chênh nhau trung bình{" "}
+                . Đo trên {chenhVatSoCan} căn của bảng hàng chốt ngày{" "}
+                {mocChenhVat} — bảng duy nhất có đủ cả hai cột giá — hai mức
+                chênh nhau trung bình{" "}
                 <strong className="tabular text-paper">
                   {chenhVat.toFixed(1)}%
                 </strong>

@@ -16,7 +16,8 @@
     "quet-bi-mat": "node scripts/quet-bi-mat.mjs",
     "kiem-cong-chan": "tsx scripts/kiem-cong-chan.ts",
     "kiem-gioi-han": "tsx scripts/kiem-gioi-han.ts",
-    "kiem-use-server": "node scripts/kiem-use-server.mjs"
+    "kiem-use-server": "node scripts/kiem-use-server.mjs",
+    "gop-bang-hang": "node scripts/gop-bang-hang.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

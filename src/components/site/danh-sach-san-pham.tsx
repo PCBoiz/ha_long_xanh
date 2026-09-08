@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ProjectImage } from "@/components/ui/project-image";
+import quyCan from "@/data/quy-can.generated.json";
 import { Reveal } from "@/components/ui/reveal";
 import { Tilt } from "@/components/motion/scroll-effects";
 import { dongSanPham } from "@/data/project";
@@ -28,6 +29,57 @@ import { dongSanPham } from "@/data/project";
  * là trang /san-pham, không phải trang chủ.
  * ═══════════════════════════════════════════════════════════════════════════
  */
+/**
+ * Khoảng diện tích ĐANG MỞ BÁN, đọc thẳng từ bảng hàng — khác với khoảng
+ * THIẾT KẾ ghi trong `dongSanPham`.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * VÌ SAO PHẢI CÓ HAI CON SỐ, KHÔNG PHẢI MỘT
+ *
+ * Ngày 08/09/2026, đối chiếu bảng hàng sống 616 căn với con số trên trang:
+ *
+ *     Liền kề    trang ghi 60–144    ·  đang bán 50–137,2
+ *     Song lập   trang ghi 162–183   ·  đang bán 162–230,2
+ *     Đơn lập    trang ghi 250–500   ·  đang bán 243–361
+ *
+ * CẢ HAI ĐỀU ĐÚNG, và đó chính là lý do phải ghi cả hai. Khoảng thiết kế là
+ * của TOÀN dự án, gồm tám phân khu chưa ra hàng. Khoảng đang bán là của hai
+ * tiểu khu duy nhất đang mở. Chỉ ghi một con số là bỏ mất nửa sự thật:
+ *
+ *   · chỉ ghi thiết kế → khách đi tìm căn 144 m² không có mà mua
+ *   · chỉ ghi đang bán → trang trông như dự án nhỏ hơn thực tế
+ *
+ * ⚠️ VÀ ĐÂY LÀ CHỖ TÔI ĐÃ SAI HAI LẦN, ĐỌC TRƯỚC KHI SỬA
+ *
+ * Bộ tài liệu chủ đầu tư 06/09 ghi liền kề có mẫu 50 m². Tôi báo động là trang
+ * sai, rồi TỰ ĐÍNH CHÍNH rằng báo động đó sai và 60–144 mới đúng.
+ *
+ * Bảng hàng sống có 9 căn liền kề dưới 60 m², nhỏ nhất đúng 50 m². Tài liệu
+ * đúng, lời đính chính của tôi mới sai.
+ *
+ * Bài học: một trang tiếp thị không bác được một bảng hàng. Thứ tự tin cậy là
+ * BẢNG HÀNG ĐANG BÁN → hồ sơ chủ đầu tư → trang tiếp thị.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+const KHOP_DONG: Record<string, string> = {
+  "lien-ke": "Liền kề",
+  "song-lap": "Song lập",
+  "don-lap": "Đơn lập",
+  "biet-thu-bien": "Biệt thự biển",
+  "can-ho": "Căn hộ",
+};
+
+function dangMoBan(ma: string): { khoang: string; so: number } | null {
+  const ten = KHOP_DONG[ma];
+  if (!ten) return null;
+  const dt = (quyCan.dienTichDat as Record<string, { nhoNhat: number; lonNhat: number }>)[ten];
+  const so = quyCan.theoLoaiHinh.find((x) => x.ten === ten)?.so ?? 0;
+  if (!dt || !so) return null;
+  const gon = (n: number) => n.toLocaleString("vi-VN", { maximumFractionDigits: 1 });
+  return { khoang: `${gon(dt.nhoNhat)} – ${gon(dt.lonNhat)}`, so };
+}
+
+
 export function DanhSachSanPham() {
   return (
     <div>
@@ -91,6 +143,17 @@ export function DanhSachSanPham() {
                 <Dong nhan="Diện tích" giaTri={dong.dienTich} donVi="m²" />
                 <Dong nhan="Số tầng" giaTri={dong.soTang} />
               </dl>
+
+              {/* Khoảng ĐANG BÁN, tách khỏi khoảng thiết kế ở trên. Đọc từ bảng
+                  hàng nên tự đúng lại mỗi lần chạy `npm run gop-bang-hang`. */}
+              {(() => {
+                const mb = dangMoBan(dong.ma);
+                return mb ? (
+                  <p className="mt-2 text-xs text-jade">
+                    Đang mở bán {mb.khoang} m² · {mb.so} căn
+                  </p>
+                ) : null;
+              })()}
 
               {/* Nhắc việc chỉ hiện khi chạy máy dev — người xem thật không thấy. */}
               {process.env.NODE_ENV !== "production" && dong.canXacNhan ? (

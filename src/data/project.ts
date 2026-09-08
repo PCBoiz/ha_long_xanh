@@ -283,6 +283,41 @@ export const phanKhu: PhanKhu[] = [
  * số — thà thiếu còn hơn hiện một con số bịa.
  */
 /**
+ * ⚠️ CON SỐ `dienTich` Ở ĐÂY LÀ KHOẢNG **THIẾT KẾ** CỦA TOÀN DỰ ÁN.
+ *
+ * Nó KHÔNG phải khoảng đang mở bán. Thẻ sản phẩm hiện thêm một dòng riêng
+ * "Đang mở bán …", đọc thẳng từ `quy-can.generated.json` nên tự đúng lại sau
+ * mỗi lần chạy `npm run gop-bang-hang`.
+ *
+ * Đối chiếu ngày 08/09/2026, bảng hàng sống 616 căn:
+ *
+ *     Liền kề    thiết kế 60–144    ·  đang bán 50–137,2
+ *     Song lập   thiết kế 162–183   ·  đang bán 162–230,2
+ *     Đơn lập    thiết kế 250–500   ·  đang bán 243–361
+ *
+ * Hai cột đều đúng: cột trái là cả dự án, cột phải là hai tiểu khu duy nhất
+ * đang mở (Vịnh Bình Minh 1 và Thiên Đường Nhiệt Đới 1 thuộc Vịnh Thiên Đường).
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * TÔI ĐÃ SAI HAI LẦN VỀ CON SỐ 50 m². ĐỌC HẾT TRƯỚC KHI SỬA GÌ Ở ĐÂY.
+ *
+ *   Lần 1  Thấy tài liệu chủ đầu tư 06/09 ghi liền kề 50/60/70 m², tôi báo
+ *          động rằng con số 60–144 trên trang đang sai.
+ *   Lần 2  Tra market.vinhomes.vn thấy ghi "60m2 - 144m2", tôi TỰ ĐÍNH CHÍNH:
+ *          báo động lần 1 sai, 50/60/70 chỉ là tên vài mẫu nhà.
+ *   Lần 3  Bảng hàng sống có 9 căn liền kề dưới 60 m² — nhỏ nhất đúng 50 m².
+ *          Tài liệu đúng ngay từ đầu. Lời đính chính lần 2 mới là cái sai.
+ *
+ * Sai lầm chung của cả hai lần: lấy MỘT nguồn bác MỘT nguồn, mà không hỏi
+ * nguồn nào có thẩm quyền cao hơn. Thứ tự đúng:
+ *
+ *     BẢNG HÀNG ĐANG BÁN  >  hồ sơ chủ đầu tư  >  trang tiếp thị
+ *
+ * Một trang tiếp thị mô tả ý đồ quy hoạch. Một bảng hàng liệt kê thứ có thật,
+ * có mã, có giá, ký được hợp đồng. Khi hai bên lệch nhau, bảng hàng thắng.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+/**
  * ⚠️ `moTa` LÀ MỘT DÒNG LỢI ÍCH, KHÔNG PHẢI MỘT DÒNG MÔ TẢ. ĐỪNG VIẾT LẠI
  *    THÀNH LỜI TẢ KIẾN TRÚC.
  *
