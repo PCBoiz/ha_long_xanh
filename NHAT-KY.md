@@ -45,10 +45,42 @@ hoàn toàn. Trên một tên miền mới chưa có uy tín, chín trang na ná
 3. **Bố cục + ảnh bài đăng** — để CUỐI, vì cần một bài thật đã duyệt để đo.
    Việc đó đang chờ chủ dự án duyệt bài đầu tiên.
 
+### Ảnh crawl từ Facebook / trang khác — ĐÃ TỪ CHỐI (09/09)
+
+Chủ dự án đề nghị crawl ảnh từ trang khác và Facebook, cắt ghép xoá logo và số
+điện thoại của bên kia trước khi dùng. Tôi không làm, vì cắt logo chỉ giải quyết
+một trong ba vấn đề:
+
+1. **Bản quyền.** Gỡ thông tin ghi nhận tác giả rồi đăng lại bị đánh giá nặng
+   hơn đăng nguyên trạng, không nhẹ hơn.
+2. **Không xác minh được nguồn.** Hai ảnh mẫu chủ dự án gửi gần như chắc chắn là
+   ảnh AI (thuỷ phi cơ, dãy biệt thự lặp đều) — đúng loại chủ dự án đã tự bác khi
+   phát hiện 204 tệp Drive có tên là câu lệnh sinh ảnh.
+3. **Vi phạm chính luật chủ dự án đặt ra.** Ảnh mẫu in sẵn "12 tỷ + VOUCHER 30%
+   = 8.4 tỷ" trên mặt ảnh — công khai đúng thứ đã cấm viết (chắc chắn có voucher,
+   mức chiết khấu). Tấm infographic chính sách kết bằng "Kính chúc Quý Đại Lý",
+   là tài liệu nội bộ gửi đại lý, chứa lãi suất HTLS và quà vàng — thuộc "cơ chế
+   thương mại nội bộ" đã cấm công khai.
+
+**Đường hợp lệ đã đề xuất:** chủ dự án là đại lý chính thức → xin **media kit
+của chủ đầu tư** (render gốc, quyền dùng rõ ràng, phân giải cao hơn ảnh chụp màn
+hình). Đang chờ.
+
 ### Ảnh: chủ dự án đã chốt (09/09)
 **Chỉ dùng 66 ảnh thật trong kho.** Không sinh ảnh AI. Giữ đúng lằn ranh chủ dự
 án đã vạch khi bác hai thư mục Drive — tên tệp là câu lệnh sinh ảnh, và có ảnh
 chụp nơi khác gắn nhãn Hạ Long.
+
+### Tra từ khoá — kết quả đầu tiên (09/09, tra SERP thật)
+
+- Đối thủ xếp hạng bằng **tên tiếng Việt** của phân khu: "Vịnh Thiên Đường
+  (Paradise Bay)", "Đảo Pha Lê", "Đảo Kỳ Quan", "Vịnh Lễ Hội". Trang mình CÓ tên
+  tiếng Việt — tốt, không phải sửa.
+- **Trang mình KHÔNG có chữ "mặt bằng"**, trong khi tiêu đề đang xếp hạng của đối
+  thủ là *"Mặt Bằng Phân Khu Vịnh Thiên Đường (Paradise Bay) — Tiện Ích & Quy
+  Hoạch"*. Đây là cụm người ta gõ thật mà trang mình không đáp.
+- ⚠️ KHÔNG có số lượng tìm kiếm ở đây và sẽ không bịa ra. Chưa có CSV Keyword
+  Planner; đây là cụm truy vấn quan sát được từ SERP, tra lại được.
 
 ---
 
