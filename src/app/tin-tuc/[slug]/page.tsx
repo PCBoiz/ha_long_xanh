@@ -7,6 +7,7 @@ import { dinhDangNgay } from "@/data/news";
 import { docBaiViet, docMotBai } from "@/lib/tin-tuc";
 import { lamSachHtml } from "@/lib/lam-sach-html";
 import { duAn } from "@/data/project";
+import { duLieuBaiViet } from "@/lib/du-lieu-bai-viet";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +43,19 @@ export default async function TrangBaiViet({
   return (
     <>
       <article>
+        {/* Dữ liệu có cấu trúc RIÊNG cho bài này: NewsArticle, cộng FAQPage
+            nếu bài có khối câu hỏi thường gặp.
+
+            Khối dùng chung ở layout chỉ mô tả TRANG WEB và DỰ ÁN — nó không
+            biết gì về bài đang mở. Nên trước đợt này, mỗi bài viết ra đời mà
+            không mang theo một dòng dữ liệu máy đọc được nào: không ai biết
+            đây là một bài báo, đăng ngày nào, thuộc chuyên mục gì.
+
+            Xem `lib/du-lieu-bai-viet.ts`. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: duLieuBaiViet(bai) }}
+        />
         {/* Khung `doc` chứ không phải `rong`: đây là chữ đọc liền mạch. Đo bản
             cũ ở 1440px thấy có dòng dài tới 103 ký tự — quá 75 thì mắt hay
             nhảy nhầm dòng khi xuống hàng. */}
