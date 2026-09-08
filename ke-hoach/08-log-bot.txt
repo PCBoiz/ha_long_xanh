@@ -1,0 +1,271 @@
+NHẬT KÝ KIỂM TRUY CẬP BOT — halongxanh360.vn
+Chạy lúc: 2026-09-08T11:44:34.691Z
+Cách chạy: HTTP GET thật từ máy ngoài, đặt User-Agent đúng chuỗi bot công bố.
+==============================================================================
+
+##############################################################################
+# BOT: OAI-SearchBot
+# User-Agent: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; OAI-SearchBot/1.0; +https://openai.com/searchbot
+##############################################################################
+
+GET /
+  HTTP 200 OK   375 ms   209 KB   2891 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Vinhomes Global Gate Hạ Long — Nơi kỳ quan trở thành nhà
+  <h1>         : Nơi kỳ quan trở thành nhàMua để sống. Chọn để giữ giá trị.
+  trích nội dung: Vinhomes Global Gate Hạ Long — Nơi kỳ quan trở thành nhà Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương…
+
+GET /gia-global-gate-ha-long
+  HTTP 200 OK   35 ms   67 KB   740 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Giá bao nhiêu · Global Gate Hạ Long
+  <h1>         : Giá bao nhiêu
+  trích nội dung: Giá bao nhiêu · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Giá bao nhiê…
+
+GET /quy-can-global-gate-ha-long
+  HTTP 200 OK   40 ms   143 KB   2705 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Bảng hàng &amp; giá · Global Gate Hạ Long
+  <h1>         : Quỹ căn và chính sách đang áp dụng
+  trích nội dung: Bảng hàng &amp; giá · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Quỹ că…
+
+GET /chinh-sach-global-gate-ha-long
+  HTTP 200 OK   38 ms   70 KB   1228 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Chính sách bán hàng · Global Gate Hạ Long
+  <h1>         : Chính sách bán hàng gồm những gì
+  trích nội dung: Chính sách bán hàng · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Chính …
+
+GET /gia-thuc-tra-global-gate-ha-long
+  HTTP 200 OK   37 ms   77 KB   1203 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Giá thực trả · Global Gate Hạ Long
+  <h1>         : Mua đúng căn quan trọng hơn mua nhanh
+  trích nội dung: Giá thực trả · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Mua đúng căn …
+
+GET /voucher-vinhomes
+  HTTP 200 OK   38 ms   77 KB   1243 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Chưa có voucher Vinhomes? · Global Gate Hạ Long
+  <h1>         : Chưa có voucher Vin? Đừng vội chỉ nhìn vào giá niêm yết
+  trích nội dung: Chưa có voucher Vinhomes? · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu …
+
+GET /vi-tri-global-gate-ha-long
+  HTTP 200 OK   40 ms   149 KB   1128 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Vị trí &amp; kết nối · Global Gate Hạ Long
+  <h1>         : Nằm giữa ba trung tâm
+  trích nội dung: Vị trí &amp; kết nối · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Nằm g…
+
+GET /phap-ly-global-gate-ha-long
+  HTTP 200 OK   37 ms   67 KB   926 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Pháp lý dự án · Global Gate Hạ Long
+  <h1>         : Pháp lý — năm giấy tờ cần đối chiếu
+  trích nội dung: Pháp lý dự án · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Pháp lý — nă…
+
+GET /tien-do-global-gate-ha-long
+  HTTP 200 OK   39 ms   99 KB   860 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Tiến độ thi công tháng 08/2026 · Global Gate Hạ Long
+  <h1>         : Công trường đang tới đâu
+  trích nội dung: Tiến độ thi công tháng 08/2026 · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án …
+
+GET /gia-tri-tai-san-global-gate-ha-long
+  HTTP 200 OK   38 ms   67 KB   1005 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Có nên mua để ở · Global Gate Hạ Long
+  <h1>         : Mua để sống. Chọn để giữ giá trị .
+  trích nội dung: Có nên mua để ở · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Mua để sốn…
+
+GET /du-an
+  HTTP 200 OK   41 ms   187 KB   2839 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Thông tin dự án · Global Gate Hạ Long
+  <h1>         : Vinhomes Global Gate Hạ Long
+  trích nội dung: Thông tin dự án · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Vinhomes G…
+
+GET /quy-hoach
+  HTTP 200 OK   38 ms   106 KB   627 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Quy hoạch &amp; phân khu · Global Gate Hạ Long
+  <h1>         : Chín vịnh và đảo, một đô thị
+  trích nội dung: Quy hoạch &amp; phân khu · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu C…
+
+GET /tien-ich
+  HTTP 200 OK   36 ms   91 KB   613 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Tiện ích · Global Gate Hạ Long
+  <h1>         : Cái gì lớn tới mức nào
+  trích nội dung: Tiện ích · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Cái gì lớn tới mứ…
+
+GET /dau-tu
+  HTTP 200 OK   37 ms   94 KB   1351 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Phân tích đầu tư · Global Gate Hạ Long
+  <h1>         : Cơ hội, và cả rủi ro
+  trích nội dung: Phân tích đầu tư · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Cơ hội, v…
+
+GET /tai-lieu
+  HTTP 200 OK   36 ms   57 KB   481 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Tài liệu dự án · Global Gate Hạ Long
+  <h1>         : Hồ sơ dự án đầy đủ
+  trích nội dung: Tài liệu dự án · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Hồ sơ dự án…
+
+GET /lien-he
+  HTTP 200 OK   36 ms   63 KB   680 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Liên hệ · Global Gate Hạ Long
+  <h1>         : Nói chuyện với người thật
+  trích nội dung: Liên hệ · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Nói chuyện với ngư…
+
+
+##############################################################################
+# BOT: Googlebot
+# User-Agent: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+##############################################################################
+
+GET /
+  HTTP 200 OK   67 ms   209 KB   2891 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Vinhomes Global Gate Hạ Long — Nơi kỳ quan trở thành nhà
+  <h1>         : Nơi kỳ quan trở thành nhàMua để sống. Chọn để giữ giá trị.
+  trích nội dung: Vinhomes Global Gate Hạ Long — Nơi kỳ quan trở thành nhà Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương…
+
+GET /gia-global-gate-ha-long
+  HTTP 200 OK   36 ms   67 KB   740 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Giá bao nhiêu · Global Gate Hạ Long
+  <h1>         : Giá bao nhiêu
+  trích nội dung: Giá bao nhiêu · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Giá bao nhiê…
+
+GET /quy-can-global-gate-ha-long
+  HTTP 200 OK   38 ms   143 KB   2705 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Bảng hàng &amp; giá · Global Gate Hạ Long
+  <h1>         : Quỹ căn và chính sách đang áp dụng
+  trích nội dung: Bảng hàng &amp; giá · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Quỹ că…
+
+GET /chinh-sach-global-gate-ha-long
+  HTTP 200 OK   35 ms   70 KB   1228 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Chính sách bán hàng · Global Gate Hạ Long
+  <h1>         : Chính sách bán hàng gồm những gì
+  trích nội dung: Chính sách bán hàng · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Chính …
+
+GET /gia-thuc-tra-global-gate-ha-long
+  HTTP 200 OK   36 ms   77 KB   1203 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Giá thực trả · Global Gate Hạ Long
+  <h1>         : Mua đúng căn quan trọng hơn mua nhanh
+  trích nội dung: Giá thực trả · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Mua đúng căn …
+
+GET /voucher-vinhomes
+  HTTP 200 OK   37 ms   77 KB   1243 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Chưa có voucher Vinhomes? · Global Gate Hạ Long
+  <h1>         : Chưa có voucher Vin? Đừng vội chỉ nhìn vào giá niêm yết
+  trích nội dung: Chưa có voucher Vinhomes? · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu …
+
+GET /vi-tri-global-gate-ha-long
+  HTTP 200 OK   39 ms   149 KB   1128 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Vị trí &amp; kết nối · Global Gate Hạ Long
+  <h1>         : Nằm giữa ba trung tâm
+  trích nội dung: Vị trí &amp; kết nối · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Nằm g…
+
+GET /phap-ly-global-gate-ha-long
+  HTTP 200 OK   37 ms   67 KB   926 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Pháp lý dự án · Global Gate Hạ Long
+  <h1>         : Pháp lý — năm giấy tờ cần đối chiếu
+  trích nội dung: Pháp lý dự án · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Pháp lý — nă…
+
+GET /tien-do-global-gate-ha-long
+  HTTP 200 OK   38 ms   99 KB   860 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Tiến độ thi công tháng 08/2026 · Global Gate Hạ Long
+  <h1>         : Công trường đang tới đâu
+  trích nội dung: Tiến độ thi công tháng 08/2026 · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án …
+
+GET /gia-tri-tai-san-global-gate-ha-long
+  HTTP 200 OK   37 ms   67 KB   1005 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Có nên mua để ở · Global Gate Hạ Long
+  <h1>         : Mua để sống. Chọn để giữ giá trị .
+  trích nội dung: Có nên mua để ở · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Mua để sốn…
+
+GET /du-an
+  HTTP 200 OK   39 ms   187 KB   2839 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Thông tin dự án · Global Gate Hạ Long
+  <h1>         : Vinhomes Global Gate Hạ Long
+  trích nội dung: Thông tin dự án · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Vinhomes G…
+
+GET /quy-hoach
+  HTTP 200 OK   38 ms   106 KB   627 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Quy hoạch &amp; phân khu · Global Gate Hạ Long
+  <h1>         : Chín vịnh và đảo, một đô thị
+  trích nội dung: Quy hoạch &amp; phân khu · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu C…
+
+GET /tien-ich
+  HTTP 200 OK   38 ms   91 KB   613 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Tiện ích · Global Gate Hạ Long
+  <h1>         : Cái gì lớn tới mức nào
+  trích nội dung: Tiện ích · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Cái gì lớn tới mứ…
+
+GET /dau-tu
+  HTTP 200 OK   38 ms   94 KB   1351 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Phân tích đầu tư · Global Gate Hạ Long
+  <h1>         : Cơ hội, và cả rủi ro
+  trích nội dung: Phân tích đầu tư · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Cơ hội, v…
+
+GET /tai-lieu
+  HTTP 200 OK   35 ms   57 KB   481 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Tài liệu dự án · Global Gate Hạ Long
+  <h1>         : Hồ sơ dự án đầy đủ
+  trích nội dung: Tài liệu dự án · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Hồ sơ dự án…
+
+GET /lien-he
+  HTTP 200 OK   36 ms   63 KB   680 từ trong HTML thô
+  content-type : text/html; charset=utf-8
+  x-robots-tag : (không đặt — tức là KHÔNG chặn)
+  <title>      : Liên hệ · Global Gate Hạ Long
+  <h1>         : Nói chuyện với người thật
+  trích nội dung: Liên hệ · Global Gate Hạ Long Bỏ qua, tới nội dung chính Dự án Sản phẩm Quỹ căn &amp; giá Giá trị Hồ sơ Global Gate Hạ Long Liên hệ Nhận phương án Menu Nói chuyện với ngư…

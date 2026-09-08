@@ -7,6 +7,7 @@ import {
   soLieu,
 } from "@/data/project";
 import { DIA_CHI_GOC } from "@/lib/site";
+import quyCan from "@/data/quy-can.generated.json";
 
 /**
  * Dữ liệu có cấu trúc theo schema.org.
@@ -26,6 +27,20 @@ import { DIA_CHI_GOC } from "@/lib/site";
  * trường bắt buộc còn tệ hơn không khai.
  */
 export function DuLieuCoCauTruc() {
+  // ⚠️ NGÀY CẬP NHẬT — TRỢ LÝ AI CÂN NẶNG TRƯỜNG NÀY.
+  //
+  // Kiểm ngày 08/09/2026: cả 16 trang đều KHÔNG khai `dateModified`. Với công
+  // cụ tìm kiếm thường thì đó chỉ là thiếu sót nhỏ. Với trợ lý AI thì nặng hơn
+  // nhiều: khi phải chọn giữa hai nguồn nói khác nhau về giá hay quỹ căn, thứ
+  // phân xử đầu tiên là nguồn nào mới hơn. Không khai ngày là tự bỏ cuộc ở
+  // đúng chỗ trang này mạnh nhất — nó có bảng hàng cập nhật theo ngày.
+  //
+  // LẤY TỪ `quyCan.docLuc`, KHÔNG lấy giờ dựng trang. Đó là mốc đọc bảng hàng
+  // thật, cũng chính là mốc đang hiện cho người đọc qua `TuoiDuLieu`. Dùng giờ
+  // dựng thì mỗi lần triển khai lại — kể cả khi chỉ sửa một dấu phẩy — trang sẽ
+  // tự khai là "vừa cập nhật". Đó là nói dối máy, và máy sẽ học được điều đó.
+  const capNhat = quyCan.docLuc;
+
   const dienTich = soLieu.find((s) => s.nhan === "Tổng diện tích");
 
   const duLieu = {
@@ -43,6 +58,7 @@ export function DuLieuCoCauTruc() {
         name: duAn.ten,
         inLanguage: "vi-VN",
         description: duAn.moTaNgan,
+        dateModified: capNhat,
       },
       {
         // `Place` + `LandmarksOrHistoricalBuildings` là mô tả trung thực nhất
@@ -114,6 +130,7 @@ export function DuLieuCoCauTruc() {
             {
               "@type": "FAQPage",
               "@id": `${DIA_CHI_GOC}/#cau-hoi`,
+              dateModified: capNhat,
               mainEntity: cauHoiThuongGap.map((muc) => ({
                 "@type": "Question",
                 name: muc.hoi,
