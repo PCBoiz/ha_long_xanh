@@ -127,12 +127,41 @@ function dem(truong) {
     .sort((a, b) => b.so - a.so);
 }
 
+/**
+ * Ngày theo GIỜ VIỆT NAM, không phải UTC.
+ *
+ * Mốc ngày của UTC rơi vào 07:00 sáng giờ ta. Nên hai lần chạy trong cùng một
+ * NGÀY LÀM VIỆC — một lúc 06:00 và một lúc 08:00 — sẽ bị tính là hai ngày khác
+ * nhau nếu so bằng UTC, và khối `bienDong` bị ghi đè bằng một phép so vô nghĩa.
+ *
+ * Ngược lại, một lần chạy 23:00 hôm trước và một lần 06:00 hôm sau lại bị coi
+ * là cùng ngày. Cả hai chiều đều sai, và đều sai âm thầm.
+ *
+ * `sv-SE` là mẹo quen: đó là ngôn ngữ duy nhất trả về đúng dạng YYYY-MM-DD.
+ */
+function ngayVN(iso) {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString("sv-SE", {
+    timeZone: "Asia/Ho_Chi_Minh",
+  });
+}
+
 /** Nhỏ nhất / lớn nhất của một trường, gom theo dòng sản phẩm. */
 function khoang(truong) {
   const ra = {};
   for (const c of can) {
     const v = c[truong];
-    if (v === null || v === undefined) continue;
+    // ⚠️ BỎ QUA CẢ SỐ 0, khong chi null.
+    //
+    // Nguon co dung mot ban ghi ghi construction_area = 0 (can BM30-45, dat
+    // 96 m2). Khong can nha nao xay 0 m2 — do la o trong duoc dien bang so 0
+    // chu khong phai mot phep do.
+    //
+    // Bo loc cu chi chan null, nen con so 0 do keo can duoi cua ca dong lien
+    // ke xuong 0, va trang hien "dien tich xay 0 - 412,2 m2". Mot khoang bat
+    // dau tu 0 khong sai kieu du lieu, khong lam gay trang — no chi lam nguoi
+    // doc thay mot con so vo nghia va thoi tin phan con lai cua bang.
+    if (v === null || v === undefined || v === 0) continue;
     const o = (ra[c.loaiHinh] ??= { nhoNhat: v, lonNhat: v });
     if (v < o.nhoNhat) o.nhoNhat = v;
     if (v > o.lonNhat) o.lonNhat = v;
@@ -160,10 +189,29 @@ const doiGia = conLai
 // chỉ nó có cả hai cột. Giữ lại kèm cỡ mẫu và ngày đo, đừng để ai tưởng con số
 // này tính trên toàn bộ bảng hàng hiện tại.
 const capCoDuHaiCot = cu.can.filter((c) => c.giaTruocVat && c.giaGomVat);
+// ⚠️ ĐO ĐƯỢC MỘT LẦN THÌ GIỮ MÃI. ĐỪNG "DỌN" DÒNG NÀY.
+//
+// Con số này CHỈ đo được trên bảng Excel — bảng duy nhất từng có cả cột trước
+// và sau thuế. Nguồn sống không tách thuế, nên mọi lần chạy sau lần đầu đều
+// không còn cặp nào để đo.
+//
+// Bản đầu tính lại từ `cu.can` mỗi lần chạy. Hệ quả: lần chạy THỨ HAI so với
+// chính đầu ra của lần đầu — nơi mọi `giaTruocVat` đã là `null` — nên
+// `chenhVat` thành `null`, và trang giá hiện "0,0%" như một sự thật đo được.
+//
+// Sai kiểu này không làm gãy gì cả, không có cảnh báo nào, và con số 0,0% trông
+// hoàn toàn bình thường. Đó là lý do phải giữ, không phải tính lại.
 const chenhVat = capCoDuHaiCot.length
-  ? capCoDuHaiCot.reduce((t, c) => t + (c.giaGomVat / c.giaTruocVat - 1), 0) /
-    capCoDuHaiCot.length
-  : null;
+  ? {
+      tiLe:
+        capCoDuHaiCot.reduce((t, c) => t + (c.giaGomVat / c.giaTruocVat - 1), 0) /
+        capCoDuHaiCot.length,
+      soCan: capCoDuHaiCot.length,
+      moc: cu.docLuc,
+      ghiChu:
+        "Đo trên bảng Excel trước đó — bảng duy nhất có đủ cả cột trước và sau thuế.",
+    }
+  : (cu.chenhVat ?? null);
 
 const ra = {
   docLuc: new Date().toISOString(),
@@ -179,16 +227,20 @@ const ra = {
   donGiaDat: khoang("donGiaDat"),
   // Giữ khoá để nơi đọc cũ không nổ; giá trị rỗng vì nguồn sống không tách thuế.
   giaTruocVat: {},
-  chenhVat: chenhVat
-    ? {
-        tiLe: chenhVat,
-        soCan: capCoDuHaiCot.length,
-        moc: cu.docLuc,
-        ghiChu:
-          "Đo trên bảng Excel trước đó — bảng duy nhất có đủ cả cột trước và sau thuế.",
-      }
-    : null,
-  bienDong: {
+  chenhVat,
+  // ⚠️ CHỈ CẬP NHẬT KHI MỐC TRƯỚC LÀ MỘT NGÀY KHÁC.
+  //
+  // Khối này trả lời câu "hàng đi nhanh cỡ nào", và nó chỉ có nghĩa khi so hai
+  // bảng cách nhau vài ngày. Chạy lại script trong CÙNG MỘT NGÀY thì nó so hôm
+  // nay với chính hôm nay và ra "0/616 căn đã rời bảng" — đúng về số học, vô
+  // nghĩa về nội dung, và xoá mất kết quả thật của lần so trước.
+  //
+  // Đã xảy ra: bản so 15/08 (28/32 căn đã rời bảng) bị một lần chạy lại cùng
+  // ngày ghi đè bằng 0/616.
+  bienDong:
+    ngayVN(cu.docLuc) === ngayVN(new Date().toISOString())
+      ? (cu.bienDong ?? null)
+      : {
     mocTruoc: cu.docLuc,
     soCanMocTruoc: cu.can.length,
     conTrongBangSong: conLai.length,
@@ -197,7 +249,7 @@ const ra = {
       ? doiGia.reduce((t, x) => t + x, 0) / doiGia.length
       : null,
     soCanDoDuocDoiGia: doiGia.length,
-  },
+        },
   can,
 };
 
