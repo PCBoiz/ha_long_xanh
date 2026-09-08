@@ -73,7 +73,30 @@ www.{$TEN_MIEN_PHU} {
 		# ⚠️ CHỈ BỎ DẤU # KHI:  https://tên-miền mở tốt liên tục 7 ngày,
 		#    và `docker compose logs caddy` không có dòng gia hạn thất bại nào.
 		# ═══════════════════════════════════════════════════════════════════
-		# Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		# BẬT NGÀY 09/09/2026, NHƯNG THỜI HẠN MỘT NGÀY CHỨ KHÔNG PHẢI MỘT NĂM.
+		#
+		# Điều kiện tự đặt ở trên là “mở tốt liên tục 7 ngày”. Thực tế mới 3
+		# ngày (máy chủ lên 06/09). Nên đây là bước đầu của một THANG TĂNG DẦN,
+		# không phải bỏ qua điều kiện đó.
+		#
+		# Vì sao thang tăng dần là cách đúng: HSTS không gỡ được từ phía máy
+		# chủ. Bật thẳng một năm mà HTTPS hỏng thì mọi khách đã ghé một lần bị
+		# khoá ngoài suốt một năm. Bật một ngày thì thiệt hại tối đa là 24 giờ,
+		# mà vẫn bảo vệ được người quay lại trong ngày — nhóm chiếm phần lớn
+		# lượt truy cập lặp.
+		#
+		# ĐÃ KIỂM TRƯỚC KHI BẬT (09/09/2026):
+		#   · chứng chỉ Let's Encrypt còn hạn tới 05/12/2026
+		#   · http:// trả 308 chuyển sang https:// đúng
+		#   · 31/31 trang trả 200 qua HTTPS
+		#
+		# CHƯA THÊM `includeSubDomains` — nó ép mọi tên miền phụ TƯƠNG LAI phải
+		# có HTTPS ngay từ lần đầu, kể cả một máy chủ thử nghiệm dựng vội. Thêm
+		# ở bước cuối của thang, khi đã chắc không dựng thêm gì qua HTTP.
+		#
+		# THANG TĂNG:  1 ngày (nay) → 1 tuần → 1 tháng → 1 năm + includeSubDomains
+		# Mỗi nấc chỉ lên khi nấc trước chạy trọn thời hạn của nó mà không sự cố.
+		Strict-Transport-Security "max-age=86400"
 
 		# Giấu tên và phiên bản máy chủ — đỡ chỉ đường cho kẻ dò lỗ hổng.
 		-Server

@@ -8,6 +8,8 @@ import { docBaiViet, docMotBai } from "@/lib/tin-tuc";
 import { lamSachHtml } from "@/lib/lam-sach-html";
 import { duAn } from "@/data/project";
 import { duLieuBaiViet } from "@/lib/du-lieu-bai-viet";
+import { anhChoBai, chuThichAnh } from "@/lib/anh-cho-bai";
+import { ProjectImage } from "@/components/ui/project-image";
 
 export const dynamic = "force-dynamic";
 
@@ -84,6 +86,34 @@ export default async function TrangBaiViet({
               {bai.tieuDe}
             </h1>
             <p className="mt-6 text-lead text-paper-dim">{bai.moTa}</p>
+
+            {/* ẢNH ĐẦU BÀI, chọn từ kho ảnh có sẵn theo chuyên mục.
+
+                Trước đợt này bài tự động ra đời KHÔNG CÓ ẢNH NÀO — một khối
+                chữ dài hơn nghìn từ, không một chỗ nào cho mắt nghỉ. Đọc trên
+                điện thoại thì đó là mấy màn hình chữ liên tiếp.
+
+                Ảnh KHÔNG do bên gửi bài chọn và KHÔNG do AI sinh — xem lý do
+                đầy đủ trong `lib/anh-cho-bai.ts`. Câu chú thích nói đúng loại:
+                ảnh tiến độ là ảnh CHỤP, còn lại là PHỐI CẢNH. */}
+            {(() => {
+              const anh = anhChoBai(bai);
+              return (
+                <figure className="mt-10">
+                  <div className="overflow-hidden rounded-sm bg-ink-soft">
+                    <ProjectImage
+                      name={anh}
+                      className="aspect-video w-full object-cover"
+                      sizes="(min-width: 1024px) 60rem, 100vw"
+                      priority
+                    />
+                  </div>
+                  <figcaption className="mt-3 text-small text-paper-dim">
+                    {chuThichAnh(anh)}
+                  </figcaption>
+                </figure>
+              );
+            })()}
 
             {bai.noiDung ? (
               <div
