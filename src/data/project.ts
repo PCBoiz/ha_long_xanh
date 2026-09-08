@@ -131,6 +131,19 @@ export const duAn = {
 export const soLieu: SoLieu[] = [
   {
     nhan: "Tổng diện tích",
+    // ⚠️ CHÍNH TRANG CỦA VINHOMES CŨNG GHI HAI CON SỐ KHÁC NHAU. ĐỪNG "SỬA".
+    //
+    // Tra ngày 08/09/2026, ba trang thuộc market.vinhomes.vn:
+    //   market.vinhomes.vn/vinhomes-global-gate-ha-long          → 6.206 ha
+    //   market.vinhomes.vn/blog/quy-hoach-vinhomes-global-gate…  → 6.220 ha
+    //   market.vinhomes.vn/du-an/vinhomes-global-gate-ha-long    → 6.220 ha
+    //
+    // Hai trên ba trang ghi 6.220. Nhưng một trang chính thức VẪN ghi 6.206,
+    // nên không có căn cứ nói con số đang dùng là sai — đây là mâu thuẫn nội
+    // bộ của chủ đầu tư, không phải sai lệch giữa ta và họ.
+    //
+    // Giữ nguyên 6.206 và giữ nguyên cờ `canXacNhan`. Chỉ đổi khi đối chiếu
+    // được hồ sơ quy hoạch gốc — lúc đó xoá luôn khối chú thích này.
     giaTri: "6.206",
     donVi: "ha",
     canXacNhan: true,
@@ -226,7 +239,7 @@ export const phanKhu: PhanKhu[] = [
     x: 70.6,
     y: 54.6,
     diemNhan: [
-      "Đảo đô thị hưu trí & dưỡng lão cao cấp Vin New Horizon 138ha",
+      "Đảo đô thị hưu trí & dưỡng lão cao cấp Vin New Horizon 158ha",
     ],
   },
   {
