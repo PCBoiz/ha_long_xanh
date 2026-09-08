@@ -14,6 +14,7 @@ cảm tính:
 | [03-SAN-PHAM.md](03-SAN-PHAM.md) | Hoàn thiện sản phẩm | Làm trang đáng tin trước khi đổ người vào |
 | [04-RA-KHACH.md](04-RA-KHACH.md) | Ra khách thật | Việc cuối, vì ba việc trên quyết định nó có nghĩa hay không |
 | [05-CONG-CU.md](05-CONG-CU.md) | Công cụ và phương pháp | Đọc song song — nó quyết định *cách* làm bốn file kia |
+| [06-ANH.md](06-ANH.md) | Ảnh — nghiên cứu 08/09 | Vì sao bộ PDF của chủ đầu tư không dùng được, và cần xin ảnh gì |
 
 **Mỗi việc có một mã** (`H1`, `T3`, `S2`…). Nhắc mã đó là tôi biết ngay đang
 nói việc nào, không phải mô tả lại.
