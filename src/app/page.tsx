@@ -394,9 +394,9 @@ export default function TrangChu() {
                   {chuTron(thongDiepChot.truocKhiQuyetDinh)}
                 </p>
                 <p className="mt-5 max-w-md text-body leading-relaxed text-paper-dim">
-                  Cho tôi biết điều anh/chị muốn. Tôi sẽ dựa vào đó để tìm căn
-                  phù hợp, đối chiếu chính sách đang áp dụng và xây một phương
-                  án thực trả để anh/chị có thêm cơ sở trước khi quyết định.
+                  Cho tôi biết điều anh/chị đang cân nhắc. Tôi sẽ dựa vào đó
+                  để lọc căn, đối chiếu chính sách và xây thêm một phương án
+                  thực trả trước khi anh/chị quyết định.
                 </p>
                 <Link
                   href="/lien-he"

@@ -269,11 +269,27 @@ export const phanKhu: PhanKhu[] = [
  * `khoangGia` và `soTang` cố ý ĐỂ TRỐNG. Thẻ sản phẩm tự ẩn dòng nào chưa có
  * số — thà thiếu còn hơn hiện một con số bịa.
  */
+/**
+ * ⚠️ `moTa` LÀ MỘT DÒNG LỢI ÍCH, KHÔNG PHẢI MỘT DÒNG MÔ TẢ. ĐỪNG VIẾT LẠI
+ *    THÀNH LỜI TẢ KIẾN TRÚC.
+ *
+ * Bản cũ tả CẤU TRÚC: "Đứng độc lập trên lô đất riêng, bốn mặt thoáng",
+ * "Hai căn chung một khối, giữ được sân vườn riêng ở ba mặt". Đúng, nhưng nó
+ * trả lời câu hỏi "căn này xây thế nào" — mà người mua nhà vài tỷ không hỏi
+ * câu đó. Họ hỏi "ở đây thì đời sống của tôi ra sao".
+ *
+ * Bản này tả ĐỜI SỐNG: "Riêng tư hơn, bốn mặt thoáng", "Không gian gia đình,
+ * vẫn có sân vườn riêng". Cùng một sự thật, kể từ phía người ở.
+ *
+ * MỘT DÒNG, KHÔNG PHẢI MỘT BẢNG. Thẻ sản phẩm đã có ô diện tích ngay dưới;
+ * nhồi thêm số tầng, hướng, mật độ vào đây là biến thẻ thành phiếu kỹ thuật
+ * và kéo trang dài thêm — thứ vừa mất công cắt ngày 07/09.
+ */
 export const dongSanPham: DongSanPham[] = [
   {
     ma: "lien-ke",
     ten: "Nhà liền kề",
-    moTa: "Dãy phố thương mại và nhà ở liền kề, phù hợp vừa ở vừa kinh doanh.",
+    moTa: "Phù hợp vừa ở vừa khai thác mặt phố.",
     anh: "san-pham-lien-ke",
     dienTich: "60 – 144",
     // Chỉ ba mẫu trong bộ layout ở dạng ảnh; các mẫu còn lại là PDF nên trang
@@ -284,7 +300,7 @@ export const dongSanPham: DongSanPham[] = [
   {
     ma: "song-lap",
     ten: "Biệt thự song lập",
-    moTa: "Hai căn chung một khối, giữ được sân vườn riêng ở ba mặt.",
+    moTa: "Không gian gia đình, vẫn có sân vườn riêng.",
     anh: "san-pham-song-lap",
     dienTich: "162 – 183",
     matBang: ["mat-bang-song-lap-162"],
@@ -293,14 +309,24 @@ export const dongSanPham: DongSanPham[] = [
   {
     ma: "don-lap",
     ten: "Biệt thự đơn lập",
-    moTa: "Đứng độc lập trên lô đất riêng, bốn mặt thoáng.",
+    moTa: "Riêng tư hơn, bốn mặt thoáng.",
     anh: "san-pham-don-lap",
+    // Nguồn: market.vinhomes.vn — tên miền của Vinhomes, tra ngày 08/09/2026:
+    // "Biệt thự đơn lập … diện tích đất từ 250m2 - 500m2", phân khu Vịnh Thiên
+    // Đường. Là DIỆN TÍCH ĐẤT, cùng đơn vị với hai dòng phía trên.
+    //
+    // ⚠️ VẪN GẮN `canXacNhan` DÙ NGUỒN LÀ TÊN MIỀN CHÍNH THỨC.
+    //
+    // Trang tiếp thị của chủ đầu tư không phải hồ sơ pháp lý. Căn cứ cuối cùng
+    // vẫn là bảng hàng và hợp đồng mua bán tại thời điểm giao dịch — đúng như
+    // câu trang này vẫn nói với khách.
+    dienTich: "250 – 500",
     canXacNhan: true,
   },
   {
     ma: "biet-thu-bien",
     ten: "Biệt thự biển",
-    moTa: "Dòng sản phẩm giới hạn, tầm nhìn trực diện ra vịnh.",
+    moTa: "Ưu tiên tầm nhìn và trải nghiệm sống bên mặt nước.",
     anh: "san-pham-biet-thu-bien",
     dienTich: "1.029 – 1.053",
     canXacNhan: true,
@@ -308,7 +334,7 @@ export const dongSanPham: DongSanPham[] = [
   {
     ma: "can-ho",
     ten: "Căn hộ cao tầng",
-    moTa: "Toà căn hộ trong quần thể, hướng vịnh và công viên trung tâm.",
+    moTa: "Gọn hơn, thuận tiện vận hành và sử dụng.",
     anh: "cao-tang-01",
     canXacNhan: true,
   },

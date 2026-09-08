@@ -209,7 +209,7 @@ export function DangKyForm() {
           name="ghiChu"
           rows={3}
           maxLength={1000}
-          placeholder="Ví dụ: đang xem một căn liền kề, hoặc đã có một phương án bên khác"
+          placeholder="Ví dụ: đang xem một căn liền kề, đã có báo giá hoặc đã được tư vấn ở nơi khác."
           className="resize-none border-b border-ink-line bg-transparent py-3 text-base text-paper placeholder:text-paper-dim/80 focus:border-jade focus:outline-none"
         />
       </div>
