@@ -6,6 +6,7 @@ import { ProjectImage } from "@/components/ui/project-image";
 import { ClipReveal } from "@/components/motion/scroll-effects";
 import { duAn, phanKhu } from "@/data/project";
 import { langGieng } from "@/lib/lang-gieng-phan-khu";
+import { BangHangQuanhDay } from "@/components/site/bang-hang-quanh-day";
 import { DUONG_DAN } from "@/lib/duong-dan";
 
 // Chín trang phân khu sinh thẳng từ `data/project.ts`. Thêm một phân khu vào
@@ -176,6 +177,8 @@ export default async function TrangPhanKhu({
           </div>
         </div>
       </section>
+
+      <BangHangQuanhDay />
 
       {/* Điều hướng vòng tròn giữa chín khu — không có ngõ cụt. */}
       <section className="border-t border-ink-line px-6 py-16 md:px-10">
