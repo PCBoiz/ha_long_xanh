@@ -30,6 +30,34 @@ const anhMinhHoa: { anh: ProjectImageName; chu: string }[] = [
   { anh: "view-san-golf", chu: "Quần thể sân golf ven vịnh" },
 ];
 
+/**
+ * Bốn tấm ở trên là cảnh RỖNG — kiến trúc đứng một mình, không một bóng người.
+ * Ba tấm dưới đây là cùng loại nơi chốn, nhưng có người đang dùng nó.
+ *
+ * Đó không phải chuyện thẩm mỹ. Một quảng trường không người trả lời câu "chỗ
+ * này xây thế nào"; một quảng trường có người trả lời câu "đến đây thì làm gì"
+ * — và câu thứ hai mới là câu người sắp mua nhà đang hỏi.
+ *
+ * Vẫn giữ nguyên luật của mảng trên: CHỈ ghép ảnh vào hạng mục khi ảnh thật sự
+ * là hạng mục đó. Ba tấm này lấy từ bộ tài liệu 06/09 của chủ đầu tư, mỗi tấm
+ * nằm đúng trang nói về hạng mục tương ứng.
+ */
+const anhCoNguoi: { anh: ProjectImageName; chu: string }[] = [
+  {
+    anh: "giai-tri-cong-vien-chu-de",
+    chu: "Công viên chủ đề — quảng trường lễ hội ban ngày",
+  },
+  {
+    anh: "song-le-hoi-ben-du-thuyen",
+    chu: "Vịnh Lễ Hội — sân khấu ngoài trời nhìn từ bến du thuyền",
+  },
+  {
+    anh: "thien-nhien-cam-trai-rung-ngap-man",
+    chu: "Công viên rừng ngập mặn — khu cắm trại bên mép nước",
+  },
+];
+
+
 export default function TrangTienIch() {
   const tong = hangMucTienIch.reduce((s, m) => s + m.dienTich, 0);
 
@@ -83,6 +111,34 @@ export default function TrangTienIch() {
                       name={muc.anh}
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                       className="aspect-3/4 w-full object-cover"
+                    />
+                  </div>
+                  <figcaption className="mt-3 text-small text-paper-dim">
+                    {muc.chu}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+
+          <h3 className="mt-16 font-display text-h2 font-normal">
+            Cùng những nơi đó, khi có người
+          </h3>
+          <p className="mt-3 max-w-xl text-body text-paper-dim">
+            Bốn tấm trên là kiến trúc đứng một mình. Ba tấm dưới cho thấy chỗ
+            ấy khi đang được dùng — vì câu người mua hỏi không phải &ldquo;xây
+            thế nào&rdquo; mà &ldquo;đến đây thì làm gì&rdquo;.
+          </p>
+
+          <div className="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+            {anhCoNguoi.map((muc, thuTu) => (
+              <Reveal key={muc.anh} delay={(thuTu % 3) * 80}>
+                <figure>
+                  <div className="overflow-hidden bg-ink-soft">
+                    <ProjectImage
+                      name={muc.anh}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="aspect-3/2 w-full object-cover"
                     />
                   </div>
                   <figcaption className="mt-3 text-small text-paper-dim">

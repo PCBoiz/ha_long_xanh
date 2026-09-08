@@ -17,6 +17,8 @@ import { CauHoiThuongGap } from "@/components/site/cau-hoi-thuong-gap";
 import { ThanhQuyetDinh } from "@/components/site/thanh-quyet-dinh";
 import { TimCanPhuHop } from "@/components/site/tim-can-phu-hop";
 import { GiaThucTra } from "@/components/site/gia-thuc-tra";
+import { MotNgayODay } from "@/components/site/mot-ngay-o-day";
+import { BangTruot, TheTruot } from "@/components/ui/bang-truot";
 import {
   diemTinCay,
   duAn,
@@ -60,7 +62,6 @@ import {
 
 
 export default function TrangChu() {
-  const phanKhuNoiBat = phanKhu.slice(0, 4);
 
   return (
     <>
@@ -107,7 +108,7 @@ export default function TrangChu() {
               trong thanh điều hướng cho ai muốn tìm. */}
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link href={DUONG_DAN.lienHe} className="nut nut-chinh">
-              Nhận phương án thực trả
+              So lại số tiền thực trả
             </Link>
             <Link href={DUONG_DAN.gia} className="nut nut-phu">
               Xem giá &amp; quỹ căn
@@ -229,6 +230,40 @@ export default function TrangChu() {
       </section>
 
       {/* =============================== SẢN PHẨM ============================= */}
+      {/* ==================== MỘT NGÀY Ở ĐÂY ================================
+          Đặt ở đây vì nhịp đọc của trang là QUY MÔ → CON NGƯỜI → NHÀ. Mảng
+          ngay trên vừa nói dự án LỚN cỡ nào bằng bốn con số; mảng ngay dưới
+          bắt người đọc CHỌN giữa năm dòng sản phẩm. Giữa hai việc đó phải có
+          một nhịp trả lời câu "thế còn tôi thì sao" — nếu không, trang đi
+          thẳng từ số liệu sang bảng giá, và đó là nhịp của một tờ rơi.
+
+          Trước đợt này trang có 0 ảnh nội thất, 0 ảnh giải trí và gần như 0
+          ảnh có người. Khối này là chỗ chữa. */}
+      <section className="border-t border-ink-line py-nhip">
+        <Khung>
+          <TieuDeMang
+            tieuDe="Sống ở đây thì *một ngày trôi thế nào*"
+            dan={
+              <p>
+                Tám câu người mua hay hỏi tôi nhất, mỗi câu trả lời bằng một
+                tấm ảnh.{" "}
+                <strong className="text-paper">
+                  Toàn bộ là phối cảnh do chủ đầu tư phát hành — chưa phải ảnh
+                  chụp công trình đã xong.
+                </strong>{" "}
+                Ảnh công trường thật, có ngày tháng, nằm ở trang tiến độ.
+              </p>
+            }
+            lienKet={{ nhan: "Xem ảnh công trường", href: DUONG_DAN.tienDo }}
+          />
+
+          <Reveal delay={140} className="mt-12">
+            <MotNgayODay />
+          </Reveal>
+        </Khung>
+      </section>
+
+
       <section
         id="san-pham"
         className="scroll-mt-24 border-t border-ink-line py-nhip"
@@ -292,34 +327,48 @@ export default function TrangChu() {
             lienKet={{ nhan: "Mở sơ đồ quy hoạch", href: "/quy-hoach" }}
           />
 
-          {/* BỐN THẺ NÀY KHÔNG CÒN ẢNH, và đó là chủ ý.
-              Ảnh phân khu đều được CẮT RA TỪ CÙNG MỘT TẤM sơ đồ quy hoạch. Bày
-              bốn tấm cạnh nhau thì hai khu liền kề ra gần như cùng một hình —
-              cùng nền hồng tím, cùng nét vẽ, chỉ lệch khung. Người xem không
-              đọc ra "bốn nơi khác nhau", họ đọc ra "một tấm ảnh lặp bốn lần".
-              Đo trên điện thoại: bốn thẻ có ảnh chiếm 1.828px, tức hơn hai màn
-              hình rưỡi, để nói bốn cái tên.
-              Sơ đồ THẬT — bản tương tác, xem được cả chín khu và vị trí giáp
-              ranh — nằm ở /quy-hoach, và liên kết đã có ngay phía trên. */}
-          <div className="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-            {phanKhuNoiBat.map((khu, thuTu) => (
-              <Reveal key={khu.ma} delay={(thuTu % 4) * 80}>
-                <Link
-                  href={`/phan-khu/${khu.ma}`}
-                  className="group block border-t border-ink-line pt-5"
-                >
-                  <h3 className="font-display text-h3 font-normal transition-colors group-hover:text-jade">
-                    {khu.ten}
-                  </h3>
-                  {khu.diemNhan[0] ? (
-                    <p className="mt-2 text-small leading-relaxed text-paper-dim">
-                      {khu.diemNhan[0]}
-                    </p>
-                  ) : null}
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+          {/* CHÍN THẺ, KHÔNG PHẢI BỐN — VÀ KHÔNG THẺ NÀO CÓ ẢNH.
+              Hai quyết định riêng biệt, hai lý do riêng biệt.
+
+              CHÍN: tiêu đề mảng ghi "Chín vịnh và đảo" rồi bày đúng bốn cái.
+              Người đọc đếm được, và cái họ rút ra không phải "còn năm khu nữa
+              ở trang khác" mà "trang này nói một đằng bày một nẻo". Dải trượt
+              chứa được cả chín mà không cao thêm dòng nào.
+
+              KHÔNG ẢNH: ảnh phân khu đều CẮT RA TỪ CÙNG MỘT TẤM sơ đồ quy
+              hoạch — cùng nền hồng tím, cùng nét vẽ, chỉ lệch khung. Bày cạnh
+              nhau thì đọc ra "một tấm ảnh lặp chín lần", và tệ hơn: người xem
+              tin rằng mình đang nhìn đúng phân khu đó. Đó là một khẳng định
+              sai được nói bằng hình.
+
+              Bộ ảnh phối cảnh mới KHÔNG lấp được chỗ này. Một tấm phối cảnh
+              phố thương mại là phối cảnh của dự án nói chung; gán nó cho
+              "Đảo Pha Lê" là bịa ra một sự thật về nơi cụ thể đó. Chỉ ảnh nào
+              chủ đầu tư ghi rõ thuộc phân khu nào mới được dùng ở đây.
+
+              Sơ đồ THẬT — bản tương tác, xem được vị trí giáp ranh — ở
+              /quy-hoach, liên kết đã có ngay phía trên. */}
+          <Reveal delay={140} className="mt-10">
+            <BangTruot>
+              {phanKhu.map((khu) => (
+                <TheTruot key={khu.ma} co="hep">
+                  <Link
+                    href={`/phan-khu/${khu.ma}`}
+                    className="group flex h-full flex-col border-t border-ink-line pt-5"
+                  >
+                    <h3 className="font-display text-h3 font-normal transition-colors group-hover:text-jade">
+                      {khu.ten}
+                    </h3>
+                    {khu.diemNhan[0] ? (
+                      <p className="mt-2 text-small leading-relaxed text-paper-dim">
+                        {khu.diemNhan[0]}
+                      </p>
+                    ) : null}
+                  </Link>
+                </TheTruot>
+              ))}
+            </BangTruot>
+          </Reveal>
         </Khung>
       </section>
 

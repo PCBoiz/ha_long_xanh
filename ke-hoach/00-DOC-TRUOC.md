@@ -4,7 +4,7 @@ Lập ngày **07/09/2026**, ngay sau khi trang lên máy chủ thật lần đ�
 
 ## Cách dùng bộ tài liệu này
 
-Năm file, xếp theo **thứ tự chủ trang đã chốt**, không phải theo mức quan trọng
+Bảy file, xếp theo **thứ tự chủ trang đã chốt**, không phải theo mức quan trọng
 cảm tính:
 
 | File | Việc | Vì sao xếp ở đây |
@@ -14,7 +14,8 @@ cảm tính:
 | [03-SAN-PHAM.md](03-SAN-PHAM.md) | Hoàn thiện sản phẩm | Làm trang đáng tin trước khi đổ người vào |
 | [04-RA-KHACH.md](04-RA-KHACH.md) | Ra khách thật | Việc cuối, vì ba việc trên quyết định nó có nghĩa hay không |
 | [05-CONG-CU.md](05-CONG-CU.md) | Công cụ và phương pháp | Đọc song song — nó quyết định *cách* làm bốn file kia |
-| [06-ANH.md](06-ANH.md) | Ảnh — nghiên cứu 08/09 | Vì sao bộ PDF của chủ đầu tư không dùng được, và cần xin ảnh gì |
+| [06-ANH.md](06-ANH.md) | Ảnh — nghiên cứu 08/09 | 13 tấm bóc từ PDF chủ đầu tư đã lên trang, và **đính chính một kết luận sai của tôi** |
+| [07-DA-LAM-0809.md](07-DA-LAM-0809.md) | Nhật ký đợt 08/09 | Đã sửa gì, vì sao, và cái gì cố ý chưa làm |
 
 **Mỗi việc có một mã** (`H1`, `T3`, `S2`…). Nhắc mã đó là tôi biết ngay đang
 nói việc nào, không phải mô tả lại.

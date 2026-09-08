@@ -354,6 +354,110 @@ export const projectImages = {
     blurDataURL:
       "data:image/webp;base64,UklGRroAAABXRUJQVlA4IK4AAADQBACdASoYAA8APu1iqU2ppaOiMAgBMB2JbACdMoGv/i2O3bZRmmgMatxtQiMjgAD8jd4Qteerc19POLhqHEngvrnTnAbtHzha5pEDfJp2pu0AtKzNbXtiOhKewGjgVIvzwy4O0DsPewiJwdjvWYUqudCl15p2kAz8MiC8/5LHF1ZbElpWqQ5YvF4JWBb+F5OLCo31Usfbl/23omm5iZTMo29GqtKDt9/byBjAAAA=",
   },
+  "song-noi-that-nhin-ra-khu-do-thi": {
+    src: "/images/song-noi-that-nhin-ra-khu-do-thi.webp",
+    width: 1283,
+    height: 708,
+    alt: "Phối cảnh phòng khách nhìn qua cửa kính lớn ra đường nội khu và cây xanh",
+    blurDataURL:
+      "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABwBACdASoYAA0APu1iqU2ppaOiMAgBMB2JQBOmUABp9l5lxjOFV8xoCZvTAAD7+b+QGjEioCAxlRCyZ80n8HDrZmPWFaPjNzfAqRhE0sPNY9VfciUYAsh9qG0smxp5LdH07Wx5UCdURmC1MUZj2OkhPqDin9+h57nWKymoIRBREHzVRW6zGZZAAAA=",
+  },
+  "song-noi-that-phong-khach-lien-bep": {
+    src: "/images/song-noi-that-phong-khach-lien-bep.webp",
+    width: 846,
+    height: 708,
+    alt: "Phối cảnh phòng khách liền bếp trong một căn đã hoàn thiện nội thất",
+    blurDataURL:
+      "data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAABwBACdASoYABQAPu1sqlEppaOiqAqpMB2JZQC/OYxEcGrX4P0zQvzWGzRqoAD+j0XcHWx5LkP/fwyPYPEgDBKplwz6nRY311BVByUnl2gpAIf/j1PQ5YfZUhH9sXu3st4nU/dfBLl80DGWTWnrxYoGc6kyQy3tl4AYtcyctJ81Z18lQOvBTt/4EU7wAA==",
+  },
+  "song-gia-dinh-tren-tham-co": {
+    src: "/images/song-gia-dinh-tren-tham-co.webp",
+    width: 1270,
+    height: 667,
+    alt: "Phối cảnh một gia đình đi dạo trên thảm cỏ trước dãy nhà, mùa hoa nở",
+    blurDataURL:
+      "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAAAQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JagCdIExCucgzx17pYtmnAAD856VJIpSrqRDmB9JFZU9oUnyqsgS1BDBVTWUtPGiCccaCL7vydfZH4l79eL2voS51zIEr7U2WEHBSB9pyt9we1XEd7eUBoxe/evfrbm1OzBIv3gJpXH3dbvgH85dERZ2kjdB0hKUh80AA",
+  },
+  "song-ngam-vinh-tu-ban-cong": {
+    src: "/images/song-ngam-vinh-tu-ban-cong.webp",
+    width: 1005,
+    height: 711,
+    alt: "Phối cảnh gia đình đứng ở ban công nhìn ra vịnh lúc mặt trời lặn",
+    blurDataURL:
+      "data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBQCdASoYABEAPu1qrFEppaQiqAqpMB2JYgCdMoMrZ+gBMH6jkFzM7VOr0tT4QfJggSAAAP1TCWy5CYP4v8ug32e1QolIgp/uTorYMSjT6XPvJVnnsqButVuuxtwajcEfnbzmJ6zf2FPf7wYlMmQAk3eDInIgZcdeAR1Wp+AQRG+zfyoHSiHB6TVrtTA8rUOrH40En3wJZzHX3vcWMkqfLtbaxDm6mSbQeSCmvlirZAAA",
+  },
+  "song-le-hoi-ben-du-thuyen": {
+    src: "/images/song-le-hoi-ben-du-thuyen.webp",
+    width: 1346,
+    height: 709,
+    alt: "Phối cảnh đêm lễ hội ngoài trời bên bến du thuyền",
+    blurDataURL:
+      "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAADwAwCdASoYAA0APu1iqU2ppaOiMAgBMB2JQBOkGQBKoMX9Q91Dkg8AAP7WsrYcMnwgKnsqMho0nQEdU4vURjSTdDaN3lYD23yOssK7c2nFmHcBf4EQcEQVAAJkuECbWeKgU+gP6+nj6nmTjHidEi4PHSZX1+YOA6qY+kNzyK8NmaebPLPuvo/BQAA=",
+  },
+  "giai-tri-thuy-cung": {
+    src: "/images/giai-tri-thuy-cung.webp",
+    width: 1400,
+    height: 920,
+    alt: "Phối cảnh bể kính lớn trong thuỷ cung, người xem đứng thành hàng phía trước",
+    blurDataURL:
+      "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACwBACdASoYABAAPu1iqU2ppaOiMAgBMB2JbACdMoLT9A46B9DI4WLdrrbcHHngAP6mzqdJbbnJmdf/FDE+pEja36avb8/fvKa7EWaQicPEcdvy43G+PKISiriBZd9WD2wpGSHyCXAerp5WDMGBfw18EEcF0WbYsNBeZgHPQsF9QmX/2+andh1sbH+gmm5rwkAKSn1hHYtCItOSsBoAAA==",
+  },
+  "giai-tri-cong-vien-chu-de": {
+    src: "/images/giai-tri-cong-vien-chu-de.webp",
+    width: 1400,
+    height: 702,
+    alt: "Phối cảnh công viên chủ đề với nhân vật hoá trang và trẻ em",
+    blurDataURL:
+      "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACwBACdASoYAAwAPu1iqU2ppaOiMAgBMB2JbACdMoMnXEAHolQZ5AuAT3qD6M4kAP3ioXl+P4+1giYc5DBtfErkRcl/rt8pGOfYbnBOttJsrs7b98d0lbXh6ciJe8GgwpW3wI69ylDA/HQoZZ/bkoDGSGnbZb7F4fdg/RBcA+kVGYjzX/LFL7YnN29S7kNLmO6ZiwT87MJihYmhQAAAAA==",
+  },
+  "giai-tri-bai-tam-lagoon": {
+    src: "/images/giai-tri-bai-tam-lagoon.webp",
+    width: 1113,
+    height: 708,
+    alt: "Phối cảnh bãi tắm nước trong ở biển lagoon, có người chèo ván và thuyền nhỏ",
+    blurDataURL:
+      "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAADwAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JYgC06Yuu3EjLJI/F3hhwAP7fp6MctPrUcokFNGPAJ6G1oHOhHMM0qlX2c+ZYEeOcOeMkR6T91VrKxlw9TbbJ0T1SFYRAZeD/7XxvuGNWp+4bGpp5Uf4RdnkioYai1mlR/jEvYifdXD4gtElb/trOUChlhRj1dHvT0rKY1AAAAA==",
+  },
+  "song-pho-thuong-mai-buoi-toi": {
+    src: "/images/song-pho-thuong-mai-buoi-toi.webp",
+    width: 1017,
+    height: 709,
+    alt: "Phối cảnh dãy phố thương mại lúc chập tối, hàng quán đã lên đèn",
+    blurDataURL:
+      "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAADwBACdASoYABEAPu1kq06ppaQsqA1RkB2JQBZ0KYAzpMPEPC0Wo5XizhAQEvqRy1AA/lnp8DchBB7exl9nnZBcjLqs/eBgFHCOEdsKkM+VwUtMs1eU4wjPUhfiAmSeHaiyVimo7g0wqWwhXrWx8vayAlLahJsOsWfM7+80oGIBvofeYlH1XYRl2AA=",
+  },
+  "song-dai-lo-mua-hoa": {
+    src: "/images/song-dai-lo-mua-hoa.webp",
+    width: 1343,
+    height: 708,
+    alt: "Phối cảnh đại lộ nội khu mùa hoa nở, hai bên là dãy nhà thấp tầng",
+    blurDataURL:
+      "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAQBACdASoYAA0APu1kqk4ppaQiMAgBMB2JaACdEf/gJ/ox1r1vA9n6AAD+the8pAxHG6Ao+u6mxmgF6AlWEM3m9R5kEyekg6nWLO7k8Eeu+lCFewYC3sIT9FSxlyiItVSQrHUVns+IllkVpJ4BfN3TQz+WR318NL8Yfx+4AAA=",
+  },
+  "tien-ich-san-golf-ven-ho": {
+    src: "/images/tien-ich-san-golf-ven-ho.webp",
+    width: 1256,
+    height: 658,
+    alt: "Phối cảnh sân golf ven hồ lúc hoàng hôn, có người đang chơi",
+    blurDataURL:
+      "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAAAwBACdASoYAA0APu1iqU2ppaQiMAgBMB2JagCdH8ADAaWs+WzLYTWB48AA/IyV8cVlRARMTCs8E1RgW/P+AOHwgSAFs417zaEZ9J07Cwf5/9gXq2Zj/lRTi3dJDYb7Y5VnIiSW3jj0xvsZtp88UHCYdjho2Hssu49xL31yfhHbTAAA",
+  },
+  "thien-nhien-cam-trai-rung-ngap-man": {
+    src: "/images/thien-nhien-cam-trai-rung-ngap-man.webp",
+    width: 1047,
+    height: 663,
+    alt: "Phối cảnh khu cắm trại lều bên mép nước trong rừng ngập mặn",
+    blurDataURL:
+      "data:image/webp;base64,UklGRsIAAABXRUJQVlA4ILYAAABQBACdASoYAA8APu1iqU2ppaOiMAgBMB2JbAC7AB+UQhyWZmeDDMxH+afMAP7AWJfxgQ5lEVTcWzvmZrNFT5IgpQyxtdXpvf4/FrIJ2SepX66zadieFF2s33wCQTq6psNFfCp/Sje2/8eShL/bMKD3s/40CLKzb/KAyyzg7Mlz8YGtcczN1tbn/E2TSSeZkaXZIpD4vfbnMS5haJRZM3nt2MpbaBF/5xAuYe0nU3jTM6ahIB1AAA==",
+  },
+  "thien-nhien-cau-go-rung-ngap-man": {
+    src: "/images/thien-nhien-cau-go-rung-ngap-man.webp",
+    width: 984,
+    height: 658,
+    alt: "Phối cảnh cầu gỗ đi bộ xuyên rừng ngập mặn nhìn từ trên cao",
+    blurDataURL:
+      "data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAACwBACdASoYABAAPu1iqU2ppaOiMAgBMB2JQBdgO4Fv6tUQ6cIqkDXI7kKKvnFAAP7Q1WTqd/9rgIlPAicY7Muj2Avnwsw8bsSwTxont1hMweSV6ZxuV83q3xKTL6q2hFWhSMAOspJbAEExkjKJ2LKG8kMzVwqC1tA+tvJ9GeFjSlV/XrcTYRfoI2cULn3q3nvvjdm68tzbLx8gvfHihs848r155EOtDce5LvFXYaAAAA==",
+  },
   "khu-paradise-bay": {
     src: "/images/khu-paradise-bay.webp",
     width: 922,

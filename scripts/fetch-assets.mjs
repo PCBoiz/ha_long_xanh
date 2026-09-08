@@ -327,6 +327,116 @@ const ANH_CUC_BO = [
   },
 ];
 
+/**
+ * Ảnh bóc từ bộ tài liệu bán hàng PDF của chủ đầu tư (Event 06.09, 31 trang).
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * BA RÀNG BUỘC ĐÃ ÁP KHI CHỌN — ĐỌC TRƯỚC KHI THÊM TẤM MỚI
+ *
+ * 1 · CHỈ LẤY ẢNH SẠCH. Phần lớn 95 ảnh trong PDF là CẢ TRANG đã dàn sẵn, có
+ *     chữ quảng cáo của chủ đầu tư nướng vào. Dán một trang như thế lên đây là
+ *     đưa lời quảng cáo của bên bán vào một trang tự nhận là kênh tư vấn độc
+ *     lập. 13 tấm dưới đây hoặc vốn không có chữ, hoặc đã cắt bỏ phần có chữ.
+ *
+ * 2 · KHÔNG LẤY ẢNH MANG NHÃN BÊN THỨ BA. Đã loại hai tấm đẹp:
+ *       · sân trường đại học — góc trái có logo "ARA HOMES", một sàn môi giới
+ *       · phố hàng hiệu     — biển Hermès / Hennessy / Häagen-Dazs, tức là
+ *                             hứa hộ chủ đầu tư những thương hiệu chưa ai
+ *                             công bố sẽ có mặt
+ *
+ * 3 · ĐÂY LÀ PHỐI CẢNH, KHÔNG PHẢI ẢNH CHỤP. Mọi câu `alt` phải mở bằng chữ
+ *     "Phối cảnh". Ảnh gốc có dòng chú thích "(*) hình ảnh mang tính chất minh
+ *     hoạ" ở mép dưới — đã cắt vì nó không đọc nổi ở cỡ hiển thị, và lời cảnh
+ *     báo phải nằm ở chữ `alt` đọc được chứ không phải ở 8 điểm ảnh mờ.
+ *
+ * ĐỘ PHÂN GIẢI — VÌ SAO KHÔNG DÙNG CHO ẢNH LỚN
+ *
+ * Ảnh nhúng trong PDF chỉ 428–785px bề ngang, trong khi ảnh Drive là 2560px.
+ * Đã phóng sẵn bằng lanczos3 + làm nét, HỆ SỐ TỐI ĐA 2,3× — mức đã so bằng mắt
+ * ở tỉ lệ 1:1, không phải mức đoán. Kết quả 846–1400px: đủ cho thẻ và dải ảnh
+ * xen giữa, KHÔNG đủ cho ảnh nền toàn màn hình. Đừng dùng làm hero.
+ *
+ * (`prepare()` áp `withoutEnlargement`, nên mọi việc phóng to phải làm xong
+ * TRƯỚC khi file vào `anh-goc/` — script này không phóng hộ.)
+ *
+ * VÌ SAO THÊM BỘ NÀY: trang từng có 0 ảnh nội thất, 0 ảnh giải trí và gần như
+ * 0 ảnh có người trong khung — tỉ lệ kiến trúc/đời sống thật là 95/5. Người
+ * sắp chuyển vài tỷ không mua mặt tiền; họ mua một hình dung về đời sống.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+const ANH_TU_PDF = [
+  // ── Nội thất — khoảng trống lớn nhất, trang đang có ĐÚNG 0 tấm ─────────────
+  {
+    file: "song-noi-that-nhin-ra-khu-do-thi.jpg",
+    name: "song-noi-that-nhin-ra-khu-do-thi",
+    alt: "Phối cảnh phòng khách nhìn qua cửa kính lớn ra đường nội khu và cây xanh",
+  },
+  {
+    file: "song-noi-that-phong-khach-lien-bep.jpg",
+    name: "song-noi-that-phong-khach-lien-bep",
+    alt: "Phối cảnh phòng khách liền bếp trong một căn đã hoàn thiện nội thất",
+  },
+  // ── Người đang sống ở đó — cũng đang là 0 ──────────────────────────────────
+  {
+    file: "song-gia-dinh-tren-tham-co.jpg",
+    name: "song-gia-dinh-tren-tham-co",
+    alt: "Phối cảnh một gia đình đi dạo trên thảm cỏ trước dãy nhà, mùa hoa nở",
+  },
+  {
+    file: "song-ngam-vinh-tu-ban-cong.jpg",
+    name: "song-ngam-vinh-tu-ban-cong",
+    alt: "Phối cảnh gia đình đứng ở ban công nhìn ra vịnh lúc mặt trời lặn",
+  },
+  {
+    file: "song-le-hoi-ben-du-thuyen.jpg",
+    name: "song-le-hoi-ben-du-thuyen",
+    alt: "Phối cảnh đêm lễ hội ngoài trời bên bến du thuyền",
+  },
+  // ── Giải trí — cũng đang là 0 ──────────────────────────────────────────────
+  {
+    file: "giai-tri-thuy-cung.jpg",
+    name: "giai-tri-thuy-cung",
+    alt: "Phối cảnh bể kính lớn trong thuỷ cung, người xem đứng thành hàng phía trước",
+  },
+  {
+    file: "giai-tri-cong-vien-chu-de.jpg",
+    name: "giai-tri-cong-vien-chu-de",
+    alt: "Phối cảnh công viên chủ đề với nhân vật hoá trang và trẻ em",
+  },
+  {
+    file: "giai-tri-bai-tam-lagoon.jpg",
+    name: "giai-tri-bai-tam-lagoon",
+    alt: "Phối cảnh bãi tắm nước trong ở biển lagoon, có người chèo ván và thuyền nhỏ",
+  },
+  // ── Phố thương mại — đúng lời hứa "vừa ở vừa khai thác mặt phố" ────────────
+  {
+    file: "song-pho-thuong-mai-buoi-toi.jpg",
+    name: "song-pho-thuong-mai-buoi-toi",
+    alt: "Phối cảnh dãy phố thương mại lúc chập tối, hàng quán đã lên đèn",
+  },
+  {
+    file: "song-dai-lo-mua-hoa.jpg",
+    name: "song-dai-lo-mua-hoa",
+    alt: "Phối cảnh đại lộ nội khu mùa hoa nở, hai bên là dãy nhà thấp tầng",
+  },
+  // ── Tiện ích và thiên nhiên ───────────────────────────────────────────────
+  {
+    file: "tien-ich-san-golf-ven-ho.jpg",
+    name: "tien-ich-san-golf-ven-ho",
+    alt: "Phối cảnh sân golf ven hồ lúc hoàng hôn, có người đang chơi",
+  },
+  {
+    file: "thien-nhien-cam-trai-rung-ngap-man.jpg",
+    name: "thien-nhien-cam-trai-rung-ngap-man",
+    alt: "Phối cảnh khu cắm trại lều bên mép nước trong rừng ngập mặn",
+  },
+  {
+    file: "thien-nhien-cau-go-rung-ngap-man.jpg",
+    name: "thien-nhien-cau-go-rung-ngap-man",
+    alt: "Phối cảnh cầu gỗ đi bộ xuyên rừng ngập mặn nhìn từ trên cao",
+  },
+];
+
 async function exists(target) {
   try {
     await stat(target);
@@ -527,7 +637,7 @@ async function main() {
   await mkdir(TMP_DIR, { recursive: true });
   await mkdir(path.dirname(MANIFEST), { recursive: true });
 
-  const tatCa = [...ASSETS, ...ANH_CUC_BO];
+  const tatCa = [...ASSETS, ...ANH_CUC_BO, ...ANH_TU_PDF];
   kiemTrung(tatCa);
   console.log(`Xử lý ${tatCa.length} ảnh…`);
   const entries = [];
