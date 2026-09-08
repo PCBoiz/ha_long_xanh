@@ -5,6 +5,8 @@ import { SplitReveal } from "@/components/ui/split-reveal";
 import { ProjectImage } from "@/components/ui/project-image";
 import { ClipReveal } from "@/components/motion/scroll-effects";
 import { duAn, phanKhu } from "@/data/project";
+import { langGieng } from "@/lib/lang-gieng-phan-khu";
+import { DUONG_DAN } from "@/lib/duong-dan";
 
 // Chín trang phân khu sinh thẳng từ `data/project.ts`. Thêm một phân khu vào
 // mảng đó là có ngay một trang mới — không phải đụng vào file này.
@@ -36,8 +38,10 @@ export default async function TrangPhanKhu({
 }: PageProps<"/phan-khu/[ma]">) {
   const { ma } = await params;
   const khu = phanKhu.find((muc) => muc.ma === ma);
-  if (!khu) notFound();
+  if (!khu) notFound();
+
   const thuTu = phanKhu.findIndex((muc) => muc.ma === ma);
+  const canBen = langGieng(ma);
   const truoc = phanKhu[(thuTu - 1 + phanKhu.length) % phanKhu.length];
   const sau = phanKhu[(thuTu + 1) % phanKhu.length];
 
@@ -87,6 +91,16 @@ export default async function TrangPhanKhu({
           điểm phần trăm. */}
       <section className="px-6 md:px-10">
         <div className="mx-auto max-w-[92rem]">
+          {/* ĐẶT TÊN CHO THỨ VỐN ĐÃ CÓ.
+              Tra SERP ngày 09/09/2026: các trang đang xếp hạng cho phân khu này
+              đều mang tiêu đề dạng "Mặt Bằng Phân Khu <tên> — Tiện Ích & Quy
+              Hoạch". Trang mình có đúng tấm mặt bằng đó nhưng chưa bao giờ gọi
+              tên nó, nên không đáp được cụm người ta gõ thật.
+              Đây không phải nhồi từ khoá: tấm ảnh bên dưới ĐÚNG là mặt bằng quy
+              hoạch, chỉ là trước nay để trần không tiêu đề. */}
+          <h2 className="mb-8 font-display text-h2 font-normal">
+            Mặt bằng quy hoạch — {khu.ten} nằm ở đâu
+          </h2>
           <ClipReveal delay={120}>
             <div className="relative overflow-hidden bg-ink-soft">
               <ProjectImage
@@ -105,6 +119,24 @@ export default async function TrangPhanKhu({
               </span>
             </div>
           </ClipReveal>
+          {canBen.length > 0 ? (
+            <p className="mt-5 max-w-[70ch] text-small leading-relaxed text-paper-dim">
+              Hai phân khu gần nhất trên sơ đồ:{" "}
+              {canBen.map((k, i) => (
+                <span key={k.ma}>
+                  {i > 0 ? " và " : ""}
+                  <Link href={`/phan-khu/${k.ma}`} className="link-underline text-jade">
+                    {k.ten}
+                  </Link>
+                </span>
+              ))}
+              . Sơ đồ đầy đủ chín phân khu nằm ở trang{" "}
+              <Link href={DUONG_DAN.quyHoach} className="link-underline text-jade">
+                quy hoạch
+              </Link>
+              .
+            </p>
+          ) : null}
         </div>
       </section>
 
