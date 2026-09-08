@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Khung } from "@/components/ui/khung";
 import { DUONG_DAN } from "@/lib/duong-dan";
 import { gioNgayVN } from "@/lib/thoi-gian";
+import { TuoiDuLieu } from "@/components/ui/tuoi-du-lieu";
 import quyCan from "@/data/quy-can.generated.json";
 
 /**
@@ -60,6 +61,7 @@ export function QuyCanXemTruoc() {
             </p>
             <p className="tabular mt-5 text-small text-paper-dim">
               Đọc lúc {gioNgayVN(capNhat)}
+              <TuoiDuLieu moc={quyCan.docLuc} />
             </p>
 
             {/* CẢNH BÁO LUÔN HIỆN, KHÔNG PHẢI CHỈ KHI DỮ LIỆU CŨ.
