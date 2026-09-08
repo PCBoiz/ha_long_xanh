@@ -129,20 +129,46 @@ Căn hộ         toà nhà + view vịnh hoặc công viên + tiện ích
 
 ---
 
-## Một sai lệch số liệu phát hiện khi đọc PDF — CẦN CHỦ TRANG XÁC NHẬN
+## Diện tích sản phẩm — đã tra cứu, và tôi đã báo động nhầm
 
-Trang đang ghi **"Nhà liền kề — diện tích 60 – 144 m²"**.
+Ngày 08/09 tôi cảnh báo một sai lệch: trang ghi liền kề **60 – 144 m²**, còn bộ
+tài liệu chủ đầu tư ngày 06/09 ghi **50 · 60 · 70 m²**.
 
-Bộ tài liệu chủ đầu tư ngày 06/09 ghi liền kề ở **50 m² · 60 m² · 70 m²**, kèm
-mặt bằng 3D riêng cho từng loại.
+**Cảnh báo đó sai.** Tra lại ở `market.vinhomes.vn` — tên miền của Vinhomes:
 
-Hai con số này không khớp, và tôi **không tự sửa** — số liệu diện tích là thứ
-người mua dùng để quyết định, và tài liệu tôi đọc là bản tôi được gửi chứ không
-phải bản đối chiếu chính thức.
+> *"Nhà liền kề … diện tích đất từ 60m2 - 144m2, 4 tầng"* — phân khu Vịnh Thiên Đường
 
-⚠️ Cần đối chiếu bảng hàng chính thức rồi mới sửa. Hai dòng **"Biệt thự đơn
-lập"** và **"Căn hộ cao tầng"** hiện KHÔNG có diện tích nào cả — thẻ có đường
-kẻ ngang nhưng bên dưới trống. Cần cả ba con số cùng lúc.
+Con số trên trang **đúng**. Những số 50/60/70 m² trong PDF là **từng mẫu nhà cụ
+thể** có mặt bằng 3D riêng, không phải khoảng diện tích của cả dòng. Tôi đọc một
+danh sách mẫu rồi tưởng là một khoảng — và suýt sửa một con số đang đúng.
 
-Bộ tài liệu cũng có giá theo tiểu khu. **KHÔNG đưa lên trang** — chủ trang đã
-chốt không công khai con số giá nào, và quyết định đó vẫn giữ.
+### Đã bổ sung được một số liệu còn thiếu
+
+| Dòng | Diện tích đất | Tình trạng |
+|---|---|---|
+| Nhà liền kề | 60 – 144 m² | ✅ đối chiếu khớp nguồn chính thức |
+| Biệt thự song lập | 162 – 183 m² | ✅ nguồn ghi "khoảng 162 m²" |
+| **Biệt thự đơn lập** | **250 – 500 m²** | ✅ **mới bổ sung 08/09** |
+| Biệt thự biển | 1.029 – 1.053 m² | chưa đối chiếu được |
+| **Căn hộ cao tầng** | **vẫn trống** | ❌ không nguồn nào nêu |
+
+Về **căn hộ cao tầng**: cả trang chính thức lẫn bộ tài liệu 06/09 đều **không
+nêu diện tích từng căn**. Tài liệu chỉ nói quy mô cụm — The Sunrise Bay, 4,3 ha,
+5 toà, 25 tầng, 2.300 căn. Nên ô này để trống, và **không suy ra**.
+
+⚠️ Cả bốn con số vẫn gắn cờ `canXacNhan`. Trang tiếp thị của chủ đầu tư không
+phải hồ sơ pháp lý — căn cứ cuối cùng vẫn là bảng hàng và hợp đồng mua bán tại
+thời điểm giao dịch, đúng như câu trang này vẫn nói với khách.
+
+### Bài học, vì nó suýt gây hại
+
+Tôi đọc một tài liệu bán hàng rồi kết luận trang đang sai. Nếu chủ trang tin
+tôi và sửa, trang đã mang một con số sai — do chính bước "kiểm tra" tạo ra.
+
+Với số liệu, **một nguồn không đủ để bác bỏ một nguồn khác**. Phải tìm nguồn có
+thẩm quyền cao hơn trước khi kết luận bên nào sai.
+
+## Cảnh báo còn nguyên hiệu lực
+
+Bộ tài liệu có **giá theo tiểu khu**. **KHÔNG đưa lên trang** — chủ trang đã chốt
+không công khai con số giá nào, và quyết định đó vẫn giữ.
