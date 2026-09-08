@@ -11,6 +11,47 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 09/09/2026 — kế hoạch bốn việc (chủ dự án giao cả bốn, tự xếp thứ tự)
+
+### Đo thật trước khi xếp (09/09, đếm trên trang đang chạy)
+
+```
+  329–353  /phan-khu/*  (9 trang, gần như GIỐNG HỆT nhau)
+  355      /tin-tuc     ← KHÔNG phải trang mỏng, xem ghi chú dưới
+  377–486  /san-pham/*  (bản vá 502 từ đã commit, CHƯA deploy)
+  477      /tai-lieu
+  618      /quy-hoach
+  694      /tien-ich
+  783–1347 chín trang tiền — đều ổn
+```
+
+⚠️ **`/tin-tuc` mỏng vì ĐANG RỖNG, không vì thiếu chữ.** Nó hiện khối "Chưa có
+bài viết nào". Nhồi chữ vào đó là chữa sai bệnh — nó tự đầy khi có bài được
+duyệt. Đừng đưa trang này vào đợt viết thêm.
+
+**Bề mặt hỏng lớn nhất là 9 trang phân khu**: vừa mỏng vừa trùng lặp gần như
+hoàn toàn. Trên một tên miền mới chưa có uy tín, chín trang na ná nhau ở mức
+330 từ là đúng hình dạng mà Google gọi là nội dung mỏng.
+
+### Thứ tự đã chốt, và lý do
+
+1. **Nghiên cứu từ khoá** — làm TRƯỚC vì nó quyết định nội dung của việc 2.
+   Viết thêm 600 từ vào `/quy-hoach` mà chưa biết người ta gõ gì là đoán.
+   Không có CSV Keyword Planner nên tra SERP thật + trang đối thủ; **KHÔNG bịa
+   số lượng tìm kiếm** — chỉ ghi cụm truy vấn kèm nguồn tra được.
+2. **Chín trang phân khu + `/tai-lieu` + `/quy-hoach` + `/tien-ich`**, và **cắt
+   chữ thừa NGAY TRONG CÙNG MỘT LƯỢT**. Hai việc này sửa đúng cùng những đoạn
+   văn; tách ra là đọc hai lần, sửa hai lần, và lần sau giẫm lên lần trước.
+3. **Bố cục + ảnh bài đăng** — để CUỐI, vì cần một bài thật đã duyệt để đo.
+   Việc đó đang chờ chủ dự án duyệt bài đầu tiên.
+
+### Ảnh: chủ dự án đã chốt (09/09)
+**Chỉ dùng 66 ảnh thật trong kho.** Không sinh ảnh AI. Giữ đúng lằn ranh chủ dự
+án đã vạch khi bác hai thư mục Drive — tên tệp là câu lệnh sinh ảnh, và có ảnh
+chụp nơi khác gắn nhãn Hạ Long.
+
+---
+
 ## 09/09/2026
 
 ### Đã làm
