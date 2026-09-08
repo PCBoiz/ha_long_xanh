@@ -3,7 +3,7 @@ import { appendFile, mkdir } from "node:fs/promises";
 import { timingSafeEqual } from "node:crypto";
 import path from "node:path";
 import type { BaiViet } from "@/data/news";
-import { layDb, schema } from "@/db";
+import { layDb, schema, thuLaiKhiNguDay } from "@/db";
 import { moTaViPham, quetBai } from "@/lib/cong-chan";
 import { demMotLuot } from "@/lib/gioi-han-tan-suat";
 
@@ -209,7 +209,15 @@ export async function POST(yeuCau: Request) {
       // thời gian chờ mà thật ra đã ghi thành công. Cả hai trường hợp đều phải
       // ra cùng một kết quả — nếu không, thử lại một lần là trang tin có hai
       // bài giống hệt nhau.
-      await db
+      // BOC TRONG thuLaiKhiNguDay. Duong DOC da co, duong GHI thi chua — va
+      // thieu sot do chi lo ra o day, noi ton nhat.
+      //
+      // Neon goi mien phi ha may tinh ve 0 khi khong ai dung. Truy van dau
+      // tien sau khi ngu KHONG doi may day — no hong luon. Voi duong doc thi
+      // khach bam lai la xong. Voi duong nay thi bai da viet xong, da ton luot
+      // goi model, va mat trang vi mot loi tu khoi sau hai giay.
+      await thuLaiKhiNguDay(() =>
+        db
         .insert(schema.baiViet)
         .values({
           slug: ketQua.bai.slug,
@@ -240,7 +248,8 @@ export async function POST(yeuCau: Request) {
             duyetLuc: null,
             capNhatLuc: new Date(),
           },
-        });
+        }),
+      );
     } else {
       // Đường CỤC BỘ. Chỉ chạy khi chưa có `DATABASE_URL` — tức là trên máy của
       // người phát triển. Trên máy chủ thật mà rơi vào đây thì bài sẽ mất sau

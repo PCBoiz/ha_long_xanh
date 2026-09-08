@@ -226,9 +226,31 @@ export function TimCanPhuHop() {
             nó vào tiêu đề. Giờ tiêu đề vừa là mệnh lệnh, vừa nói cái giá phải
             trả, vừa nói được gì — và đoạn văn kia không mất thông tin nào khi
             bị xoá, nó chỉ mất phần rào đón. */}
-        <h2 className="max-w-[22ch] font-display text-h1 font-normal text-balance">
-          Trả lời ba câu, xem dòng nào hợp
+        {/* ⚠️ TIÊU ĐỀ NÀY TỪNG LÀ MỘT MỆNH LỆNH. ĐỪNG ĐỔI NGƯỢC LẠI.
+
+            Bản cũ: "Trả lời ba câu, xem dòng nào hợp". Lập luận lúc viết là
+            "ba câu" cho người đọc biết mất bao lâu — vế đó đúng và vẫn giữ.
+            Cái sai nằm ở động từ đầu câu: nó SAI VIỆC người đọc.
+
+            Người sắp chuyển vài tỷ không mở trang này để được giao bài. Một
+            câu mở đầu bằng mệnh lệnh biến quan hệ tư vấn thành quan hệ
+            hướng dẫn — cùng loại sai giọng với những thẻ hỏi hộ rồi đáp hộ
+            đã bị gỡ ở khối trên.
+
+            Bản mới nêu một NGUYÊN TẮC thay vì ra lệnh, đúng mạch với hai
+            tiêu đề mạnh nhất trang: "Một đô thị, không phải một khu nhà" và
+            "Mua đúng căn quan trọng hơn mua nhanh". Nó cũng tự giải thích vì
+            sao khối này tồn tại, việc mà câu mệnh lệnh không làm được.
+
+            "Ba câu" chuyển xuống dòng phụ, kèm một lời hứa có giá trị thật:
+            KHÔNG hỏi ngân sách. Đó là câu khách ngại nhất khi vào một trang
+            bán nhà, và nói trước thì bớt được đúng nỗi ngại ấy. */}
+        <h2 className="max-w-[26ch] font-display text-h1 font-normal text-balance">
+          Không phải ai cũng hợp cùng một dòng
         </h2>
+        <p className="mt-4 max-w-md text-body text-paper-dim">
+          Ba câu, không hỏi ngân sách.
+        </p>
 
         <div className="mt-12 grid gap-x-16 gap-y-12 md:grid-cols-12">
           <div className="flex flex-col gap-9 md:col-span-7">

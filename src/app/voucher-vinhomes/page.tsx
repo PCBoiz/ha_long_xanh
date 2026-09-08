@@ -9,7 +9,6 @@ import { DoiNguTuVan } from "@/components/site/doi-ngu-tu-van";
 import {
   buocQuyenLoi,
   duAn,
-  khongHuaQuyenLoi,
   dinhViThuongMai,
 } from "@/data/project";
 
@@ -141,35 +140,20 @@ export default function TrangHoTroQuyenLoi() {
         </Khung>
       </section>
 
-      {/* ═══════════ ĐIỀU KHÔNG HỨA ═══════════
-          Mảng này giữ trang đứng trong ranh giới nói được, VÀ làm cho phần trên
-          đáng tin. Một bên nói rõ mình không làm được gì là bên có thể tin ở
-          những chỗ họ nói mình làm được. */}
-      <section className="mang-sang py-nhip">
-        <Khung>
-          <div className="grid gap-x-16 gap-y-8 md:grid-cols-12">
-            <div className="md:col-span-5">
-              <h2 className="font-display text-h2 font-normal text-balance">
-                Bốn điều chúng tôi không hứa
-              </h2>
-              <p className="mt-5 max-w-md text-body leading-relaxed text-paper-dim">
-                Nói trước để bạn biết mình đang nói chuyện với ai. Nếu ở đâu đó
-                hứa với bạn những điều dưới đây, hãy hỏi lại điều kiện áp dụng.
-              </p>
-            </div>
-            <ul className="md:col-span-6 md:col-start-7">
-              {khongHuaQuyenLoi.map((cau) => (
-                <li
-                  key={cau}
-                  className="border-b border-ink-line py-5 text-body leading-relaxed text-paper-dim"
-                >
-                  {cau}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Khung>
-      </section>
+      {/* ⚠️ KHỐI "NHỮNG ĐIỀU CHÚNG TÔI KHÔNG HỨA" ĐÃ GỠ. ĐỪNG DỰNG LẠI.
+
+          Ý đồ ban đầu đúng: nói trước mình không làm được gì thì phần nói mình
+          làm được sẽ đáng tin hơn. Trên giấy đó là một nước cờ khôn.
+
+          Nhưng đọc trên trang thì nó chiếm trọn một màn hình để nói toàn chữ
+          KHÔNG — không hứa, không có, không thúc. Người đang cân nhắc xuống vài
+          tỷ đọc xong không nhớ mình được gì, chỉ nhớ một danh sách phủ định. Và
+          một trang tự bào chữa trước khi bị ai hỏi thì nghe như đang phòng thủ.
+
+          Những ranh giới đó VẪN GIỮ NGUYÊN, chỉ đổi chỗ nói: chúng nằm trong
+          hàng rào nội dung (`lib/cong-chan.ts`) chặn thật ở cấp mã, và trong
+          từng câu cụ thể nơi nó có nghĩa — chứ không gom thành một bảng tuyên
+          ngôn. Giữ lời hứa bằng cách làm đúng thì mạnh hơn bằng cách kể ra. */}
 
       <DoiNguTuVan />
 

@@ -96,7 +96,23 @@ export async function GET(): Promise<Response> {
     // Đọc THẬT một dòng. `select 1` không đủ: nó chạy được cả khi bảng không
     // tồn tại hoặc không có quyền đọc — đúng hai thứ cần phát hiện.
     await thuLaiKhiNguDay(() =>
-      db.select({ slug: schema.baiViet.slug }).from(schema.baiViet).limit(1),
+      // ⚠️ PHẢI ĐỌC CẢ `trangThai`, KHÔNG CHỈ `slug`. Đây là lỗi đã tốn thật.
+      //
+      // Bản cũ chỉ đọc `slug`. Khi migration thêm cột `trang_thai` chưa được
+      // chạy trên cơ sở dữ liệu thật, phép kiểm này vẫn báo `csdl: ok` — vì
+      // cột nó đọc thì có, còn cột đường GHI cần thì không.
+      //
+      // Hậu quả đo được: cổng nhận bài trả 500 mọi lần, trang tin báo
+      // "Chưa có bài" (truy vấn lọc theo `trang_thai` hỏng rồi bị nuốt lỗi),
+      // mà đèn sức khoẻ vẫn xanh. Ba chỗ hỏng, không chỗ nào chỉ ra nguyên
+      // nhân — vì thứ duy nhất được hỏi lại là thứ duy nhất còn nguyên.
+      //
+      // Luật rút ra: phép kiểm sức khoẻ phải chạm đúng những cột mà đường
+      // ghi chạm. Kiểm một tập con thì nó bảo hành đúng tập con đó.
+      db
+        .select({ slug: schema.baiViet.slug, trangThai: schema.baiViet.trangThai })
+        .from(schema.baiViet)
+        .limit(1),
     );
     return Response.json({
       trangThai: "ok",

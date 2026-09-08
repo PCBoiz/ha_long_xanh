@@ -34,8 +34,24 @@ export function CauHoiThuongGap() {
     <section id="cau-hoi" className="mang-sang scroll-mt-24 py-nhip">
       <Khung>
         <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-5">
+          {/* ⚠️ BẢN CŨ GỌI NGƯỜI ĐỌC LÀ "KHÁCH". ĐỪNG ĐỔI NGƯỢC LẠI.
+
+              Nguyên văn: "Những câu khách hỏi trước khi gọi". Nó nói VỀ người
+              đọc ở ngôi thứ ba, như hai nhân viên bàn với nhau về một người
+              vừa ra khỏi phòng — trong khi người đang đọc chính là người đó.
+
+              Và nó đóng khung khối này thành một bản THỐNG KÊ: đây là những
+              câu người ta hay hỏi. Đọc xong người ta biết mình bình thường,
+              chứ không biết thêm gì.
+
+              Bản mới đổi từ "câu người khác đã hỏi" sang "câu nên hỏi" — tức
+              là đưa cho người đọc một bộ câu hỏi để dùng, kể cả khi đi hỏi
+              nơi khác. Đó đúng là vị thế trang này chọn: giúp người mua kiểm
+              tra trước khi xuống tiền, chứ không phải kể lại chuyện người
+              khác đã hỏi gì. Bỏ luôn "trước khi gọi" vì nó giả định sẵn rằng
+              người đọc sẽ gọi. */}
           <h2 className="max-w-xl font-display text-h1 font-normal text-balance">
-            Những câu khách hỏi trước khi gọi
+            Những câu nên hỏi trước khi quyết
           </h2>
           <Link
             href="/lien-he"

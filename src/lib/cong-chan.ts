@@ -208,6 +208,31 @@ const LUAT_CO: Luat[] = [
     mau: /(?:chiết khấu|giảm giá|ưu đãi|lợi nhuận|chênh|hoa hồng|lãi suất|hỗ trợ)[^.!?]{0,30}\d{1,2}(?:[.,]\d)?\s*%/i,
   },
   {
+    // ⚠️ THÊM SAU KHI CHẠY THẬT VÀ THẤY NÓ LỌT — hai lần liên tiếp.
+    //
+    // Luật `moc-thoi-gian` ngay dưới đòi một TỪ KHOÁ DẪN đứng cạnh con số:
+    // "bàn giao", "khởi công", "mở bán". Nhưng lỗi thật hay gặp nhất lại không
+    // có từ nào trong số đó.
+    //
+    // Đó là một mô hình viết bài "mới nhất" rồi ghi một năm đã qua. Chạy thật
+    // ngày 08/09/2026, model đặt tiêu đề "Tiến độ… mới nhất 2024" — HAI LẦN, ở
+    // hai lượt chạy khác nhau. Nó không biết hôm nay là ngày nào; nó đoán từ dữ
+    // liệu đã học, và dữ liệu đó dừng ở một mốc cũ hơn.
+    //
+    // Lỗi này đọc rất trôi chảy và nằm ở TIÊU ĐỀ — chỗ người đọc lướt qua nhanh
+    // nhất, và chỗ một bài tin mất sạch tin cậy nếu sai.
+    //
+    // CHỈ GẮN CỜ CHỨ KHÔNG CHẶN: một bài hoàn toàn có thể nhắc năm cũ một cách
+    // hợp lệ ("khởi công năm 2025"). Việc của cờ là bắt người duyệt nhìn lại
+    // một cái, không phải thay họ quyết.
+    luat: "nam-co-the-cu",
+    lyDo:
+      "Có cụm “mới nhất / cập nhật” đi kèm một năm. Đối chiếu xem năm đó có " +
+      "phải năm hiện tại không — mô hình ngôn ngữ hay ghi năm cũ mà vẫn viết " +
+      "như tin mới.",
+    mau: /(?:mới nhất|cập nhật|hiện tại|năm nay|tính đến)[^.!?]{0,25}\b20\d{2}\b/i,
+  },
+  {
     luat: "moc-thoi-gian",
     lyDo:
       "Có mốc bàn giao / khởi công / mở bán. Mốc tiến độ đổi liên tục — kiểm " +
