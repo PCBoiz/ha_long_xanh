@@ -17,7 +17,7 @@ import { CauHoiThuongGap } from "@/components/site/cau-hoi-thuong-gap";
 import { ThanhQuyetDinh } from "@/components/site/thanh-quyet-dinh";
 import { TimCanPhuHop } from "@/components/site/tim-can-phu-hop";
 import { GiaThucTra } from "@/components/site/gia-thuc-tra";
-import { MotNgayODay } from "@/components/site/mot-ngay-o-day";
+import { DaiAnhLon } from "@/components/site/dai-anh-lon";
 import { BangTruot, TheTruot } from "@/components/ui/bang-truot";
 import {
   diemTinCay,
@@ -107,10 +107,17 @@ export default function TrangChu() {
               động sản hỏi giá trước, hỏi quy hoạch sau. Quy hoạch vẫn nằm
               trong thanh điều hướng cho ai muốn tìm. */}
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href={DUONG_DAN.lienHe} className="nut nut-chinh">
-              So lại số tiền thực trả
-            </Link>
-            <Link href={DUONG_DAN.gia} className="nut nut-phu">
+            {/* NÚT CHÍNH ĐÃ GỠ, và đây là lần thứ ba nhãn của nó bị bác.
+                "Nhận bảng hàng" → "Nhận phương án thực trả" → "So lại số
+                tiền thực trả" — mỗi lần đổi là một lần chủ trang đọc lại rồi
+                gạch đi. Ba lần thì vấn đề không nằm ở chữ, mà ở chỗ Hero đang
+                cố bán một DỊCH VỤ trước khi người đọc kịp muốn gì.
+
+                Giờ Hero chỉ còn một nút, và nó mời XEM chứ không đòi liên hệ.
+                Đường liên hệ vẫn mở suốt: thanh Gọi · Zalo · Phương án bám đáy
+                màn hình trên điện thoại, và nút ở thanh điều hướng trên máy
+                tính. Người muốn gọi không thiếu chỗ bấm. */}
+            <Link href={DUONG_DAN.gia} className="nut nut-chinh">
               Xem giá &amp; quỹ căn
             </Link>
             {/* Nút tour chỉ hiện khi có link chạy được — xem `data/project.ts`. */}
@@ -152,9 +159,6 @@ export default function TrangChu() {
           kể chuyện mới tới được câu trả lời. */}
       <ThanhQuyetDinh />
 
-      {/* KHỐI 03 — MÓC VOUCHER. Đứng ngay sau dải quyết định nhanh, trước cả
-          sản phẩm và giá. Lý do đầy đủ ghi trong chính thành phần. */}
-      <MocVoucher />
 
       {/* ============ QUY MÔ — chữ trái, số phải — MẢNG NỀN SÁNG =============
           Hai cột lệch: bản cũ để bốn con số nằm trơ một hàng ngang không có gì
@@ -230,38 +234,26 @@ export default function TrangChu() {
       </section>
 
       {/* =============================== SẢN PHẨM ============================= */}
-      {/* ==================== MỘT NGÀY Ở ĐÂY ================================
-          Đặt ở đây vì nhịp đọc của trang là QUY MÔ → CON NGƯỜI → NHÀ. Mảng
-          ngay trên vừa nói dự án LỚN cỡ nào bằng bốn con số; mảng ngay dưới
-          bắt người đọc CHỌN giữa năm dòng sản phẩm. Giữa hai việc đó phải có
-          một nhịp trả lời câu "thế còn tôi thì sao" — nếu không, trang đi
-          thẳng từ số liệu sang bảng giá, và đó là nhịp của một tờ rơi.
+      {/* ==================== DẢI ẢNH, KHÔNG CHỮ ============================
+          Chỗ này từng là khối "Sống ở đây thì một ngày trôi thế nào" — mười
+          thẻ, mỗi thẻ một câu hỏi đặt vào miệng người mua rồi tự trả lời.
 
-          Trước đợt này trang có 0 ảnh nội thất, 0 ảnh giải trí và gần như 0
-          ảnh có người. Khối này là chỗ chữa. */}
+          Chủ trang đọc ra là NÓI XẤU KHÁCH, và đọc đúng: hỏi hộ rồi đáp hộ
+          thì giọng thành kẻ cả, dù từng chữ đều lịch sự. Người đọc trang này
+          là người sắp trả vài tỷ, không phải người cần được giảng.
+
+          Nên bỏ hẳn phần chữ chứ không sửa cho êm, và bỏ luôn tiêu đề mảng:
+          khối này là một nhịp NGHỈ bằng hình giữa mảng số liệu ở trên và mảng
+          bắt-phải-chọn ở dưới. Gắn tiêu đề vào là biến nhịp nghỉ thành một
+          mục phải đọc. */}
       <section className="border-t border-ink-line py-nhip">
         <Khung>
-          <TieuDeMang
-            tieuDe="Sống ở đây thì *một ngày trôi thế nào*"
-            dan={
-              <p>
-                Tám câu người mua hay hỏi tôi nhất, mỗi câu trả lời bằng một
-                tấm ảnh.{" "}
-                <strong className="text-paper">
-                  Toàn bộ là phối cảnh do chủ đầu tư phát hành — chưa phải ảnh
-                  chụp công trình đã xong.
-                </strong>{" "}
-                Ảnh công trường thật, có ngày tháng, nằm ở trang tiến độ.
-              </p>
-            }
-            lienKet={{ nhan: "Xem ảnh công trường", href: DUONG_DAN.tienDo }}
-          />
-
-          <Reveal delay={140} className="mt-12">
-            <MotNgayODay />
+          <Reveal>
+            <DaiAnhLon />
           </Reveal>
         </Khung>
       </section>
+
 
 
       <section
@@ -309,6 +301,18 @@ export default function TrangChu() {
       <QuyCanXemTruoc />
 
       <GiaThucTra />
+
+      {/* KHỐI VOUCHER ĐÃ CHUYỂN XUỐNG ĐÂY, trước nó nằm ngay dưới Hero.
+
+          Đứng thứ hai trên trang, nó bắt người vừa mở trang phải nghĩ về một
+          thứ họ chưa biết là gì. "Chưa có voucher Vin?" chỉ là câu hỏi có
+          nghĩa với người ĐÃ biết voucher Vin là gì và đã đi hỏi vài nơi.
+
+          Đặt sau khối giá thực trả thì người đọc vừa được giải thích số tiền
+          thực trả gồm những gì — lúc đó câu hỏi về voucher mới có chỗ bám. */}
+      {/* KHỐI 03 — MÓC VOUCHER. Đứng ngay sau dải quyết định nhanh, trước cả
+          sản phẩm và giá. Lý do đầy đủ ghi trong chính thành phần. */}
+      <MocVoucher />
 
       {/* ========================= QUY HOẠCH (dẫn sang trang) ==================
           Bốn phân khu tiêu biểu kèm ảnh, phần còn lại nằm ở trang riêng. Bản
