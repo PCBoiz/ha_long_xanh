@@ -80,11 +80,6 @@ const ASSETS = [
     alt: "Bản đồ quy hoạch các phân khu Vinhomes Global Gate Hạ Long",
     crop: { trai: 0.157, tren: 0.153, phai: 0.85, duoi: 0.752 },
   },
-  {
-    id: "1X0whtAVS6AD7DJb8H2095_sKD8AsIH94",
-    name: "tmb-khu-1",
-    alt: "Sơ đồ tổng mặt bằng Khu 1",
-  },
 
   // Tiện ích VinWonders — ảnh nhiều màu, dùng để phối cảnh đỡ đơn điệu (sáu
   // tấm phối cảnh tổng đều là cảnh nhìn từ trên cao nên rất giống nhau).
@@ -94,19 +89,9 @@ const ASSETS = [
     alt: "Rạp xiếc trong công viên VinWonders lúc chạng vạng",
   },
   {
-    id: "1lFCbGRsalmvR2eaqmGZEWYt2f1AVly-M",
-    name: "tien-ich-02",
-    alt: "Quảng trường Rạp xiếc La Mã cổ đại",
-  },
-  {
     id: "1TluUvGK12hnM3A2ViOcn_lyqnSBnZMQp",
     name: "tien-ich-03",
     alt: "Phân khu trò chơi chủ đề Ai Cập cổ đại",
-  },
-  {
-    id: "1tfaLQTCTDdTTPM8H-LwWnNrdXjPEzQU3",
-    name: "tien-ich-04",
-    alt: "Vườn trẻ em Kids Garden",
   },
   {
     id: "1AO9AVqRy3cKXKMDvl8njkSyHwXUMv7IS",
@@ -174,11 +159,6 @@ const ASSETS = [
      chiếm 22 trong 32 căn đang bán.
      ═══════════════════════════════════════════════════════════════════════ */
   {
-    id: "18rD4IQOzXhk7PEqt943DvYssxUawkWT-",
-    name: "vbm-hoan-thien-01",
-    alt: "Căn hoàn thiện tại Vịnh Bình Minh nhìn từ mặt phố",
-  },
-  {
     id: "1ZgsqjJ_-1Q5O6AUMqKMl0b1rK6EtLx6c",
     name: "vbm-hoan-thien-02",
     alt: "Dãy nhà hoàn thiện tại Vịnh Bình Minh",
@@ -192,11 +172,6 @@ const ASSETS = [
     id: "1UQj_flkV3cYsO5ljeXE_tHvsFztfX-Ow",
     name: "vbm-hoan-thien-04",
     alt: "Đường nội khu Vịnh Bình Minh nhìn từ tầm mắt người đi bộ",
-  },
-  {
-    id: "1TtL72AcoivthCoiC_xgBZe-0SuKHrVVJ",
-    name: "vbm-lien-ke-goc-hai",
-    alt: "Dãy shophouse hoàn thiện, các gian hàng ở tầng một",
   },
 
   /* ─────────────── Kiến trúc theo TỪNG DÒNG SẢN PHẨM ───────────────
@@ -218,22 +193,12 @@ const ASSETS = [
   //
   // Hai tấm kiến trúc THẬT SỰ mới thì giữ lại, nằm ngay dưới.
   {
-    id: "1RMWAczC4r-55z9SKcNcLQuf83GQGhkSo",
-    name: "kien-truc-shophouse",
-    alt: "Dãy nhà phố nhìn từ đại lộ ven vịnh",
-  },
-  {
     id: "1tVrjm1IWMc0pNiBv31LKHJ4gjP98ur8U",
     name: "kien-truc-don-lap-02",
     alt: "Biệt thự đơn lập nhìn từ phía sân vườn",
   },
 
   // Khối cao tầng — góc nhìn thứ ba, khác hai tấm cao tầng đã có.
-  {
-    id: "157LJeAmhGpbH8V-zkwFpaJ-nCL63ibv5",
-    name: "cao-tang-03",
-    alt: "Chân đế khối căn hộ cao tầng",
-  },
 ];
 
 /**
