@@ -71,6 +71,37 @@ hình). Đang chờ.
 án đã vạch khi bác hai thư mục Drive — tên tệp là câu lệnh sinh ảnh, và có ảnh
 chụp nơi khác gắn nhãn Hạ Long.
 
+### ⚠️ MÂU THUẪN CHƯA GIẢI — tiểu khu thuộc phân khu nào (09/09)
+
+Bảng hàng SalePro **chỉ có cột tiểu khu**, không có cột phân khu. Nên không suy
+ra được "tiểu khu này thuộc phân khu kia" từ dữ liệu.
+
+- **Chủ trang trả lời (09/09):** cả "Vịnh Bình Minh 1" (345 căn) và "Thiên Đường
+  Nhiệt Đới 1" (271 căn) đều thuộc **Vịnh Thiên Đường**.
+- **Tra chéo lại thì ngược:** vinhomeshalongxanhquangninh.com (trang mặt bằng
+  Paradise Bay) mô tả Thiên Đường Nhiệt Đới là *"khu vực bãi biển nhân tạo ngay
+  phía Nam"* **CỦA** Vịnh Thiên Đường, và liệt kê ba khu giáp ranh là Thiên
+  Đường Xanh / Đảo Thiên Đường / Vịnh Hoàng Hôn — tức nằm CẠNH, không nằm TRONG.
+- **Nhưng một trang khác lại nói nằm TRONG.** Hai nguồn ngoài mâu thuẫn nhau nên
+  không phân xử được, và không đủ sức bác người đang giữ tài liệu gốc.
+
+**Đã xử lý:** viết câu đúng dưới CẢ HAI cách hiểu — "toàn dự án hiện mở bán 616
+căn ở hai tiểu khu X và Y", lấy thẳng từ hệ thống chủ đầu tư. Khối này hiện trên
+cả chín trang phân khu (`bang-hang-quanh-day.tsx`).
+
+**🔓 Mở khoá khi nào:** khi có mặt bằng chính thức của chủ đầu tư ghi rõ ranh
+giới phân khu. Lúc đó tách được theo từng khu, và `/phan-khu/paradise-bay` sẽ
+nói được điều mạnh hơn hẳn hiện nay.
+
+### Ba dữ liệu chủ trang xác nhận LÀ CÓ trong tài liệu, nhưng chưa gửi (09/09)
+1. Diện tích từng phân khu (ha)
+2. Lộ trình mở bán từng khu (chỉ cần thứ tự đợt, không cần ngày)
+3. Phân khu nào bán dòng sản phẩm nào
+
+Chín trang phân khu mỏng vì **kho chỉ giữ ba gạch đầu dòng + một toạ độ mỗi
+khu**. Ba dữ liệu trên là thứ duy nhất làm chúng dày lên mà không phải bịa.
+Không có chúng thì đừng viết thêm — nói vòng còn tệ hơn ngắn.
+
 ### Tra từ khoá — kết quả đầu tiên (09/09, tra SERP thật)
 
 - Đối thủ xếp hạng bằng **tên tiếng Việt** của phân khu: "Vịnh Thiên Đường
