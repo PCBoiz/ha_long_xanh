@@ -63,6 +63,26 @@ export function KhoiChot({
               <Link href={DUONG_DAN.lienHe} className="nut nut-chinh">
                 {thongDiepChot.nutChinh}
               </Link>
+              {/* ⚠️ NÚT NÀY NHẮM MỘT NGƯỜI RẤT CỤ THỂ, ĐỪNG GỘP VỚI NÚT TRÊN.
+
+                  Nút chính mời người CHƯA BIẾT GÌ bắt đầu tìm hiểu. Nút này
+                  mời người ĐÃ ĐI XEM, ĐÃ CÓ BÁO GIÁ TRONG TAY, đang ở rất
+                  gần lúc ký — và đó là người dễ chốt nhất trên cả trang.
+
+                  Với họ, mọi lời mời "tìm hiểu dự án" đều vô nghĩa: họ tìm
+                  hiểu xong rồi. Thứ họ còn thiếu là MỘT PHƯƠNG ÁN THỨ HAI để
+                  đặt cạnh cái đang cầm. Không nút nào khác trên trang nói
+                  với họ, nên họ đọc xong rồi đi.
+
+                  Câu chữ cố ý thừa nhận họ đã có báo giá thay vì lờ đi. Người
+                  đang cầm một bảng giá không muốn nghe mời chào lại từ đầu. */}
+              <Link
+                href={DUONG_DAN.lienHe}
+                data-do="so-lai-bao-gia"
+                className="link-underline inline-flex min-h-11 items-center text-nav uppercase text-paper"
+              >
+                Tôi đã có báo giá — nhờ xem lại
+              </Link>
               {/* Đường gọi thẳng đặt cạnh nút. Có người không bao giờ điền biểu
                   mẫu nhưng sẵn sàng bấm gọi — bắt họ đi tìm số ở chân trang là
                   mất đúng những người sốt ruột nhất. */}

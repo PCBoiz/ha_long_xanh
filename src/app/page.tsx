@@ -142,10 +142,18 @@ export default function TrangChu() {
               <div key={muc.nhan}>
                 <dt className="text-label uppercase text-paper/45">{muc.nhan}</dt>
                 <dd className="mt-1.5 text-h4">
-                  {muc.giaTri}
-                  {process.env.NODE_ENV !== "production" && muc.canXacNhan ? (
-                    <span className="ml-2 text-small text-jade">⚠</span>
-                  ) : null}
+                  {/* Ô nào có hồ sơ để đọc thì thành liên kết. Một câu pháp lý
+                      dẫn tới chỗ tra được đáng tin hơn hẳn cùng câu đó in trơn. */}
+                  {"duongDan" in muc && muc.duongDan ? (
+                    <Link
+                      href={muc.duongDan}
+                      className="link-underline decoration-paper/30 hover:text-jade"
+                    >
+                      {muc.giaTri}
+                    </Link>
+                  ) : (
+                    muc.giaTri
+                  )}
                 </dd>
               </div>
             ))}

@@ -87,7 +87,20 @@ export async function layHangCho(
   if (!token) {
     return { trangThai: "loi", thongBao: "Máy chủ chưa cấu hình INGEST_TOKEN." };
   }
-  const khoa = String(duLieu.get("khoa") ?? "");
+  // ⚠️ PHẢI `.trim()`. Thiếu nó là một lỗi TÀNG HÌNH và đã tốn thật.
+  //
+  // Khoá dài 64 ký tự nên trong mọi ghi chú, email hay tin nhắn nó đều BỊ NGẮT
+  // XUỐNG DÒNG. Người dùng quét chuột chọn cả hai dòng rồi dán — chuỗi dán vào
+  // mang theo một ký tự xuống dòng ở giữa hoặc ở cuối.
+  //
+  // Ô nhập là `type="password"` nên màn hình chỉ hiện một hàng chấm: không có
+  // cách nào NHÌN ra thừa ký tự. Trang báo đúng ba chữ "Khoá không đúng", và
+  // người dùng đi kiểm biến môi trường trên máy chủ — tức là đi tìm một lỗi
+  // không tồn tại.
+  //
+  // Khoảng trắng ở hai đầu KHÔNG BAO GIỜ là một phần của khoá, nên cắt đi
+  // không nới lỏng bảo mật chút nào. So sánh vẫn theo thời gian hằng số.
+  const khoa = String(duLieu.get("khoa") ?? "").trim();
   if (!(await conLuot()) || !khoa || !tokenKhop(khoa, token)) {
     return { trangThai: "loi", thongBao: "Khoá không đúng." };
   }
@@ -159,7 +172,20 @@ export async function duyetBai(
     return { trangThai: "loi", thongBao: "Máy chủ chưa cấu hình INGEST_TOKEN." };
   }
 
-  const khoa = String(duLieu.get("khoa") ?? "");
+  // ⚠️ PHẢI `.trim()`. Thiếu nó là một lỗi TÀNG HÌNH và đã tốn thật.
+  //
+  // Khoá dài 64 ký tự nên trong mọi ghi chú, email hay tin nhắn nó đều BỊ NGẮT
+  // XUỐNG DÒNG. Người dùng quét chuột chọn cả hai dòng rồi dán — chuỗi dán vào
+  // mang theo một ký tự xuống dòng ở giữa hoặc ở cuối.
+  //
+  // Ô nhập là `type="password"` nên màn hình chỉ hiện một hàng chấm: không có
+  // cách nào NHÌN ra thừa ký tự. Trang báo đúng ba chữ "Khoá không đúng", và
+  // người dùng đi kiểm biến môi trường trên máy chủ — tức là đi tìm một lỗi
+  // không tồn tại.
+  //
+  // Khoảng trắng ở hai đầu KHÔNG BAO GIỜ là một phần của khoá, nên cắt đi
+  // không nới lỏng bảo mật chút nào. So sánh vẫn theo thời gian hằng số.
+  const khoa = String(duLieu.get("khoa") ?? "").trim();
   if (!(await conLuot()) || !khoa || !tokenKhop(khoa, token)) {
     return { trangThai: "loi", thongBao: "Khoá không đúng." };
   }

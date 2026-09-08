@@ -407,21 +407,27 @@ export const dongSanPham: DongSanPham[] = [
 
 /** Khối niềm tin ngắn đặt ở trang chủ. */
 export const diemTinCay = [
-  // ⚠️ ĐÁNH DẤU CẦN ĐỐI CHIẾU — claim này đang nói CHO CẢ NĂM DÒNG SẢN PHẨM.
+  // ⚠️ HAI Ô NÀY TRỎ VÀO HỒ SƠ, KHÔNG KHẲNG ĐỊNH. ĐỪNG ĐỔI NGƯỢC LẠI.
   //
-  // "Sở hữu lâu dài" đúng với nhà thấp tầng gắn liền với đất. Nhưng dự án này
-  // còn có căn hộ cao tầng, và hình thức sở hữu của căn hộ không mặc nhiên
-  // giống nhà đất. Câu ở đây không phân biệt dòng nào, nên nó đang khẳng định
-  // rộng hơn mức hồ sơ có thể chứng minh.
+  // Bản cũ ghi thẳng "Sở hữu lâu dài" và "Ngân hàng Techcombank". Cả hai đều
+  // có cơ sở, nhưng đều nói RỘNG HƠN mức hồ sơ chứng minh được:
   //
-  // KHÔNG XOÁ VÀ CŨNG KHÔNG SỬA THÀNH CÂU KHÁC khi chưa có hồ sơ trong tay —
-  // sửa mò một câu pháp lý còn tệ hơn để nguyên. Việc phải làm là mở hồ sơ
-  // pháp lý của TỪNG dòng sản phẩm, đối chiếu, rồi hoặc bỏ cờ này đi, hoặc
-  // tách câu theo từng dòng.
-  { nhan: "Pháp lý", giaTri: "Sở hữu lâu dài", canXacNhan: true },
+  //   · "Sở hữu lâu dài" đúng với nhà thấp tầng gắn liền với đất. Dự án còn có
+  //     căn hộ cao tầng, và chính sách bán hàng còn phân biệt theo đối tượng —
+  //     tổ chức và cá nhân nước ngoài ở một số quỹ chỉ ký hợp đồng thuê.
+  //   · "Ngân hàng Techcombank" đọc ra là MỌI căn, MỌI nghĩa vụ đều đã được
+  //     bảo lãnh. Thứ có thật là văn bản cam kết phát hành bảo lãnh và thoả
+  //     thuận cấp bảo lãnh — không đồng nghĩa với nhau.
+  //
+  // Cách sửa KHÔNG phải viết một câu khác cho khéo, mà là bỏ hẳn vai trò người
+  // khẳng định: nêu tên hồ sơ, rồi đưa người đọc tới đúng chỗ đọc nó. Trang mất
+  // một câu nghe chắc nịch, đổi lại được thứ đáng hơn — người đọc tự kiểm được.
+  //
+  // Đó cũng là lý do bỏ cờ `canXacNhan`: không còn khẳng định nào để xác minh.
+  { nhan: "Pháp lý", giaTri: "Xem hồ sơ & điều kiện", duongDan: "/phap-ly-global-gate-ha-long" },
   { nhan: "Tiến độ", giaTri: "Đã khởi công 2025" },
   { nhan: "Chủ đầu tư", giaTri: "Vingroup – Vinhomes" },
-  { nhan: "Bảo lãnh", giaTri: "Ngân hàng Techcombank", canXacNhan: true },
+  { nhan: "Bảo lãnh", giaTri: "Tài liệu Techcombank", duongDan: "/phap-ly-global-gate-ha-long" },
 ];
 
 // ⚠️ tour360 ĐỂ TRỐNG có chủ đích.
