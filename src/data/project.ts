@@ -217,7 +217,7 @@ export const phanKhu: PhanKhu[] = [
     x: 61.3,
     y: 12.5,
     diemNhan: [
-      "Học viện golf PGA đẳng cấp quốc tế 5,8ha",
+      "Học viện golf PGA chuẩn quốc tế",
       "Công viên thể thao quốc tế Global Sportia Park 9,4ha",
       "Quần thể 12 sân golf 950ha",
     ],
@@ -490,9 +490,25 @@ export interface HangMucTienIch {
  * Diện tích thì GIỮ, vì diện tích là con số — người đọc tự so được. 950 hecta
  * sân golf nói mạnh hơn chữ "lớn nhất", và không ai cãi được nó.
  *
- * ⚠️ ĐỪNG THÊM LẠI. Trường `danhXung` còn đó cho những đặc điểm kiểm chứng
- * được, ví dụ "100% nước biển tự nhiên" — một câu có thể đối chiếu bằng hồ sơ
- * kỹ thuật. "Lớn nhất" thì không đối chiếu được bằng gì cả.
+ * ⚠️ ĐỪNG THÊM LẠI. Trường `danhXung` còn đó cho những đặc điểm CÓ THỂ QUY VỀ
+ * MỘT NGUỒN, không phải cho danh xưng so sánh. "Lớn nhất" thì không quy về đâu
+ * được cả.
+ *
+ * ───────────────────────────────────────────────────────────────────────────
+ * ĐÍNH CHÍNH VỀ VÍ DỤ DUY NHẤT ĐANG DÙNG — "100% nước biển tự nhiên".
+ *
+ * Bản trước của chính ghi chú này gọi nó là "một câu có thể đối chiếu bằng hồ
+ * sơ kỹ thuật". Đã đi tra ngày 08/09/2026, và câu đó KHÔNG ĐÚNG:
+ *
+ *   CÓ    — market.vinhomes.vn/blog/tien-ich-vinhomes-global-gate-ha-long viết
+ *           nguyên văn "100% nước biển tự nhiên được lọc trong xanh". Nên đây
+ *           là điều CHỦ ĐẦU TƯ TỰ CÔNG BỐ, không phải môi giới thêm vào.
+ *
+ *   KHÔNG — không tìm được bất kỳ hồ sơ kỹ thuật, kết quả đo độ mặn hay báo
+ *           cáo kiểm định độc lập nào để đối chiếu chữ "100%".
+ *
+ * Nên nó đạt mức "chủ đầu tư công bố", KHÔNG đạt mức "đã kiểm chứng". Giữ lại
+ * vì quy được về nguồn — nhưng đừng ai đọc ghi chú này rồi tưởng đã có người đo.
  * ═══════════════════════════════════════════════════════════════════════════
  *
  * ⚠️ Diện tích cần đối chiếu hồ sơ gốc trước khi phát hành.
@@ -506,14 +522,30 @@ export const hangMucTienIch: HangMucTienIch[] = [
     danhXung: "100% nước biển tự nhiên",
   },
   { ten: "Công viên rừng Globe Hạ Long", dienTich: 662 },
-  { ten: "Đảo đô thị hưu trí Vin New Horizon", dienTich: 138 },
+  { ten: "Đảo đô thị hưu trí Vin New Horizon", dienTich: 158 },
   { ten: "Công viên VinWonders", dienTich: 81 },
   { ten: "TTTM Vincom Megamall & TOD ga Depot", dienTich: 73 },
   { ten: "Làng văn hoá & ẩm thực Heritage Village", dienTich: 18.5 },
   { ten: "Điểm đến văn hoá & sự kiện", dienTich: 16.4 },
   { ten: "Làng hải sản Việt Seafood", dienTich: 10 },
   { ten: "Công viên thể thao Global Sportia Park", dienTich: 9.4 },
-  { ten: "Học viện golf PGA", dienTich: 5.8 },
+  // ⚠️ ĐÃ GỠ "Học viện golf PGA — 5,8 ha" KHỎI BẢNG NÀY. ĐỪNG ĐƯA LẠI.
+  //
+  // Tra ngày 08/09/2026: KHÔNG một nguồn chính thức nào của Vinhomes nêu diện
+  // tích cho hạng mục này. Trang tổng hợp 47 tiện ích của market.vinhomes.vn
+  // chỉ ghi "Học viện Golf PGA chuẩn quốc tế" — không kèm số.
+  //
+  // Hai trang môi giới đưa hai con số KHÁC NHAU:
+  //   vinhomehalongxanh.com.vn      → 5,8 ha
+  //   diendandoanhnghiep.vn         → 4,5 ha
+  //
+  // Không có nguồn nào phân xử. Mà bảng này nuôi `llms.txt` và khối dữ liệu có
+  // cấu trúc — tức là con số ở đây đi thẳng vào thứ trợ lý AI đọc rồi TRÍCH
+  // DẪN LẠI. Một con số không ai xác minh được nằm ở đó nặng hơn hẳn so với
+  // nằm trên trang, vì nó lan ra ngoài tầm sửa của mình.
+  //
+  // Tên hạng mục vẫn còn trong `diemNhan` của Đảo Tinh Hoa Thể Thao — chỉ bỏ
+  // con số, không bỏ sự thật là có học viện golf.
 ];
 
 export interface DongSoSanh {
