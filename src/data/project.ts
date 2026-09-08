@@ -111,7 +111,19 @@ export const duAn = {
   //
   // Dấu sao bọc cụm cần in nghiêng (xem `SplitReveal`).
   tuyenBoChinh: "Nơi *kỳ quan* trở thành nhà",
-  tuyenBoPhu: "kết nối toàn cầu bên vịnh di sản quốc tế",
+  /**
+   * ⚠️ ĐÂY LÀ CÂU BÁN HÀNG, KHÔNG PHẢI CÂU MÔ TẢ DỰ ÁN.
+   *
+   * Bản cũ — "kết nối toàn cầu bên vịnh di sản quốc tế" — mô tả DỰ ÁN, và mô
+   * tả bằng đúng những chữ mà mọi trang bán Global Gate khác cũng dùng. Nó
+   * không nói được điều gì riêng của trang này, và không nói với người đọc
+   * rằng họ nên làm gì.
+   *
+   * Bản này nói thẳng lập trường: mua để Ở trước đã, rồi mới tới chuyện giữ
+   * giá trị. Đó đúng là tệp khách trọng tâm — người mua để ở nhưng vẫn quan
+   * tâm căn mình chọn có giữ được giá không.
+   */
+  tuyenBoPhu: "Mua để sống. Chọn để giữ giá trị.",
   moTaNgan:
     "Đô thị biển quy mô lớn bên vịnh Hạ Long, nơi hạ tầng, tiện ích và thiên nhiên được quy hoạch đồng bộ ngay từ đầu.",
 } as const;

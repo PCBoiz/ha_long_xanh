@@ -87,19 +87,47 @@ export function MocVoucher() {
                 Bản này giữ nguyên phần cụ thể (chính sách, tiến độ) nhưng
                 nhét vào đúng câu mang thông điệp riêng của khối — câu về
                 voucher. Mất một đoạn, không mất thông tin nào. */}
+            {/* ⚠️ ĐOẠN NÀY TỪNG TỰ PHÁ LỢI THẾ CỦA CHÍNH KHỐI. ĐỌC KỸ.
+
+                Bản cũ mở đầu bằng "Chưa có voucher cũng không sao — phần lớn
+                khoản chênh không nằm ở voucher."
+
+                Nghe thì trấn an. Nhưng cả khối này tồn tại để mời người CHƯA
+                CÓ voucher gọi cho mình. Câu đó lại tự nói với họ rằng voucher
+                không quan trọng lắm — tức là dựng lợi thế lên ở tiêu đề rồi
+                phá nó ngay dòng dưới.
+
+                Nó còn tiết lộ quá nhiều CÁCH LÀM: nói rõ khoản chênh nằm ở
+                chính sách và tiến độ thanh toán là chỉ luôn cho người đọc chỗ
+                cần hỏi, và họ hỏi được ở bất cứ đâu.
+
+                Bản này chỉ nói MỘT điều: đừng vội nhận phương án đang được
+                báo, có một phương án nữa đáng xem. Rồi dừng. Không nói làm
+                bằng cách nào. */}
             <p className="text-body leading-relaxed text-paper-dim">
-              <strong className="text-paper">
-                Chưa có voucher cũng không sao
-              </strong>{" "}
-              — phần lớn khoản chênh nằm ở chính sách đang áp dụng lúc ký và
-              tiến độ thanh toán chọn theo, không nằm ở voucher. Việc của tôi
-              là rà hết một lượt, rồi dựng một phương án thực trả để anh/chị có
-              cơ sở so sánh trước khi quyết định.
+              Chưa có voucher Vin không có nghĩa anh/chị nên chấp nhận ngay
+              phương án đang được báo. Trước khi quyết định, hãy để tôi xây
+              thêm một phương án riêng cho trường hợp của anh/chị và so lại số
+              tiền thực trả.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link href={DUONG_DAN.voucher} className="nut nut-chinh">
-                Xem cách tôi rà quyền lợi
+                {/* ⚠️ ĐÃ ĐỔI RỒI ĐỔI LẠI. GIỮ NGUYÊN CÂU NÀY.
+
+                    Hôm 07/09 tôi đổi nhãn này thành "Xem cách tôi rà quyền
+                    lợi", lý do: bảy nút trên trang chủ đều dùng chữ "phương
+                    án" nên nhìn lướt không phân biệt được nút nào đi đâu.
+
+                    Lý do đó đúng về mặt điều hướng nhưng SAI về mặt bán hàng.
+                    "Xem cách tôi rà quyền lợi" mời người đọc đi HỌC CÁCH LÀM,
+                    trong khi việc cần họ làm là gọi hoặc để lại nhu cầu. Một
+                    cái nút tốt hứa thứ người đọc NHẬN ĐƯỢC, không mô tả việc
+                    người viết sẽ làm.
+
+                    Chuyện bảy nút trùng chữ vẫn có thật — nhưng gỡ nó ở chỗ
+                    khác, không phải bằng cách đổi lời mời mạnh nhất trang. */}
+                Xem phương án của tôi
               </Link>
               <Link
                 href={DUONG_DAN.giaThucTra}
