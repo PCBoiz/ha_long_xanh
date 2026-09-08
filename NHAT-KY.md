@@ -71,6 +71,22 @@ hình). Đang chờ.
 án đã vạch khi bác hai thư mục Drive — tên tệp là câu lệnh sinh ảnh, và có ảnh
 chụp nơi khác gắn nhãn Hạ Long.
 
+### Lỗi tìm được khi đo, không phải khi đoán (09/09)
+
+**`/du-an` đang nhúng cả bảng 616 căn** — 1,45 MB HTML, 34.442 từ, gần bằng
+chính trang bảng hàng. Phát hiện ra vì con số 34.442 đứng lệch hẳn khỏi phần
+còn lại khi đếm từ toàn trang, chứ không phải vì mở trang ra xem.
+
+Hai hậu quả, cái thứ hai âm thầm hơn: nặng; và **trùng nội dung** với
+`/quy-can-global-gate-ha-long` — hai địa chỉ cùng mang một khối lớn thì Google
+tự chọn cái nào đáng xếp hạng, và có thể chọn trang mình không muốn.
+
+Đã thay bằng tóm tắt: **1.450 KB → 129 KB · 34.452 từ → 916 từ**. Bảng vẫn ở
+nguyên một nơi duy nhất. `/phan-khu/*` cũng tăng 345 → 492 từ nhờ khối tóm tắt.
+
+Bài học ghi lại: **đếm từ toàn bộ trang là phép đo rẻ mà bắt được lỗi cấu trúc.**
+Nên chạy lại sau mỗi đợt sửa lớn.
+
 ### ⚠️ MÂU THUẪN CHƯA GIẢI — tiểu khu thuộc phân khu nào (09/09)
 
 Bảng hàng SalePro **chỉ có cột tiểu khu**, không có cột phân khu. Nên không suy
