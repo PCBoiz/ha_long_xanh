@@ -139,11 +139,6 @@ const ASSETS = [
     alt: "Phối cảnh nhà liền kề",
   },
   {
-    id: "1bIjH_YLKXiJyf3L6H6Jbsl9AZMtOnxJM",
-    name: "san-pham-don-lap",
-    alt: "Phối cảnh biệt thự đơn lập",
-  },
-  {
     id: "1w7eNA6Ne0c5w9-p-IJPp4Xis6iVl5p_1",
     name: "san-pham-song-lap",
     alt: "Phối cảnh biệt thự song lập",
@@ -387,11 +382,6 @@ const ANH_TU_PDF = [
     name: "song-ngam-vinh-tu-ban-cong",
     alt: "Phối cảnh gia đình đứng ở ban công nhìn ra vịnh lúc mặt trời lặn",
   },
-  {
-    file: "song-le-hoi-ben-du-thuyen.jpg",
-    name: "song-le-hoi-ben-du-thuyen",
-    alt: "Phối cảnh đêm lễ hội ngoài trời bên bến du thuyền",
-  },
   // ── Giải trí — cũng đang là 0 ──────────────────────────────────────────────
   {
     file: "giai-tri-thuy-cung.jpg",
@@ -403,22 +393,7 @@ const ANH_TU_PDF = [
     name: "giai-tri-cong-vien-chu-de",
     alt: "Phối cảnh công viên chủ đề với nhân vật hoá trang và trẻ em",
   },
-  {
-    file: "giai-tri-bai-tam-lagoon.jpg",
-    name: "giai-tri-bai-tam-lagoon",
-    alt: "Phối cảnh bãi tắm nước trong ở biển lagoon, có người chèo ván và thuyền nhỏ",
-  },
   // ── Phố thương mại — đúng lời hứa "vừa ở vừa khai thác mặt phố" ────────────
-  {
-    file: "song-pho-thuong-mai-buoi-toi.jpg",
-    name: "song-pho-thuong-mai-buoi-toi",
-    alt: "Phối cảnh dãy phố thương mại lúc chập tối, hàng quán đã lên đèn",
-  },
-  {
-    file: "song-dai-lo-mua-hoa.jpg",
-    name: "song-dai-lo-mua-hoa",
-    alt: "Phối cảnh đại lộ nội khu mùa hoa nở, hai bên là dãy nhà thấp tầng",
-  },
   // ── Tiện ích và thiên nhiên ───────────────────────────────────────────────
   {
     file: "tien-ich-san-golf-ven-ho.jpg",
@@ -435,6 +410,101 @@ const ANH_TU_PDF = [
     name: "thien-nhien-cau-go-rung-ngap-man",
     alt: "Phối cảnh cầu gỗ đi bộ xuyên rừng ngập mặn nhìn từ trên cao",
   },
+];
+
+/**
+ * Ảnh GỐC lấy từ thư mục Drive của chủ đầu tư, phát hiện ngày 08/09/2026.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * NĂM TẤM ĐẦU THAY THẲNG BẢN PHÓNG TỪ PDF — và đây là bằng chứng
+ *
+ * Đối chiếu bằng vân tay 16×16 xám chuẩn hoá giữa 13 tấm bóc từ PDF và 168 tấm
+ * trên Drive. Bốn cặp có khoảng cách dưới 0,55 (thang 0 = trùng khít):
+ *
+ *     song-le-hoi-ben-du-thuyen     0,124
+ *     song-pho-thuong-mai-buoi-toi  0,188
+ *     giai-tri-bai-tam-lagoon       0,517
+ *     song-dai-lo-mua-hoa           0,525
+ *
+ * Đã DỰNG ẢNH SO SÁNH VÀ NHÌN BẰNG MẮT — cùng một khung hình, khác mỗi độ
+ * phân giải. Không tin số đo suông, vì đã có lần số đo đúng mà kết luận sai.
+ *
+ *     Ảnh trong PDF   428 – 785 px, còn phải phóng 2,3× mới dùng được
+ *     Ảnh gốc Drive   tới 4000 px
+ *
+ * ⚠️ HAI THƯ MỤC ĐÃ LOẠI HẲN, ĐỪNG THÊM LẠI
+ *
+ * 1 · "Công viên TĐNĐ1" và "Công viên VBM1" (204 tệp) là HỒ SƠ THIẾT KẾ ĐANG
+ *     LÀM DỞ. Tên file chính là câu lệnh cho máy sinh ảnh:
+ *
+ *        thêm_người_đang_202604241527.png
+ *        xóa_biển_tên_202604241131.png
+ *        AIComplex_1777024114909.png
+ *        ChatGPT Image Apr 24, 2026, 03_50_00 PM.png
+ *
+ *     Đưa lên trang là đăng ảnh MÁY SINH như thể phối cảnh chính thức của chủ
+ *     đầu tư. Trớ trêu ở chỗ nhiều tấm được đặt tên "ảnh_chụp_thực_…" — tức là
+ *     người làm đang bảo máy vẽ sao cho GIỐNG ẢNH CHỤP THẬT.
+ *
+ * 2 · Hơn nửa thư mục "TIỆN ÍCH" là ẢNH THẬT CỦA NƠI KHÁC, dùng làm ảnh tham
+ *     chiếu ý tưởng trong bộ bán hàng — không phải phối cảnh dự án:
+ *
+ *        "TỔ HỢP … C-DISTRICT"  → một ngôi chùa có thật, không ở Hạ Long
+ *        "LÀNG BIA … BEER TOWN" → ảnh lễ hội bia châu Âu
+ *        "CÔNG VIÊN ỐC ĐẢO …"   → một công viên kiểu Anh
+ *        "CỤM 03 SÂN GOLF"      → sân golf ở nơi khác
+ *
+ *     Chỉ lấy ba tấm ở cuối mảng này, là phối cảnh đúng của dự án.
+ *
+ * TÊN FILE CÓ MÃ MẪU NHÀ: CH##-LK / SL / DL / BTB = liền kề, song lập, đơn
+ * lập, biệt thự biển. Đây là thứ trước đây không có, nên đã từ chối đổi ảnh
+ * năm thẻ sản phẩm — xem ke-hoach/06-ANH.md.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+
+/**
+ * Mọi ảnh Drive đều có dải chữ "(*) Thông tin hình ảnh chỉ mang tính chất minh
+ * hoạ…" nướng ở mép dưới, cao chừng 3% khung. Ở cỡ hiển thị nó không đọc nổi,
+ * nên cắt đi và nói lại bằng chữ `alt` cùng câu cảnh báo in đậm trên trang.
+ */
+const CAT_CHU_CHAN = { trai: 0, tren: 0, phai: 1, duoi: 0.95 };
+
+const ANH_DRIVE_MOI = [
+  // ── Năm tấm thay bản phóng từ PDF, giữ NGUYÊN TÊN để nơi dùng không phải sửa
+  { id: "1YdCMx74aJw_BDmhKUUmxN3mPJPlUztnt", name: "giai-tri-bai-tam-lagoon", alt: "Phối cảnh bãi tắm nước trong ở biển lagoon, có người chèo ván và thuyền nhỏ", crop: CAT_CHU_CHAN },
+  // Dải chữ ở tấm này dày gấp đôi các tấm khác, nên cắt riêng 8%.
+  { id: "1Eeopzy2ngRdysPIH9rbj0sxL21Q35ofX", name: "song-dai-lo-mua-hoa", alt: "Phối cảnh đại lộ nội khu mùa hoa nở, hai bên là dãy nhà thấp tầng", crop: { trai: 0, tren: 0, phai: 1, duoi: 0.92 } },
+  { id: "1_4tDbJJ03TBYnYE_CWMho7SmwVD9L7S3", name: "song-le-hoi-ben-du-thuyen", alt: "Phối cảnh đêm lễ hội ngoài trời bên bến du thuyền", crop: CAT_CHU_CHAN },
+  { id: "1YeidsMgJLLMr2jB6cgZK-JsSVJl7OpQd", name: "song-pho-thuong-mai-buoi-toi", alt: "Phối cảnh dãy phố thương mại lúc chập tối, hàng quán đã lên đèn", crop: CAT_CHU_CHAN },
+  // ⚠️ KHÔNG lấy ảnh thuỷ cung của Drive về thay tấm đang dùng: bản Drive chỉ
+  //    772×585, NHỎ HƠN bản bóc từ PDF. "Ảnh gốc" không mặc nhiên là ảnh to hơn
+  //    — phải đo từng tấm. Tấm dưới đây là cảnh khác, 1067px, dùng bổ sung.
+  { id: "1RA0p_QTORdHXQYnbawyR0s0CuyHIJneH", name: "giai-tri-nha-hang-duoi-nuoc", alt: "Phối cảnh nhà hàng dưới vòm kính thuỷ cung", crop: CAT_CHU_CHAN },
+
+  // ── Giải trí, bổ sung
+  { id: "19MzRPKhyuociJR97L0PvHvh0_xpSooL6", name: "giai-tri-lang-tuyet", alt: "Phối cảnh làng tuyết trong nhà, có người chơi trên nền tuyết", crop: CAT_CHU_CHAN },
+  { id: "1xhWjuJGc5_7PCxkDZmQ7P9Oh23eKAAT1", name: "giai-tri-cong-vien-nuoc", alt: "Phối cảnh công viên nước chủ đề, phía sau là dãy núi đá vịnh Hạ Long", crop: CAT_CHU_CHAN },
+  { id: "1FBGUOhAfGZf9R_H9qmf1A5CGII0Qm4NJ", name: "giai-tri-rap-xiec", alt: "Phối cảnh sân khấu biểu diễn trong nhà, khán đài kín người", crop: CAT_CHU_CHAN },
+
+  // ── Theo DÒNG SẢN PHẨM. Mã trong tên file gốc cho biết ảnh thuộc dòng nào,
+  //    nên gán được mà không phải đoán — điều trước đây không làm được.
+  //
+  //    CHỈ CÒN HAI TẤM, và đó là kết quả của việc đối chiếu chứ không phải
+  //    lười. Đã tải về đủ bốn, rồi so vân tay với ảnh đang dùng:
+  //
+  //        song lập      lệch 0,35  →  CÙNG MỘT CẢNH, ảnh cũ đã đúng
+  //        biệt thự biển lệch 0,41  →  CÙNG MỘT CẢNH, ảnh cũ đã đúng
+  //
+  //    Nghĩa là nhãn ảnh sản phẩm trên trang vốn đã chính xác. Thay bằng bản
+  //    "gốc" chỉ đổi được cái đỡ dải chữ ở chân — không đáng để thêm hai tệp.
+  //    Đã xoá khỏi mảng này, vì tài sản nằm không chính là thứ tôi vẫn chê.
+  { id: "1wqZckH3uwitRjcvbXkfw-t2E3Hp__0Fd", name: "nha-lien-ke-mat-pho", alt: "Phối cảnh dãy nhà liền kề với mặt phố kinh doanh ở tầng một", crop: CAT_CHU_CHAN },
+  { id: "1USgHCV6omL6Im4p74tGviVVpBgH7xLF1", name: "nha-don-lap-ven-nuoc", alt: "Phối cảnh biệt thự đơn lập bên mặt nước", crop: CAT_CHU_CHAN },
+
+  // ── Tiện ích — CHỈ ba tấm là phối cảnh đúng của dự án, xem cảnh báo phía trên
+  { id: "1dPVGpv8j2jV59VFoggJhKHOhmryUZ_bs", name: "tien-ich-be-boi-noi", alt: "Phối cảnh bể bơi nổi trên mặt biển, có người bơi", crop: CAT_CHU_CHAN },
+  { id: "1Dgd9Ga41SpGxXqYADpy3zFZuJmQZE5gD", name: "tien-ich-bien-ho-trung-tam", alt: "Phối cảnh biển hồ trung tâm nhìn từ trên cao", crop: CAT_CHU_CHAN },
+  { id: "1h_VL5Q5waqu0aVQooO_F1knmtIucJ_HI", name: "tien-ich-cong-vien-hai-au", alt: "Phối cảnh công viên ven biển có ngọn hải đăng, người đi dạo", crop: CAT_CHU_CHAN },
 ];
 
 async function exists(target) {
@@ -637,7 +707,7 @@ async function main() {
   await mkdir(TMP_DIR, { recursive: true });
   await mkdir(path.dirname(MANIFEST), { recursive: true });
 
-  const tatCa = [...ASSETS, ...ANH_CUC_BO, ...ANH_TU_PDF];
+  const tatCa = [...ASSETS, ...ANH_CUC_BO, ...ANH_TU_PDF, ...ANH_DRIVE_MOI];
   kiemTrung(tatCa);
   console.log(`Xử lý ${tatCa.length} ảnh…`);
   const entries = [];

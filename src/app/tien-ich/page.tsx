@@ -55,7 +55,47 @@ const anhCoNguoi: { anh: ProjectImageName; chu: string }[] = [
     anh: "thien-nhien-cam-trai-rung-ngap-man",
     chu: "Công viên rừng ngập mặn — khu cắm trại bên mép nước",
   },
+  {
+    anh: "giai-tri-lang-tuyet",
+    chu: "Làng tuyết trong nhà — khu chơi tuyết nhân tạo",
+  },
+  {
+    anh: "giai-tri-cong-vien-nuoc",
+    chu: "Công viên nước chủ đề, phía sau là dãy núi đá của vịnh",
+  },
+  {
+    anh: "giai-tri-rap-xiec",
+    chu: "Sân khấu biểu diễn trong nhà",
+  },
 ];
+
+/**
+ * Bốn hạng mục gắn với MẶT NƯỚC. Tách riêng vì đây là thứ phân biệt dự án này
+ * với mọi đô thị nội địa — và cũng là thứ người mua hỏi nhiều nhất sau giá.
+ *
+ * ⚠️ BỐN TẤM NÀY ĐÃ QUA SÀNG LỌC, đọc trước khi thêm tấm thứ năm.
+ *
+ * Thư mục "TIỆN ÍCH" của chủ đầu tư có 22 tệp, nhưng QUÁ NỬA là ẢNH THẬT CHỤP
+ * NƠI KHÁC, dùng làm ảnh tham chiếu ý tưởng trong bộ bán hàng:
+ *
+ *     "TỔ HỢP … C-DISTRICT"  → một ngôi chùa có thật, không ở Hạ Long
+ *     "LÀNG BIA … BEER TOWN" → ảnh lễ hội bia châu Âu
+ *     "CÔNG VIÊN ỐC ĐẢO …"   → một công viên kiểu Anh
+ *     "CỤM 03 SÂN GOLF"      → sân golf ở nơi khác
+ *
+ * Đưa những tấm ấy lên đây là nói với người đọc rằng dự án SẼ có đúng cái họ
+ * đang nhìn — trong khi chủ đầu tư chỉ dùng chúng để mô tả TINH THẦN. Đó là
+ * một khẳng định sai, nói bằng hình, và người đọc không có cách nào biết.
+ *
+ * Bốn tấm dưới đây là phối cảnh do chủ đầu tư dựng CHO CHÍNH DỰ ÁN NÀY.
+ */
+const anhMatNuoc: { anh: ProjectImageName; chu: string }[] = [
+  { anh: "tien-ich-be-boi-noi", chu: "Bể bơi nổi trên mặt biển" },
+  { anh: "tien-ich-bien-ho-trung-tam", chu: "Biển hồ trung tâm nhìn từ trên cao" },
+  { anh: "tien-ich-cong-vien-hai-au", chu: "Công viên ven biển có hải đăng" },
+  { anh: "giai-tri-nha-hang-duoi-nuoc", chu: "Nhà hàng dưới vòm kính thuỷ cung" },
+];
+
 
 
 export default function TrangTienIch() {
@@ -139,6 +179,33 @@ export default function TrangTienIch() {
                       name={muc.anh}
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                       className="aspect-3/2 w-full object-cover"
+                    />
+                  </div>
+                  <figcaption className="mt-3 text-small text-paper-dim">
+                    {muc.chu}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+
+          <h3 className="mt-16 font-display text-h2 font-normal">
+            Bốn hạng mục gắn với mặt nước
+          </h3>
+          <p className="mt-3 max-w-xl text-body text-paper-dim">
+            Thứ phân biệt nơi này với một đô thị nội địa — và là câu người mua
+            hỏi nhiều thứ hai, ngay sau giá.
+          </p>
+
+          <div className="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+            {anhMatNuoc.map((muc, thuTu) => (
+              <Reveal key={muc.anh} delay={(thuTu % 4) * 80}>
+                <figure>
+                  <div className="overflow-hidden bg-ink-soft">
+                    <ProjectImage
+                      name={muc.anh}
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                      className="aspect-4/3 w-full object-cover"
                     />
                   </div>
                   <figcaption className="mt-3 text-small text-paper-dim">

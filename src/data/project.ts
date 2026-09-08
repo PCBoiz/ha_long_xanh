@@ -338,7 +338,11 @@ export const dongSanPham: DongSanPham[] = [
     ma: "lien-ke",
     ten: "Nhà liền kề",
     moTa: "Phù hợp vừa ở vừa khai thác mặt phố.",
-    anh: "san-pham-lien-ke",
+    // Đổi sang bản gốc mang mã CH13-LK ("LK" = liền kề). Khác hẳn tấm cũ
+    // (vân tay lệch 0,95) và có thứ tấm cũ thiếu: hàng quán đang mở, người
+    // đi bộ, người ngồi cà phê. Dòng liền kề bán bằng lời hứa "vừa ở vừa
+    // khai thác mặt phố" — ảnh phải cho thấy mặt phố ấy ĐANG được khai thác.
+    anh: "nha-lien-ke-mat-pho",
     dienTich: "60 – 144",
     // Chỉ ba mẫu trong bộ layout ở dạng ảnh; các mẫu còn lại là PDF nên trang
     // dẫn sang thư mục Drive thay vì hiển thị.
@@ -358,7 +362,20 @@ export const dongSanPham: DongSanPham[] = [
     ma: "don-lap",
     ten: "Biệt thự đơn lập",
     moTa: "Riêng tư hơn, bốn mặt thoáng.",
-    anh: "san-pham-don-lap",
+    // ⚠️ ĐỔI ẢNH VÌ HAI LỖI CÙNG LÚC, ĐỪNG ĐỔI NGƯỢC LẠI.
+    //
+    // 1 · TRÙNG ẢNH TRÊN CÙNG MỘT TRANG. Tấm cũ `san-pham-don-lap` và tấm
+    //     `giai-tri-bai-tam-lagoon` trong dải "một ngày ở đây" là CÙNG MỘT
+    //     CẢNH, chỉ khác khung cắt — đo vân tay lệch 0,48. Người cuộn trang
+    //     nhìn thấy đúng dãy nhà xanh trắng ấy hai lần, cách nhau vài màn hình.
+    //
+    // 2 · ẢNH KHÔNG KHỚP TÊN DÒNG. Tấm cũ chụp một DÃY nhà liền nhau bên bờ
+    //     nước. "Đơn lập" nghĩa là nhà đứng riêng trên lô riêng, bốn mặt
+    //     thoáng — đúng thứ tấm cũ không cho thấy.
+    //
+    // Tấm mới lấy từ file gốc chủ đầu tư mang mã CH55-DL: "DL" = đơn lập.
+    // Mã nằm trong tên file nên gán được mà không phải suy đoán.
+    anh: "nha-don-lap-ven-nuoc",
     // Nguồn: market.vinhomes.vn — tên miền của Vinhomes, tra ngày 08/09/2026:
     // "Biệt thự đơn lập … diện tích đất từ 250m2 - 500m2", phân khu Vịnh Thiên
     // Đường. Là DIỆN TÍCH ĐẤT, cùng đơn vị với hai dòng phía trên.

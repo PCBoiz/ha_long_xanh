@@ -17,7 +17,8 @@
     "kiem-cong-chan": "tsx scripts/kiem-cong-chan.ts",
     "kiem-gioi-han": "tsx scripts/kiem-gioi-han.ts",
     "kiem-use-server": "node scripts/kiem-use-server.mjs",
-    "gop-bang-hang": "node scripts/gop-bang-hang.mjs"
+    "gop-bang-hang": "node scripts/gop-bang-hang.mjs",
+    "kiem-anh-treo": "node scripts/kiem-anh-treo.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
