@@ -41,6 +41,21 @@ const anhMinhHoa: { anh: ProjectImageName; chu: string }[] = [
  * Vẫn giữ nguyên luật của mảng trên: CHỈ ghép ảnh vào hạng mục khi ảnh thật sự
  * là hạng mục đó. Ba tấm này lấy từ bộ tài liệu 06/09 của chủ đầu tư, mỗi tấm
  * nằm đúng trang nói về hạng mục tương ứng.
+ *
+ * ⚠️ ĐÃ CÓ LẦN TRÔI, ĐỌC TRƯỚC KHI THÊM TẤM THỨ TƯ.
+ *
+ * Chú thích này từng nói "ba tấm" trong khi mảng đã có SÁU. Ba tấm thêm sau
+ * không ai thẩm định — và audit ngày 09/09 cho thấy cả ba đều là ẢNH SINH BẰNG
+ * AI: một tấm có biển ghi "NORTH S POLE" chữ vỡ, một tấm có biển tiếng Việt
+ * nát thành "Đ5 chề mts", một tấm còn nguyên hình mờ của trình sinh ảnh ở góc.
+ *
+ * Chúng đã nằm trên trang đang chạy, được giới thiệu như tiện ích của dự án.
+ *
+ * Bài học không phải "kiểm ảnh kỹ hơn" mà là: MỘT CHÚ THÍCH ĐẾM SỐ THÌ PHẢI
+ * ĐẾM LẠI KHI THÊM. Chú thích nói ba mà mảng có sáu là chú thích đang nói dối,
+ * và nó nói dối đúng lúc người đọc tin nó nhất.
+ *
+ * Danh sách cấm và bằng chứng từng tấm: `src/data/anh-cam-dung.ts`.
  */
 const anhCoNguoi: { anh: ProjectImageName; chu: string }[] = [
   {
@@ -54,18 +69,6 @@ const anhCoNguoi: { anh: ProjectImageName; chu: string }[] = [
   {
     anh: "thien-nhien-cam-trai-rung-ngap-man",
     chu: "Công viên rừng ngập mặn — khu cắm trại bên mép nước",
-  },
-  {
-    anh: "giai-tri-lang-tuyet",
-    chu: "Làng tuyết trong nhà — khu chơi tuyết nhân tạo",
-  },
-  {
-    anh: "giai-tri-cong-vien-nuoc",
-    chu: "Công viên nước chủ đề, phía sau là dãy núi đá của vịnh",
-  },
-  {
-    anh: "giai-tri-rap-xiec",
-    chu: "Sân khấu biểu diễn trong nhà",
   },
 ];
 
@@ -93,7 +96,6 @@ const anhMatNuoc: { anh: ProjectImageName; chu: string }[] = [
   { anh: "tien-ich-be-boi-noi", chu: "Bể bơi nổi trên mặt biển" },
   { anh: "tien-ich-bien-ho-trung-tam", chu: "Biển hồ trung tâm nhìn từ trên cao" },
   { anh: "tien-ich-cong-vien-hai-au", chu: "Công viên ven biển có hải đăng" },
-  { anh: "giai-tri-nha-hang-duoi-nuoc", chu: "Nhà hàng dưới vòm kính thuỷ cung" },
 ];
 
 

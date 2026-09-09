@@ -11,6 +11,58 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 09/09/2026 — VÒNG 1 tự chủ · audit ảnh
+
+### Tìm ra: ba ảnh AI đang nằm trên trang đang chạy
+
+`/tien-ich` giới thiệu ba tấm này như tiện ích của dự án, cả ba là **ảnh sinh
+bằng AI**. Bằng chứng nhìn thấy được, không phải suy đoán:
+
+| Ảnh | Bằng chứng |
+|---|---|
+| `giai-tri-lang-tuyet` | Biển ghi **"NORTH S POLE"** — chữ vỡ, khoảng cách sai; biển nhà gỗ là ký tự vô nghĩa |
+| `giai-tri-cong-vien-nuoc` | Biển ghi **"Công viên Nước Đ5 chề mts"** — chữ Việt nát; chủ đề "INCA EMPIRE" giữa vịnh Hạ Long |
+| `giai-tri-rap-xiec` | Còn nguyên **hình mờ của trình sinh ảnh** ở góc phải dưới |
+
+Hai tấm nữa bị cách ly vì chưa xác minh được nguồn: `giai-tri-nha-hang-duoi-nuoc`
+(trông như ảnh chụp một nhà hàng thuỷ cung đã tồn tại, và "nhà hàng dưới nước"
+KHÔNG có trong `hangMucTienIch`) và `giai-tri-thuy-cung` (1400×920, cùng dải với
+ảnh tải từ web, khác hẳn bộ gốc 2560px).
+
+### Nguyên nhân gốc — đáng nhớ hơn cả phát hiện
+
+Chú thích thẩm định ngay trên mảng đó viết *"Ba tấm này lấy từ bộ tài liệu 06/09
+của chủ đầu tư"* — **nhưng mảng đã có SÁU tấm.** Ba tấm thêm sau không ai thẩm
+định, và đúng ba tấm đó là ảnh AI.
+
+**Bài học không phải "kiểm ảnh kỹ hơn" mà là: một chú thích đếm số thì phải đếm
+lại khi thêm.** Chú thích nói ba mà mảng có sáu là chú thích đang nói dối, và nó
+nói dối đúng lúc người đọc tin nó nhất.
+
+### Đã sửa
+- Gỡ 4 ảnh khỏi `/tien-ich`, 1 ảnh khỏi dải ảnh lớn.
+- Tạo `src/data/anh-cam-dung.ts` — danh sách cấm kèm **bằng chứng từng tấm**, để
+  không phải thẩm định lại và để người sau không đưa lại.
+- Dạy `kiem-anh-treo` phân biệt **ảnh bị quên** với **ảnh cố ý cách ly**. Không có
+  phân biệt đó thì mỗi lần cách ly là một lần cổng đỏ, và cách người ta xử một
+  cổng đỏ mãi không xanh được là tắt nó đi.
+- ⚠️ Và phải loại `anh-cam-dung.ts` khỏi phép `git grep` của bộ kiểm — vì nó CHỨA
+  TÊN ảnh, không loại thì ảnh vừa cấm lại được đếm là "đang dùng". Bộ kiểm nói
+  dối theo hướng trấn an là kiểu hỏng tệ nhất.
+
+### Dương tính giả — đừng điều tra lại
+- `kiem-anh-trung` cụm 1 (ba mặt bằng) và cụm 2 (bãi tắm ↔ nhà hàng): **không
+  phải trùng**. Bản vẽ nét trên nền trắng, và ảnh cùng tông xanh, thì băm tri
+  giác nào cũng báo giống nhau. Máy so pixel; mắt so tài vật.
+- `giai-tri-cong-vien-chu-de` **giữ lại**: đó là ảnh quảng cáo chính thức của
+  VinWonders, không phải ảnh AI. VinWonders có trong danh sách tiện ích đã xác minh.
+
+### Vòng sau nên làm
+- 7 script trong `scripts/` không đăng ký trong `package.json` nên không chạy được
+  bằng `npm run` — trong đó có **hai bộ `kiem-*`**. Một phép kiểm không ai chạy
+  được là một phép kiểm không chạy. **Đã đăng ký 2 cái, còn 5 tệp công cụ.**
+- Thêm một phép kiểm meta: mọi `scripts/kiem-*.mjs` phải có mặt trong `package.json`.
+
 ## 09/09/2026 — kế hoạch bốn việc (chủ dự án giao cả bốn, tự xếp thứ tự)
 
 ### Đo thật trước khi xếp (09/09, đếm trên trang đang chạy)

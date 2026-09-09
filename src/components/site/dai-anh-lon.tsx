@@ -45,7 +45,6 @@ const ANH: ProjectImageName[] = [
   "giai-tri-cong-vien-nuoc",
   "tien-ich-be-boi-noi",
   "giai-tri-rap-xiec",
-  "giai-tri-thuy-cung",
   "tien-ich-bien-ho-trung-tam",
   "giai-tri-lang-tuyet",
   "giai-tri-bai-tam-lagoon",

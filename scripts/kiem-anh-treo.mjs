@@ -30,7 +30,7 @@
 // bẫy trong cùng một ngày.
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 
 const anh = readdirSync("public/images")
@@ -41,8 +41,26 @@ const nguon = execSync(
   // `--untracked`: file MỚI TẠO chưa commit vẫn phải được tính là mã nguồn.
   // Thiếu cờ này thì vừa thêm một thành phần dùng ảnh, chạy kiểm ngay, sẽ thấy
   // đúng những ảnh vừa gán bị báo là treo — rồi xoá nhầm lần nữa.
-  'git grep -h --untracked "" -- src ":!src/data/images.generated.ts"',
+  //
+  // ⚠️ PHẢI LOẠI CẢ `anh-cam-dung.ts`, vì cùng một lý do với `images.generated`:
+  // nó CHỨA TÊN ảnh. Không loại thì một ảnh vừa bị cấm sẽ được đếm là "đang
+  // dùng" — phép kiểm báo xanh trong khi ảnh đó chính là thứ vừa bị gỡ. Đây là
+  // kiểu hỏng tệ nhất: bộ kiểm nói dối theo hướng trấn an.
+  'git grep -h --untracked "" -- src ' +
+    '":!src/data/images.generated.ts" ":!src/data/anh-cam-dung.ts"',
   { encoding: "utf8", maxBuffer: 1e8 },
+);
+
+// Ảnh CỐ Ý không dùng — phân biệt với ảnh BỊ QUÊN.
+//
+// Không có phân biệt này thì mỗi lần cách ly một tấm là một lần cổng kiểm đỏ,
+// và cách người ta xử một cổng đỏ mãi không xanh lại được là tắt nó đi.
+const camDung = new Set(
+  [
+    ...readFileSync("src/data/anh-cam-dung.ts", "utf8").matchAll(
+      /ten:\s*"([a-z0-9-]+)"/g,
+    ),
+  ].map((m) => m[1]),
 );
 
 // Tiền tố dựng động: bắt `khu-${…}`, `anh-${…}`, `mat-bang-${…}`…
@@ -52,9 +70,19 @@ const tienTo = [...nguon.matchAll(/`([a-z0-9]+(?:-[a-z0-9]+)*-)\$\{/g)].map(
 const tienToDuyNhat = [...new Set(tienTo)];
 
 const dungDong = (ten) => tienToDuyNhat.some((t) => ten.startsWith(t));
-const treo = anh.filter((t) => !nguon.includes(`"${t}"`) && !dungDong(t));
+const treo = anh.filter(
+  (t) => !nguon.includes(`"${t}"`) && !dungDong(t) && !camDung.has(t),
+);
+const camMaConTep = anh.filter((t) => camDung.has(t));
 
-console.log(`${anh.length} ảnh · ${treo.length} không nơi nào dùng`);
+console.log(
+  `${anh.length} ảnh · ${treo.length} không nơi nào dùng · ${camMaConTep.length} bị cấm dùng`,
+);
+if (camMaConTep.length) {
+  console.log(
+    `Cấm dùng (xem lý do trong src/data/anh-cam-dung.ts): ${camMaConTep.join(", ")}`,
+  );
+}
 if (tienToDuyNhat.length) {
   console.log(
     `Tiền tố dựng động đã tính là ĐANG DÙNG: ${tienToDuyNhat.map((t) => t + "*").join(", ")}`,

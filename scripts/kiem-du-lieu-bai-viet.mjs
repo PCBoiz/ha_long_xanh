@@ -19,7 +19,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { build } from "esbuild";
-import { writeFileSync, unlinkSync } from "node:fs";
+import { unlinkSync } from "node:fs";
 import path from "node:path";
 
 const TAM = path.join(process.cwd(), ".tmp", "du-lieu-bai-viet.test.mjs");
