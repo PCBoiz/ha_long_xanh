@@ -76,6 +76,28 @@ Kèm `scripts/thu-nho-anh.mjs` để soi ảnh 2560px bằng mắt (vượt gi�
 không nạp, và ảnh chụp ra là **khung vuông trống**. Có tệp đầu ra, đúng tên, chỉ
 là không có ảnh. Đã đổi sang nhúng `data:` URI.
 
+### VÒNG 4 — bộ kiểm liên kết chết
+
+Kho có `kiem-anh-treo` canh ảnh, nhưng **liên kết thì chưa có gì canh** — trong
+khi liên kết chết nhìn từ phía người dùng còn tệ hơn ảnh thiếu: ảnh thiếu là một
+khoảng trống, liên kết chết là một lần bấm rơi vào trang lỗi.
+
+Và đây đúng loại lỗi biên dịch được mà vẫn hỏng: `href="/quy-hoac"` thiếu một
+chữ vẫn qua `tsc`, qua `eslint`, qua `next build`. Đúng hình dạng của lỗi đã làm
+vỡ `/quy-hoach` trước đây.
+
+`npm run kiem` giờ chạy **10/10**, gồm `kiem-lien-ket` mới: 18 tuyến tĩnh, 3
+tuyến động, 9 chuyển hướng 301, kiểm 25 liên kết — không cái nào trỏ vào hư không.
+
+**⚠️ Đã CHỨNG MINH nó biết báo lỗi**, không chỉ biết báo đạt: tạo một tệp tạm có
+`href="/tuyen-khong-ton-tai"`, bộ kiểm bắt đúng và chỉ ra tệp:dòng. Một phép kiểm
+chưa bao giờ báo lỗi thì chưa chứng minh được nó biết báo lỗi — và một phép kiểm
+luôn xanh còn nguy hiểm hơn không có, vì nó làm người ta yên tâm.
+
+Hai thứ cố ý tính là HỢP LỆ, đừng "sửa": tuyến động (`/phan-khu/[ma]` khớp mọi
+mã), và chuyển hướng 301 (`/bang-hang` không còn là tuyến nhưng vẫn sống — coi
+là lỗi thì bộ kiểm đang bảo gỡ đúng thứ được cố ý giữ cho link cũ khỏi chết).
+
 ### CHƯA XÉT — đừng tưởng đã xong
 `kiem-anh-trung` cụm 3: `song-dai-lo-mua-hoa` ↔ `vbm-hoan-thien-02`, lệch 10 bit.
 **Tôi không xem được hai tấm này** — công cụ đọc ảnh từ chối kể cả sau khi thu
