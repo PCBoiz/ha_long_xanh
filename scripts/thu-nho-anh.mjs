@@ -47,7 +47,13 @@ async function moTrinhDuyet() {
 const trinhDuyet = await moTrinhDuyet();
 try {
   for (const duongDan of anh) {
-    const trang = await trinhDuyet.newPage();
+    // ⚠️ ÉP deviceScaleFactor: 1.
+    //
+    // Mặc định Playwright lấy tỷ lệ của màn hình. Trên màn 2× thì ảnh chụp ra
+    // GẤP ĐÔI kích thước đặt trong `--rong` — đặt 760 thì ra 1520. Đây chính là
+    // lý do tôi không xem được hai ảnh nghi trùng ngày 09/09: cứ tưởng đã thu
+    // đủ nhỏ, thực ra vẫn vượt giới hạn.
+    const trang = await trinhDuyet.newPage({ deviceScaleFactor: 1 });
     // ⚠️ NHÚNG BẰNG data: URI, KHÔNG DÙNG file://
     //
     // Trang dựng bằng `setContent` có gốc là `about:blank`, và trình duyệt chặn

@@ -26,7 +26,22 @@ import quyCan from "@/data/quy-can.generated.json";
  * một bất động sản cụ thể, mà bảng hàng đang trống. Khai một loại rồi bỏ trống
  * trường bắt buộc còn tệ hơn không khai.
  */
-export function DuLieuCoCauTruc() {
+/**
+ * ⚠️ `coFaq` MẶC ĐỊNH TẮT, VÀ ĐÓ LÀ CHỦ Ý.
+ *
+ * Thành phần này gắn ở `layout.tsx` nên nó phát ra trên MỌI trang. Khối
+ * `FAQPage` thì chỉ đúng ở trang chủ — vì `CauHoiThuongGap` chỉ hiển thị ở đó.
+ *
+ * Bản trước phát `FAQPage` với 9 câu hỏi trên cả `/gia-…` và `/quy-can-…`,
+ * những trang KHÔNG hề hiện câu hỏi nào. Google yêu cầu dữ liệu có cấu trúc
+ * phải khớp nội dung người dùng nhìn thấy; khai câu hỏi không hiển thị là vi
+ * phạm, và hình phạt không phải mất riêng khối sai — mà là bỏ qua cả khối đang
+ * đúng ở trang chủ.
+ *
+ * Chú thích ngay dưới đã viết "đang HIỂN THỊ trên trang chủ" từ đầu. Ý định
+ * đúng, chỗ đặt sai — và không ai thấy vì trang vẫn dựng được.
+ */
+export function DuLieuCoCauTruc({ coFaq = false }: { coFaq?: boolean } = {}) {
   // ⚠️ NGÀY CẬP NHẬT — TRỢ LÝ AI CÂN NẶNG TRƯỜNG NÀY.
   //
   // Kiểm ngày 08/09/2026: cả 16 trang đều KHÔNG khai `dateModified`. Với công
@@ -125,7 +140,7 @@ export function DuLieuCoCauTruc() {
       // trích thẳng ra thay vì để trợ lý đoán từ nguồn khác. Điều kiện là chữ
       // ở đây phải TRÙNG với chữ hiện trên trang — nên cả hai cùng đọc từ
       // `cauHoiThuongGap`, không có bản chép tay thứ hai.
-      ...(cauHoiThuongGap.length > 0
+      ...(coFaq && cauHoiThuongGap.length > 0
         ? [
             {
               "@type": "FAQPage",
@@ -149,6 +164,38 @@ export function DuLieuCoCauTruc() {
       // Vẫn thoát `<` để một chuỗi chứa "</script>" không thể đóng sớm thẻ này.
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(duLieu).replace(/</g, "\\u003c"),
+      }}
+    />
+  );
+}
+
+/**
+ * Khối FAQ riêng — CHỈ đặt ở trang thật sự hiển thị câu hỏi.
+ *
+ * Tồn tại vì `DuLieuCoCauTruc` nằm ở `layout.tsx` nên không nhận được prop từ
+ * từng trang. Tách ra thì mỗi trang tự quyết, và không trang nào khai được một
+ * khối nó không hiển thị.
+ *
+ * Cùng đọc `cauHoiThuongGap` với thành phần hiển thị, nên chữ trong dữ liệu có
+ * cấu trúc luôn TRÙNG chữ trên màn hình — không có bản chép tay thứ hai để lệch.
+ */
+export function DuLieuFaq() {
+  if (cauHoiThuongGap.length === 0) return null;
+  const duLieu = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${DIA_CHI_GOC}/#cau-hoi`,
+    mainEntity: cauHoiThuongGap.map((muc) => ({
+      "@type": "Question",
+      name: muc.hoi,
+      acceptedAnswer: { "@type": "Answer", text: muc.dap },
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(duLieu).replace(/</g, "\u003c"),
       }}
     />
   );

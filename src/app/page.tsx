@@ -14,6 +14,7 @@ import { QuyCanXemTruoc } from "@/components/site/quy-can-xem-truoc";
 import { HoSoMinhBach } from "@/components/site/ho-so-minh-bach";
 import { DoiNguTuVan } from "@/components/site/doi-ngu-tu-van";
 import { CauHoiThuongGap } from "@/components/site/cau-hoi-thuong-gap";
+import { DuLieuFaq } from "@/components/site/du-lieu-co-cau-truc";
 import { ThanhQuyetDinh } from "@/components/site/thanh-quyet-dinh";
 import { TimCanPhuHop } from "@/components/site/tim-can-phu-hop";
 import { GiaThucTra } from "@/components/site/gia-thuc-tra";
@@ -406,6 +407,10 @@ export default function TrangChu() {
           Đặt ngay TRƯỚC biểu mẫu, không phải sau. Người sắp điền số điện thoại
           là người còn đúng vài thắc mắc cuối; trả lời xong rồi mới xin số thì
           biểu mẫu bớt giống một bức tường phải vượt qua. */}
+      {/* Khối FAQ có cấu trúc đi KÈM thành phần hiển thị, không rời nhau —
+          xem ghi chú trong `du-lieu-co-cau-truc.tsx` về việc khai một khối mà
+          trang không hiển thị. */}
+      <DuLieuFaq />
       <CauHoiThuongGap />
 
       {/* KHỐI TIỆN ÍCH ĐÃ CHUYỂN SANG `/tien-ich`.

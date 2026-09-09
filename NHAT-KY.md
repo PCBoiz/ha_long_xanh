@@ -11,6 +11,59 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 10/09/2026 — VÒNG 6 · hai lỗi dữ liệu có cấu trúc
+
+Tìm ra bằng một tác tử audit riêng, tôi kiểm lại từng cái trước khi sửa.
+
+### 1. `sitemap.ts` là tệp động DUY NHẤT bị bỏ sót `force-dynamic`
+
+`robots.ts`, `llms.txt/route.ts`, `tin-tuc/page.tsx`, `tin-tuc/[slug]` đều đã khai
+cờ này. Riêng `sitemap.ts` thì không — nên Next dựng sẵn lúc build rồi phục vụ
+bản đóng băng.
+
+**Hậu quả đúng bằng điều chú thích trong chính tệp đó nói là phải tránh:** bài đầu
+tiên do Antigravity đăng sẽ hiện ngay ở `/tin-tuc` nhưng **không bao giờ vào
+sitemap** cho tới lần dựng lại. Chú thích đúng ý định, chỉ hành vi là sai.
+
+Nhân tiện bỏ luôn `lastModified` của trang tĩnh: cả 31 địa chỉ mang cùng một mốc
+`new Date()` lúc build, nhảy theo mỗi lần deploy chứ không theo nội dung. Google
+bỏ qua `lastmod` khi thấy không nhất quán. **Một mốc bịa tệ hơn không có mốc.**
+Bài viết có ngày đăng thật thì vẫn giữ.
+
+### 2. `FAQPage` phát trên MỌI trang, trong khi FAQ chỉ hiện ở trang chủ
+
+`DuLieuCoCauTruc` gắn ở `layout.tsx:126` nên nó đi theo mọi trang. Khối `FAQPage`
+9 câu hỏi vì thế xuất hiện cả ở `/gia-…` và `/quy-can-…` — những trang **không hề
+hiển thị câu hỏi nào**.
+
+Google yêu cầu dữ liệu có cấu trúc phải khớp nội dung nhìn thấy được. Khai câu hỏi
+không hiển thị là vi phạm, và hình phạt không phải mất riêng khối sai — **mà là bỏ
+qua cả khối đang đúng ở trang chủ.**
+
+Chú thích ngay trên khối đó đã viết *"đang HIỂN THỊ trên trang chủ"* từ đầu. Ý định
+đúng, chỗ đặt sai, và không ai thấy vì trang vẫn dựng được.
+
+Đã sửa: `coFaq` mặc định tắt, cộng một thành phần `DuLieuFaq` riêng đặt ngay cạnh
+`CauHoiThuongGap` ở trang chủ — hai thứ đi cùng nhau thì không rời nhau được nữa.
+**Đo lại: trang chủ 1 khối `FAQPage`, `/gia-…` và `/quy-can-…` đều 0.**
+
+### Đã kiểm và KHÔNG cần sửa
+- `robots.txt` tốt, đúng thực hành 2026: 13/14 bot AI có nhóm riêng, và `*` phủ
+  phần còn lại nên **không bot nào bị chặn**. Có dòng `Sitemap:`.
+- `llms.txt` đúng quy ước llmstxt.org, **31/31 link trỏ tới tuyến có thật, 0 link chết**.
+- `sitemap.xml` 31 URL, khớp đúng 21 `page.tsx` (17 tĩnh + 9 phân khu + 5 sản phẩm).
+- `/duyet-bai` cố ý ngoài sitemap và có `noindex, nofollow` — đúng.
+- **Không có chuẩn mới nào của 2026 mà trang đang thiếu.** llms.txt vẫn chưa được
+  hãng nào cam kết đọc; Google xác nhận không hỗ trợ. Chú thích trong kho mô tả
+  đúng tình trạng đó.
+
+### Vòng sau nên làm
+- Trang quỹ căn chưa có `Product`/`Offer` schema — bảng giá từng căn là dữ liệu AI
+  trích dẫn nhiều nhất, mà hiện không có gì cho máy đọc.
+- 14/31 link trong `llms.txt` ở dạng URL trần thay vì `[tên](url)`.
+- `Cập nhật:` trong `llms.txt` dùng giờ UTC (lệch ngày với giờ Việt Nam) — kho đã
+  có sẵn `homNayVN()` mà chỗ này không dùng.
+
 ## 09/09/2026 — VÒNG 1 tự chủ · audit ảnh
 
 ### Tìm ra: ba ảnh AI đang nằm trên trang đang chạy
