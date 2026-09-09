@@ -57,6 +57,31 @@ nói dối đúng lúc người đọc tin nó nhất.
 - `giai-tri-cong-vien-chu-de` **giữ lại**: đó là ảnh quảng cáo chính thức của
   VinWonders, không phải ảnh AI. VinWonders có trong danh sách tiện ích đã xác minh.
 
+### VÒNG 2 — không phép kiểm nào bị quên được nữa
+
+Vòng 1 tìm ra: `scripts/` có 21 tệp, `package.json` chỉ gọi 14. Bảy tệp không
+chạy được bằng `npm run`, **trong đó có hai bộ `kiem-*`**.
+
+Cách chữa **không phải** đăng ký hai cái đó — hôm nay xanh, nhưng lần sau thêm
+phép kiểm thứ ba mà quên đăng ký thì lặp lại đúng chuyện. Đã bỏ hẳn bước đăng ký:
+`npm run kiem` **tự tìm** mọi tệp tên `kiem-*` rồi chạy hết. Không có gì để quên.
+
+**9/9 phép kiểm đạt** — gồm cả hai cái trước đây không ai chạy được.
+
+Một phép kiểm hỏng KHÔNG dừng cả bộ: chạy hết rồi mới báo, vì khi sửa người ta
+cần biết tất cả cái đang hỏng, không phải cái đầu tiên.
+
+Kèm `scripts/thu-nho-anh.mjs` để soi ảnh 2560px bằng mắt (vượt giới hạn công cụ
+đọc ảnh). ⚠️ Bản đầu dùng `file://` trong `setContent` — trình duyệt chặn, ảnh
+không nạp, và ảnh chụp ra là **khung vuông trống**. Có tệp đầu ra, đúng tên, chỉ
+là không có ảnh. Đã đổi sang nhúng `data:` URI.
+
+### CHƯA XÉT — đừng tưởng đã xong
+`kiem-anh-trung` cụm 3: `song-dai-lo-mua-hoa` ↔ `vbm-hoan-thien-02`, lệch 10 bit.
+**Tôi không xem được hai tấm này** — công cụ đọc ảnh từ chối kể cả sau khi thu
+xuống 760px. Đây là hạn chế phía công cụ, không phải kết luận rằng chúng ổn.
+Cần một người mở hai tệp đó ra nhìn.
+
 ### Vòng sau nên làm
 - 7 script trong `scripts/` không đăng ký trong `package.json` nên không chạy được
   bằng `npm run` — trong đó có **hai bộ `kiem-*`**. Một phép kiểm không ai chạy
