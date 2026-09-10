@@ -11,6 +11,114 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 10/09/2026 — VÒNG 8 · IndexNow, và một tuyến chạy đúng mà lấy mất trang 404
+
+### Việc đã deploy rồi mà tệp bàn giao vẫn ghi là chưa
+
+`VIEC-CAN-LAM.md` xếp "redeploy VPS" là mục gấp nhất cả tệp, kèm cảnh báo ba ảnh
+AI **vẫn đang hiển thị**. Kiểm trang thật trước khi tin — và cả ba dấu vết đều
+cho thấy bản mới ĐÃ lên:
+
+| Dấu vết | Đo được | Thuộc commit |
+|---|---|---|
+| Tiêu đề trang chủ | `Vinhomes Global Gate Hạ Long (Hạ Long Xanh)` | vòng 7 |
+| `sitemap.xml` | 31 URL, **0 `lastmod`** | vòng 6 |
+| `FAQPage` | trang chủ 1 · `/gia-…` 0 · `/quy-can-…` 0 | vòng 6 |
+| Ba ảnh AI trên `/tien-ich` | không còn | vòng 1 |
+
+⚠️ **Ngày 09/09 tôi đã đính chính một báo cáo bảo chủ dự án đi làm ba việc đã
+xong. Hôm nay tệp của chính tôi làm đúng như thế.** Trạng thái ghi trên giấy hỏng
+nhanh hơn người ta tưởng.
+
+### IndexNow — và bản đầu tiên chạy đúng nhưng làm hỏng thứ khác
+
+Chủ dự án vừa nộp trang vào Bing Webmaster (nhập từ Search Console, nên Bing tự
+mang sitemap sang). Đây là lúc IndexNow đáng giá nhất: Google **không** dùng
+IndexNow và nói rõ vậy, nhưng Bing cấp dữ liệu cho **ChatGPT Search và Copilot** —
+đúng kênh trang này đang nhắm.
+
+Bản đầu: tuyến động `src/app/[khoaIndexNow]/route.ts`, khoá đọc từ biến môi
+trường. Thử đúng hai thứ mình định làm — tệp khoá trả 200, khoá sai trả 404 — và
+cả hai đều đạt.
+
+**Rồi thử một thứ mình KHÔNG định làm.** Đo trên bản dựng thật:
+
+```
+/khong-ton-tai/abc   (hai đoạn, không bị bắt)   404 · 40.708 byte HTML
+/khong-ton-tai-dau   (một đoạn, bị bắt)         404 ·      0 byte
+```
+
+Tuyến động một đoạn ở GỐC bắt luôn mọi địa chỉ lạ. Mọi địa chỉ gõ sai — `/du-a`,
+`/gia`, `/tien-ic` — nhận **trang trắng** thay vì trang 404 của site. Thêm một
+tính năng cho máy tìm kiếm mà lấy mất trang lỗi của người thật.
+
+`notFound()` không cứu được: tài liệu Next 16 (`node_modules/next/dist/docs/`) ghi
+nó *"serves a 404 to the caller"* — 404 trần, không dựng giao diện 404. Đã thử,
+đã đo, vẫn 0 byte.
+
+**Cách đúng: tệp tĩnh trong `public/`.** Khoá IndexNow vốn không phải bí mật — cả
+cơ chế của nó là "tệp này đọc được công khai trên tên miền, nên ai gửi được nó thì
+chứng tỏ có quyền ghi lên tên miền". Giấu vào biến môi trường không thêm an toàn
+nào, mà tạo hai nguồn sự thật. Đo lại sau khi sửa: cả ba trường hợp đều đúng, và
+`xxd` xác nhận tệp khoá đúng 32 byte — không dư ký tự xuống dòng nào.
+
+`kiem-indexnow` khoá hai thứ lại, **so từng byte không `.trim()`** — vì dấu xuống
+dòng thừa ở cuối là kiểu lệch khó thấy nhất: nhìn hai bên giống hệt nhau.
+
+### Hai ảnh cuối cùng của mục "cần mắt người" — đã xem, đã kết luận
+
+- **`vbm-hoan-thien-02` và `song-dai-lo-mua-hoa` là MỘT ảnh.** Cùng chiếc xe cam,
+  cùng khinh khí cầu, cùng hàng cây. Khác đúng một điểm: bản cũ còn nguyên dải
+  chữ *"(*) Thông tin hình ảnh chỉ mang tính chất minh hoạ, tham khảo"* ở mép
+  dưới; bản kia đã cắt theo quy ước `CAT_CHU_CHAN`.
+
+  ⚠️ **Và alt của bản cũ ghi "Dãy nhà HOÀN THIỆN tại Vịnh Bình Minh"** — giới
+  thiệu một phối cảnh như công trình đã xây xong, đặt đúng trên trang nói về giá
+  trị tài sản. Chính dòng chữ in trên mặt tấm ảnh đó đã nói ngược lại. **Cùng
+  loại lỗi với ba ảnh AI, chỉ khác là ảnh này thật** — nên nó nguy hiểm hơn: một
+  ảnh AI có dấu vết để bắt, một ảnh thật bị chú sai thì không.
+
+- **`giai-tri-thuy-cung` là ảnh CHỤP bể Kuroshio, thuỷ cung Churaumi (Okinawa,
+  Nhật Bản).** Ba con cá nhám voi cùng cá đuối nạng trong một bể, trước tấm kính
+  phẳng, đám đông in bóng đen — khung hình được chụp lại nhiều nhất thế giới. Rất
+  ít thuỷ cung nuôi nổi cá nhám voi và Việt Nam không có nơi nào. Alt ghi "Phối
+  cảnh…" nên **sai hai lần**: không phải phối cảnh, và không phải của dự án này.
+
+- **`giai-tri-nha-hang-duoi-nuoc` lấy từ Drive chủ đầu tư** (mã Drive có trong
+  `fetch-assets.mjs`) — nhưng Drive đó **không phải bằng chứng**: chú thích ngay
+  trong chính tệp ấy đã ghi bộ bán hàng có lẫn ảnh chiếu ý tưởng không thuộc dự án
+  (một ngôi chùa có thật, "LÀNG BIA" là lễ hội bia châu Âu, "CÔNG VIÊN ỐC ĐẢO"
+  kiểu Anh). Giữ cấm.
+
+### Hai cổng kiểm được sửa để chúng còn đáng đọc
+
+- `kiem-anh-trung` giờ **bỏ qua ảnh đã cấm dùng** — cùng lý do đã ghi trong
+  `kiem-anh-treo`: phải phân biệt ảnh BỊ QUÊN với ảnh CỐ Ý KHÔNG DÙNG. Tệp .webp
+  vẫn nằm trên đĩa (phải vậy — `npm run assets` tải lại mỗi lần), nên không lọc
+  thì nó báo y hệt như trước khi sửa. **Một cổng báo mãi một việc đã làm xong thì
+  người ta thôi đọc nó**, và ngày nó báo một cặp trùng THẬT cũng không ai đọc.
+  Nó vẫn in ra số ảnh đã bỏ qua — một phép kiểm âm thầm loại bớt mẫu rồi báo
+  "đạt" là phép kiểm không đáng tin.
+
+- `eslint` bỏ qua `.tmp/`. `.gitignore` đã bỏ qua thư mục nháp đó nhưng
+  `globalIgnores` **ghi đè** danh sách mặc định chứ không cộng thêm, nên cổng lint
+  đang đỏ vì hai tệp nháp không bao giờ lên trang.
+
+### Số đo cuối vòng
+
+11/11 phép kiểm đạt (thêm `kiem-indexnow`) · lint sạch · typecheck sạch · build
+sạch. Trước vòng này là 10/10 và lint đỏ.
+
+### Vòng sau nên làm
+
+- **IndexNow chưa gửi thật lần nào** — cần deploy để tệp khoá sống, rồi duyệt một
+  bài mới để xem Bing có nhận không. Chừng nào tệp khoá chưa lên, mọi lần ping
+  trả 403 và chỉ rơi vào một dòng `console.info`.
+- Ba việc còn treo từ vòng 7: đối thủ có video nhúng còn trang này có 0 · viết cho
+  truy vấn đuôi dài dạng câu hỏi · `llms.txt` còn 14/31 link ở dạng `- Tên: url`
+  thay vì `[tên](url)`, và mốc `Cập nhật:` dùng giờ UTC nên lệch ngày với giờ Việt
+  Nam (kho đã có sẵn `homNayVN()` mà chỗ này không dùng).
+
 ## 10/09/2026 — VÒNG 7 · nghiên cứu GEO/SEO và việc có tác động cao nhất
 
 ### Việc có tác động cao nhất hoá ra nhỏ nhất — và tôi đã nhìn qua nó nhiều lần
