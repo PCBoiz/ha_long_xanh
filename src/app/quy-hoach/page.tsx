@@ -10,7 +10,7 @@ import { anhPhanKhu, duAn, phanKhu } from "@/data/project";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/quy-hoach" },
-  title: "Quy hoạch & phân khu",
+  title: "Mặt bằng & quy hoạch phân khu",
   description: `Sơ đồ quy hoạch ${duAn.ten}: chín vịnh và đảo, vị trí từng phân khu và điểm nhấn của mỗi khu.`,
 };
 

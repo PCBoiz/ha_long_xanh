@@ -69,8 +69,28 @@ export const metadata: Metadata = {
     // và trong lịch sử của khách. "Quảng Yên, Quảng Ninh" đã có sẵn trong phần
     // mô tả ngay bên dưới ở kết quả tìm kiếm, nên nhắc lại ở tiêu đề là tiêu
     // mất chỗ đắt nhất của cả trang cho một thông tin trùng.
-    default: `${duAn.ten} — ${duAn.slogan}`,
-    template: `%s · ${duAn.tenNgan}`,
+    // ⚠️ KHUÔN PHẢI MANG TÊN THƯƠNG HIỆU ĐẦY ĐỦ, KHÔNG PHẢI TÊN NGẮN.
+    //
+    // Đo ngày 10/09/2026 trên 17 trang đang chạy: chỉ 2/17 tiêu đề có chữ
+    // "Vinhomes", và **0/17 có "Hạ Long Xanh"** — trong khi tên miền là
+    // halongxanh360.vn và chính khối dữ liệu có cấu trúc của trang khai
+    // "Hạ Long Xanh" là tên gọi khác của dự án.
+    //
+    // Đây là hai CỤM TRUY VẤN TÁCH BIỆT: người gõ "hạ long xanh giá bán" ra
+    // một nhóm trang, người gõ "vinhomes global gate" ra nhóm khác. Trang đang
+    // chỉ phủ một nửa, và nửa bị bỏ chính là nửa trùng tên miền của mình.
+    //
+    // Tên ngắn "Global Gate Hạ Long" tiết kiệm được 9 ký tự, nhưng 9 ký tự đó
+    // là chữ mà người ta thật sự gõ vào ô tìm kiếm.
+    // Bỏ khẩu hiệu khỏi tiêu đề trang chủ: kèm vào thì thành 71 ký tự và
+    // Google cắt ở khoảng 60. Cắt thì mất đúng phần đuôi, tức là mất khẩu hiệu
+    // — nên giữ nó ở đây chỉ tốn chỗ mà vẫn không ai đọc được.
+    //
+    // Khẩu hiệu vẫn còn nguyên ở H1 của trang, ở `og:title` khi chia sẻ (chỗ đó
+    // rộng hơn nhiều), và trong khối dữ liệu có cấu trúc. Chỗ duy nhất nó rời
+    // đi là chỗ nó bị cắt.
+    default: `${duAn.ten} (${duAn.tenKhac})`,
+    template: `%s · ${duAn.ten}`,
   },
   description: duAn.moTaNgan,
   // Canonical: nói cho công cụ tìm kiếm biết đâu là địa chỉ CHÍNH THỨC của

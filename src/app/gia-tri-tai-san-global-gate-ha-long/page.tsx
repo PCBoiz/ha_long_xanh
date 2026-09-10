@@ -9,7 +9,7 @@ import quyCan from "@/data/quy-can.generated.json";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/gia-tri-tai-san-global-gate-ha-long" },
-  title: "Có nên mua để ở",
+  title: "Có nên mua Hạ Long Xanh để ở",
   description: `Bốn yếu tố quyết định một căn ${duAn.tenNgan} có giữ được giá trị và dễ sang tay hay không — đọc bằng số liệu từ bảng hàng thật, không phải dự báo giá.`,
 };
 

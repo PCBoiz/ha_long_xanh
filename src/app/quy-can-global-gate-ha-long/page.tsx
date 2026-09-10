@@ -12,7 +12,7 @@ import { dongSanPham, duAn, tienDoThanhToan } from "@/data/project";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/quy-can-global-gate-ha-long" },
-  title: "Bảng hàng & giá",
+  title: "Quỹ căn & bảng giá 2026",
   description: `Quỹ căn, khoảng diện tích theo dòng sản phẩm và tiến độ thanh toán của ${duAn.ten}.`,
 };
 

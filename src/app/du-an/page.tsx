@@ -11,7 +11,7 @@ import type { ProjectImageName } from "@/data/images.generated";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/du-an" },
-  title: "Thông tin dự án",
+  title: "Tổng quan dự án Hạ Long Xanh",
   description: `Thông số, quy hoạch, tiện ích, pháp lý và thư viện phối cảnh ${duAn.ten}.`,
 };
 

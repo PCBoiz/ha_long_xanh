@@ -9,7 +9,7 @@ import { duAn, tienDoThanhToan } from "@/data/project";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/chinh-sach-global-gate-ha-long" },
-  title: "Chính sách bán hàng",
+  title: "Chính sách bán hàng 2026",
   description: `Một chính sách bán hàng ${duAn.tenNgan} gồm những phần nào, phần nào ảnh hưởng tới số tiền bạn trả, và cách đối chiếu trước khi đặt cọc.`,
 };
 
