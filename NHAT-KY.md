@@ -11,6 +11,79 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 10/09/2026 — VÒNG 7 · nghiên cứu GEO/SEO và việc có tác động cao nhất
+
+### Việc có tác động cao nhất hoá ra nhỏ nhất — và tôi đã nhìn qua nó nhiều lần
+
+Tên miền là `halongxanh360.vn` mà **0/17 tiêu đề có chữ "Hạ Long Xanh"**. Chỉ
+2/17 có "Vinhomes". Khuôn tiêu đề dùng tên ngắn "Global Gate Hạ Long" — tiết kiệm
+9 ký tự, nhưng 9 ký tự đó đúng là chữ người ta gõ vào ô tìm kiếm.
+
+**Đây là hai cụm truy vấn TÁCH BIỆT:** người gõ "hạ long xanh giá bán" ra một
+nhóm trang hoàn toàn khác nhóm "vinhomes global gate". Trang chỉ phủ một nửa, và
+nửa bị bỏ chính là nửa trùng tên miền của mình.
+
+| | Trước | Sau |
+|---|---|---|
+| "Vinhomes" trong tiêu đề | 2/17 | **17/17** |
+| "Hạ Long Xanh" | **0/17** | 3/17 |
+| "2026" | 1/17 | 4/17 |
+| Tiêu đề vượt 65 ký tự | 1 | 0 |
+
+Tiêu đề trang chủ bỏ khẩu hiệu (71 → 43 ký tự) vì Google cắt ở khoảng 60, mà cắt
+thì mất đúng phần đuôi. Khẩu hiệu vẫn ở H1, ở `og:title`, và trong dữ liệu có
+cấu trúc.
+
+### Ba kết luận nghiên cứu làm đổi thứ tự ưu tiên
+
+1. **Bất động sản là ngành AI Overviews xuất hiện ÍT NHẤT** — 4,48–5,8% truy vấn
+   (Ahrefs 146 triệu SERP; Conductor 21,9 triệu truy vấn), thấp nhất mọi ngành.
+   Và khi lọt vào, người dùng **chỉ bấm link trong đó 1% số lần** (Pew, 68.879
+   truy vấn). Đổ công riêng cho AIO là cược vào chỗ gần như không tồn tại.
+
+2. **"GEO" chủ yếu vẫn là SEO tốt.** Tổng hợp 54 nghiên cứu: thứ hạng tìm kiếm
+   9,4/10, **JSON-LD chỉ 5,6**, **llms.txt 2,0 — thấp nhất trong 23 yếu tố**.
+
+3. **FAQ schema BỊ DỮ LIỆU BÁC BỎ.** Seer (8.500 từ khoá, 6.354 trang): nhóm có
+   tỷ lệ FAQ schema cao nhất (69%) **thua 10 lần**. "Article + Breadcrumb là đủ,
+   phần còn lại là markup lãng phí."
+
+⚠️ **Tự hiệu chỉnh:** bản vá `FAQPage` ở vòng 6 vẫn đúng **nhưng vì lý do khác** —
+nó sửa một vi phạm chính sách (khai câu hỏi ở trang không hiển thị), không phải
+để tăng thứ hạng. Và khối `DuLieuQuyCan` tôi thêm cùng vòng nằm ở mức **trung
+bình** về tác động, không cao như tôi tưởng lúc bắt tay. Phần đáng giá của nó
+không phải bản thân JSON-LD mà là **số liệu cụ thể có mốc thời gian** (8,3/10).
+
+### Chỗ trang này đang thắng — đo trên HTML đối thủ
+
+| | halongxanh360 | đối thủ |
+|---|---|---|
+| Số địa chỉ trong sitemap | 31 | 185–270 |
+| Từ ở trang quỹ căn | **34.322** | không ai có |
+| Video nhúng | 0 | 3–7 |
+
+Trên các trang khác, riêng dòng liền kề giá lan truyền từ **3,8 tỷ tới 9,9 tỷ**
+— chênh 2,6 lần — và không trang nào ghi rõ trước hay sau thuế. Người mua không
+có cách nào so sánh. **10/10 đối thủ top đều tự xưng "Thông Tin Chính Thức Chủ
+Đầu Tư"**, nên góc tư vấn độc lập là chỗ trống thật.
+
+Cách lấp khoảng cách 31 so với 270 **không phải viết thêm 200 bài** mà đào sâu
+hai chỗ trên.
+
+### Kỳ vọng thời gian, có số
+Ahrefs (~2 triệu từ khoá): **chỉ 5,7% trang mới lọt top 10 trong một năm**; với
+từ khoá lượng tìm cao là 0,3%. Google tự nói "bốn tháng đến một năm". **Sáu tháng
+tới khách đến từ Zalo, nhóm Facebook, sàn đăng tin** — không từ tìm kiếm.
+
+### Vòng sau nên làm
+- Đối thủ có video nhúng, trang này có 0.
+- Viết cho truy vấn đuôi dài dạng câu hỏi (≥7 chữ kích hoạt AIO 46,4% so với 1
+  chữ 9,5%).
+- `llms.txt` còn 14/31 link ở dạng URL trần, và mốc `Cập nhật:` dùng giờ UTC nên
+  lệch ngày với giờ Việt Nam (kho đã có sẵn `homNayVN()` mà chỗ này không dùng).
+
+Toàn bộ: `KE-HOACH-LEN-TIM-KIEM.md` (+ PDF).
+
 ## 10/09/2026 — VÒNG 6 · hai lỗi dữ liệu có cấu trúc
 
 Tìm ra bằng một tác tử audit riêng, tôi kiểm lại từng cái trước khi sửa.
