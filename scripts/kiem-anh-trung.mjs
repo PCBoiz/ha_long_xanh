@@ -25,7 +25,7 @@
 //   node scripts/kiem-anh-trung.mjs --chan   thoát mã 1 nếu có cụm rất giống
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { readdir } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
@@ -61,8 +61,30 @@ function khoangCach(a, b) {
   return n;
 }
 
+// ẢNH ĐÃ CẤM DÙNG KHÔNG CÒN LÀ PHÁT HIỆN.
+//
+// ⚠️ Cùng lý do đã ghi trong `kiem-anh-treo.mjs`: phải phân biệt ảnh BỊ QUÊN
+// với ảnh CỐ Ý KHÔNG DÙNG.
+//
+// Chuyện có thật: `vbm-hoan-thien-02` và `song-dai-lo-mua-hoa` đúng là một
+// tấm, đã xác minh bằng mắt ngày 10/09, và đã xử — bản trùng vào danh sách cấm,
+// chỗ dùng chuyển sang bản đúng. Nhưng TỆP .webp vẫn nằm trên đĩa, và phải vậy:
+// `npm run assets` tải lại nó mỗi lần chạy. Nên nếu không lọc, phép kiểm này
+// vẫn báo y hệt như trước khi sửa.
+//
+// Một cổng kiểm báo mãi một việc đã làm xong thì người ta thôi đọc nó — và
+// ngày nó báo một cặp trùng THẬT thì cũng không còn ai đọc nữa.
+const camDung = new Set(
+  [
+    ...(await readFile("src/data/anh-cam-dung.ts", "utf8")).matchAll(
+      /ten:\s*"([a-z0-9-]+)"/g,
+    ),
+  ].map((m) => m[1]),
+);
+
 const ten = (await readdir(THU_MUC))
   .filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f))
+  .filter((f) => !camDung.has(f.replace(/\.[^.]+$/, "")))
   .sort();
 
 const anh = [];
@@ -93,7 +115,13 @@ for (let i = 0; i < anh.length; i++) {
 }
 const nhieu = [...cum.values()].filter((c) => c.length > 1).sort((a, b) => b.length - a.length);
 
-console.log(`Đã đo ${anh.length} ảnh trong public/images\n`);
+// Nói ra số ảnh bị bỏ qua. Một phép kiểm âm thầm loại bớt mẫu rồi báo "đạt" là
+// phép kiểm không đáng tin — người đọc phải thấy được nó đã không nhìn vào đâu.
+console.log(
+  `Đã đo ${anh.length} ảnh trong public/images` +
+    (camDung.size > 0 ? ` · bỏ qua ${camDung.size} ảnh đã cấm dùng` : "") +
+    "\n",
+);
 
 if (nhieu.length === 0) {
   console.log("✓ Không cụm nào có hai ảnh giống nhau ở mức đáng lo.");

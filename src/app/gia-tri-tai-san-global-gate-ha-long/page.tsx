@@ -60,9 +60,21 @@ export default function TrangGiaTriTaiSan() {
 
       <section className="px-2 pb-nhip">
         <ClipReveal>
+          {/* ⚠️ ĐỔI TỪ `vbm-hoan-thien-02`, VÀ ĐỔI CẢ CÂU ALT. ĐỪNG ĐỔI NGƯỢC.
+
+              Hai tấm đó là CÙNG MỘT phối cảnh — `kiem-anh-trung` báo lệch 10
+              bit, và mắt xác nhận ngày 10/09. Bản cũ chỉ khác ở chỗ còn nguyên
+              dải chữ "(*) Thông tin hình ảnh chỉ mang tính chất minh hoạ" mà
+              chủ đầu tư in ở mép dưới; bản này đã cắt dải đó theo đúng quy ước
+              `CAT_CHU_CHAN` của kho.
+
+              Câu alt cũ — "Dãy nhà ĐÃ HOÀN THIỆN tại Vịnh Bình Minh" — giới
+              thiệu một phối cảnh như công trình đã xây xong, và đặt đúng trên
+              trang nói về giá trị tài sản. Chính dòng chữ in trên mặt tấm ảnh
+              đó đã nói ngược lại. Lý do đầy đủ trong `anh-cam-dung.ts`. */}
           <ProjectImage
-            name="vbm-hoan-thien-02"
-            alt="Dãy nhà đã hoàn thiện tại Vịnh Bình Minh"
+            name="song-dai-lo-mua-hoa"
+            alt="Phối cảnh đại lộ nội khu mùa hoa nở, hai bên là dãy nhà thấp tầng"
             sizes="100vw"
             className="h-[46vh] w-full object-cover md:h-[60vh]"
           />

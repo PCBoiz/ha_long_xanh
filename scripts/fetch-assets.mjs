@@ -161,7 +161,17 @@ const ASSETS = [
   {
     id: "1ZgsqjJ_-1Q5O6AUMqKMl0b1rK6EtLx6c",
     name: "vbm-hoan-thien-02",
-    alt: "Dãy nhà hoàn thiện tại Vịnh Bình Minh",
+    // ⚠️ ĐÃ CẤM DÙNG — xem lý do trong `anh-cam-dung.ts`.
+    //
+    // Mục này CỐ Ý giữ nguyên: `npm run assets` vẫn tải tấm ảnh về như cũ, và
+    // đó là đúng ý đồ. Xoá mục đi thì lần chạy sau ảnh biến mất mà không ai
+    // biết vì sao; danh sách cấm mới là thứ giữ nó khỏi lên trang, và nó giữ
+    // kèm cả lý do.
+    //
+    // Alt cũ ghi "Dãy nhà hoàn thiện tại Vịnh Bình Minh" — giới thiệu một PHỐI
+    // CẢNH như công trình đã xây xong. Chính dải chữ "(*) … chỉ mang tính chất
+    // minh hoạ" in ở mép dưới tấm ảnh đã nói ngược lại.
+    alt: "Phối cảnh dãy nhà thấp tầng ven đại lộ nội khu (trùng song-dai-lo-mua-hoa)",
   },
   {
     id: "1H_Lvdd_XZSXdk0SxC0or7HmCZzLEG7jg",
@@ -351,7 +361,10 @@ const ANH_TU_PDF = [
   {
     file: "giai-tri-thuy-cung.jpg",
     name: "giai-tri-thuy-cung",
-    alt: "Phối cảnh bể kính lớn trong thuỷ cung, người xem đứng thành hàng phía trước",
+    // ⚠️ ĐÃ CẤM DÙNG — xem `anh-cam-dung.ts`. Đây là ảnh CHỤP bể Kuroshio của
+    // thuỷ cung Churaumi (Okinawa, Nhật Bản), không phải phối cảnh dự án này.
+    // Alt cũ ghi "Phối cảnh…" nên sai hai lần cùng lúc.
+    alt: "Ảnh chụp bể kính thuỷ cung Churaumi, Okinawa — KHÔNG thuộc dự án",
   },
   {
     file: "giai-tri-cong-vien-chu-de.jpg",

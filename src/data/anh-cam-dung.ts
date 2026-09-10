@@ -51,20 +51,48 @@ export const ANH_CAM_DUNG: AnhCamDung[] = [
   },
   {
     ten: "giai-tri-nha-hang-duoi-nuoc",
-    lyDo: "Chưa xác minh được nguồn — nghi ảnh chụp nơi khác",
+    lyDo: "Từ Drive chủ đầu tư, nhưng KHÔNG phải phối cảnh dự án này",
     bangChung:
-      "Trông như ảnh CHỤP một nhà hàng thuỷ cung đã tồn tại, không phải phối " +
-      'cảnh dựng. "Nhà hàng dưới nước" KHÔNG có trong `hangMucTienIch` — danh ' +
-      "sách tiện ích đã xác minh. Kích thước 1067×736, cùng dải với các tấm AI.",
+      "Đã XEM BẰNG MẮT ngày 10/09 (phiên trước không xem được vì giới hạn ảnh " +
+      "của công cụ, không phải vì tấm này ổn). Mang nhiều dấu ảnh AI: cá đuối " +
+      "cắt qua khung mái vòm, xác tàu treo lơ lửng sai phương với đáy rạn, " +
+      "ánh sáng đều một cách bất khả. " +
+      "⚠️ Tấm này LẤY TỪ Drive chủ đầu tư (`fetch-assets.mjs` mã " +
+      "1RA0p_QTORdHXQYnbawyR0s0CuyHIJneH) — nhưng Drive đó KHÔNG phải bằng " +
+      "chứng: chú thích ngay trong chính tệp ấy đã ghi bộ bán hàng có lẫn ảnh " +
+      'chiếu ý tưởng không thuộc dự án (một ngôi chùa có thật, "LÀNG BIA" là ' +
+      'lễ hội bia châu Âu, "CÔNG VIÊN ỐC ĐẢO" kiểu Anh). Và "nhà hàng dưới ' +
+      'nước" KHÔNG có trong `hangMucTienIch` — danh sách tiện ích đã xác minh.',
   },
   {
     ten: "giai-tri-thuy-cung",
-    lyDo: "Chưa xác minh được nguồn",
+    lyDo: "Ảnh CHỤP một thuỷ cung ở nước khác — không liên quan dự án",
     bangChung:
-      "Kích thước 1400×920 — cùng dải với `giai-tri-cong-vien-chu-de` (ảnh " +
-      "quảng cáo VinWonders tải từ web), khác hẳn bộ gốc 2560px. Nghi là ảnh " +
-      "tải về chứ không phải tài liệu chủ đầu tư gửi. Ngoài ra 1400px là quá " +
-      "nhỏ cho dải ảnh lớn nơi nó từng nằm.",
+      "Đã XEM BẰNG MẮT ngày 10/09. Đây là bể Kuroshio của thuỷ cung Churaumi " +
+      "(Okinawa, Nhật Bản): ba con cá nhám voi cùng cá đuối nạng trong một bể, " +
+      "trước tấm kính phẳng khổng lồ, đám đông in bóng đen phía dưới — khung " +
+      "hình được chụp lại nhiều nhất thế giới. Rất ít thuỷ cung nuôi nổi cá " +
+      "nhám voi và Việt Nam không có nơi nào. " +
+      'Nên `alt` hiện khai "Phối cảnh bể kính lớn…" SAI HAI LẦN: nó không phải ' +
+      "phối cảnh (là ảnh chụp), và không phải của dự án này. Dùng nó là vừa " +
+      "vướng bản quyền vừa nói sai với người mua.",
+  },
+  {
+    ten: "vbm-hoan-thien-02",
+    lyDo: "Trùng ảnh với `song-dai-lo-mua-hoa`, và alt nói sai bản chất",
+    bangChung:
+      "Đã XEM BẰNG MẮT ngày 10/09 — `kiem-anh-trung` báo lệch 10 bit, và mắt " +
+      "xác nhận CÙNG MỘT phối cảnh: cùng chiếc xe cam, cùng khinh khí cầu, " +
+      "cùng hàng cây. Khác đúng một điều: tấm này còn nguyên dải chữ " +
+      '"(*) Thông tin hình ảnh chỉ mang tính chất minh hoạ, tham khảo" ở mép ' +
+      "dưới, còn `song-dai-lo-mua-hoa` là bản đã cắt dải đó theo đúng quy ước " +
+      "`CAT_CHU_CHAN` của kho. " +
+      '⚠️ Và `alt` của tấm này ghi "Dãy nhà HOÀN THIỆN tại Vịnh Bình Minh" — ' +
+      "tức là giới thiệu một phối cảnh như công trình đã xây xong, ngay trên " +
+      "trang `/gia-tri-tai-san-…`. Chính dải chữ in trên mặt ảnh đã nói ngược " +
+      "lại điều đó. Cùng loại lỗi với ba ảnh AI, chỉ khác là ảnh này thật. " +
+      "Giữ bản `song-dai-lo-mua-hoa`: mới hơn, cắt đúng, và alt ghi " +
+      '"Phối cảnh".',
   },
 ];
 

@@ -206,7 +206,7 @@ export const projectImages = {
     src: "/images/vbm-hoan-thien-02.webp",
     width: 2560,
     height: 1440,
-    alt: "Dãy nhà hoàn thiện tại Vịnh Bình Minh",
+    alt: "Phối cảnh dãy nhà thấp tầng ven đại lộ nội khu (trùng song-dai-lo-mua-hoa)",
     blurDataURL:
       "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZgCdIDfJtgJ/o0l3M1H6zKekAP62F7xt8KKfvX/qii1/P1UjrQq4LAvYN37M5n9pPVBa2/ZnKCbPrZ/WtbEoaeRXm0Ty8G+plkaCXipOsmy6LoIWWNE7s2uGa4EI6oE13f9ub/JJapf5KmFmCkAvwAA=",
   },
@@ -390,7 +390,7 @@ export const projectImages = {
     src: "/images/giai-tri-thuy-cung.webp",
     width: 1400,
     height: 920,
-    alt: "Phối cảnh bể kính lớn trong thuỷ cung, người xem đứng thành hàng phía trước",
+    alt: "Ảnh chụp bể kính thuỷ cung Churaumi, Okinawa — KHÔNG thuộc dự án",
     blurDataURL:
       "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACwBACdASoYABAAPu1iqU2ppaOiMAgBMB2JbACdMoLT9A46B9DI4WLdrrbcHHngAP6mzqdJbbnJmdf/FDE+pEja36avb8/fvKa7EWaQicPEcdvy43G+PKISiriBZd9WD2wpGSHyCXAerp5WDMGBfw18EEcF0WbYsNBeZgHPQsF9QmX/2+andh1sbH+gmm5rwkAKSn1hHYtCItOSsBoAAA==",
   },

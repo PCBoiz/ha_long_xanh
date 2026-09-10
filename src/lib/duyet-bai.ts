@@ -5,6 +5,7 @@ import { and, eq } from "drizzle-orm";
 import { layDb, schema } from "@/db";
 import { DUONG_DAN } from "@/lib/duong-dan";
 import type { KetQuaDuyet, KetQuaHangCho } from "@/lib/duyet-bai-kieu";
+import { baoIndexNow } from "@/lib/indexnow";
 
 /**
  * Duyệt hoặc gỡ một bài do Antigravity đẩy sang.
@@ -163,6 +164,32 @@ function dungLaiCacTrang(slug: string): void {
   revalidatePath("/sitemap.xml");
 }
 
+/**
+ * Gõ cửa Bing sau khi bài đã lên trang (hoặc đã bị gỡ).
+ *
+ * ⚠️ GỌI SAU KHI ĐÃ GHI XONG, VÀ KHÔNG ĐƯỢC LÀM HỎNG KẾT QUẢ DUYỆT.
+ *
+ * Tới bước này thì việc đăng ĐÃ XONG — bài đã vào cơ sở dữ liệu và các trang
+ * đã được dựng lại. Bing có nhận được hay không là chuyện phụ. Để một lỗi mạng
+ * ở đây làm nút "Duyệt và đăng" báo đỏ là nói dối về một việc đã thành công,
+ * và người dùng sẽ bấm lại — tạo đúng cái cảnh hai bài trùng mà kho Antigravity
+ * vừa phải đi sửa.
+ *
+ * Bài bị GỠ cũng báo: IndexNow dùng chung một lệnh cho "mới" và "đã đổi", và
+ * một địa chỉ giờ trả 404 thì càng nên để Bing biết sớm thay vì tiếp tục hiện
+ * trong kết quả.
+ */
+async function baoTimKiem(slug: string): Promise<void> {
+  const ketQua = await baoIndexNow([
+    `${DUONG_DAN.tinTuc}/${slug}`,
+    DUONG_DAN.tinTuc,
+    "/sitemap.xml",
+  ]);
+  if (!ketQua.daGui) {
+    console.info("[indexnow] Không gửi:", ketQua.lyDo);
+  }
+}
+
 export async function duyetBai(
   _truoc: KetQuaDuyet,
   duLieu: FormData,
@@ -247,6 +274,7 @@ export async function duyetBai(
     }
 
     dungLaiCacTrang(slug);
+    await baoTimKiem(slug);
     return {
       trangThai: "xong",
       thongBao: viec === "duyet" ? "Đã đăng bài." : "Đã gỡ bài.",
@@ -285,6 +313,7 @@ export async function duyetBai(
   // Dựng lại các trang có bài, để bài vừa duyệt hiện ra ngay thay vì đợi bộ
   // đệm hết hạn.
   dungLaiCacTrang(slug);
+  await baoTimKiem(slug);
 
   return {
     trangThai: "xong",
