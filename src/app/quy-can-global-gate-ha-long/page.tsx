@@ -7,6 +7,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { ProjectImage } from "@/components/ui/project-image";
 import { BangHang } from "@/components/site/bang-hang";
 import { DangKyForm } from "@/components/site/dang-ky-form";
+import { DuLieuQuyCan } from "@/components/site/du-lieu-quy-can";
 import { dongSanPham, duAn, tienDoThanhToan } from "@/data/project";
 
 export const metadata: Metadata = {
@@ -61,6 +62,10 @@ export default function TrangBangHang() {
 
   return (
     <>
+      {/* Dữ liệu giá cho máy đọc — đặt cùng chỗ với bảng mà nó mô tả.
+          Xem ghi chú trong `du-lieu-quy-can.tsx` về việc vì sao khai KHOẢNG
+          giá chứ không khai 616 lô riêng lẻ. */}
+      <DuLieuQuyCan />
       <section className="pb-nhip pt-36 md:pt-44">
         <Khung>
           <div className="grid gap-x-12 gap-y-8 md:grid-cols-12">
