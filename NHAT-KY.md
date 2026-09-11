@@ -11,6 +11,102 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 11/09/2026 — VÒNG 10 · site tự xưng là dự án của Vinhomes, nên không ai tìm thấy nó
+
+Chủ dự án: "tra halongxanh360 vẫn chưa ra trang của mình". Đo trước khi đoán.
+
+### Đo được gì
+
+- Tra `halongxanh360`: toàn Facebook/YouTube hashtag "halongxanh". Không có trang này.
+- `site:halongxanh360.vn`: **0 trang** từ tên miền. Toàn tên miền na ná —
+  `halongxanh.com.vn`, `halongxanh.com`, `halongxanhquangninh.com`.
+- Kỹ thuật: robots mở, không `noindex`, không `x-robots-tag`. **Không có gì chặn.**
+- Tuổi: kho khởi tạo 24/08, Search Console xác nhận lập chỉ mục 09/09. Hai tuần
+  sống, hai ngày trong chỉ mục.
+
+### Nguyên nhân — nhìn thấy được trong JSON-LD trang chủ
+
+Tài liệu Google (`developers.google.com/search/docs/appearance/site-names`) nói
+tên site được quyết định từ: **(1)** `WebSite` JSON-LD trên trang chủ — quan
+trọng nhất; **(2)** chữ trên trang chủ và *tham chiếu tới nó trên web*; **(3)**
+`og:site_name`, `<title>`, heading.
+
+Đo trang chủ đang chạy, cả bốn chỗ:
+
+```
+WebSite.name       = "Vinhomes Global Gate Hạ Long"    ← tên DỰ ÁN
+Organization.name  = "Liên danh Vingroup – Vinhomes"   ← CHỦ ĐẦU TƯ, đứng trần
+og:site_name       = "Vinhomes Global Gate Hạ Long"
+<title>            = "Vinhomes Global Gate Hạ Long (Hạ Long Xanh)"
+chữ vị trí logo    = "Global Gate Hạ Long"
+```
+
+"Hạ Long Xanh 360" chỉ có ở chân trang, 3 lần. Chuỗi "halongxanh360" không có
+trong trường nào, chỉ trong URL. **Với Google, site này tên là dự án của
+Vinhomes — y hệt mười đối thủ — và thực thể "halongxanh360" không tồn tại.**
+Người gõ đúng chữ đó nhận về thứ gần nhất: các tên miền có "halongxanh".
+
+Chuyện `Organization` còn tệ hơn chuyện tên: một tổ chức đứng trần trên trang
+chủ, không nút nào trỏ tới bằng `@id`, bị đọc là "tổ chức đứng sau trang này".
+Tức là dữ liệu có cấu trúc khai đây là trang của Vingroup, trong khi chân trang
+nói ngược lại. Hai câu ngược nhau, và câu sai là câu máy đọc.
+
+### Vì sao vòng 7 không thấy
+
+Vòng 7 sửa tiêu đề để phủ **từ khoá** ("Vinhomes", "Hạ Long Xanh") — đúng cho
+truy vấn chủ đề. Nhưng "từ khoá trong tiêu đề" và "tên của site" là hai chuyện
+khác nhau, và vòng 7 chỉ nhìn chuyện thứ nhất. Tác giả khối JSON-LD cũng vậy:
+chú thích đầu tệp nói "mô tả một dự án bất động sản ở Quảng Yên" — nghĩ về dự
+án, không nghĩ về website, nên `WebSite.name = duAn.ten` trông hoàn toàn tự
+nhiên lúc viết.
+
+**Lỗi này không có triệu chứng khi dùng thử.** Trang vẫn dựng, vẫn đẹp. Nó chỉ
+lộ ra khi đi tra tên mình — việc không ai làm mỗi ngày. Nên `kiem-ten-site` giờ
+khoá cả bốn chỗ lại.
+
+### Đã sửa, và đã đo lại trên bản dựng
+
+Cả bốn chỗ đọc từ `benBan.ten`. `WebSite` thêm `alternateName` đúng chuỗi người
+ta gõ, `publisher` → `RealEstateAgent`, `about` → `Place` — ba nút trước đây là
+ba hòn đảo. `Organization` chủ đầu tư bỏ, tên chủ đầu tư vào `Place.description`
+đúng chỗ của nó. `Place.url` bỏ — nó từng trỏ về chính trang này, tức tự nhận là
+trang của dự án.
+
+Tiêu đề trang chủ: `Hạ Long Xanh 360 — Tư vấn Vinhomes Global Gate Hạ Long`
+(54 ký tự). **Khuôn trang con giữ nguyên** — Google chỉ đọc tên site từ trang
+chủ, và hậu tố "· Vinhomes…" là cách vòng 7 đưa từ khoá vào 17/17 tiêu đề.
+
+Đo lại: "Hạ Long Xanh 360" trong chữ hiển thị 3 → 5 lần; ba nút nối nhau bằng
+`@id`; header không còn "Global Gate Hạ Long" đứng riêng.
+
+### Nửa còn lại không nằm trong kho
+
+Google nói nguồn thứ hai là *tham chiếu trên web*. "halongxanh360" hiện không
+xuất hiện ở đâu ngoài chính site: Facebook không, Zalo không, YouTube không,
+GBP không. Thương hiệu có đúng một nguồn thì Google chưa tin. Việc đó đã vào
+`VIEC-CAN-LAM.md` mục 7b, xếp theo tác động ÷ công sức — Request indexing là 1
+phút và đứng đầu.
+
+`sameAs` cố ý **chưa** khai: chưa hồ sơ nào mang đúng tên, khai link tới trang
+tên khác là nối sai thực thể.
+
+### Thêm
+
+- `bao-bing`: gửi cả sitemap cho IndexNow một lần sau deploy. Hook lúc duyệt
+  bài chỉ bắt bài MỚI; 31 địa chỉ đang có chưa qua cửa đó. Tự từ chối khi tệp
+  khoá chưa sống — thử: đúng là từ chối, vì chưa deploy.
+- Tra `site:` trên Bing qua fetch trả về rác (nó bỏ toán tử, tra chữ khác) —
+  **không kết luận gì từ Bing** bằng cách đó.
+
+### Kỳ vọng
+
+Google tự ghi "several days to several weeks" cho crawl lại. Truy vấn đúng tên
+thương hiệu, sau khi cả hai nửa xong, thường 1–3 tuần — không đối thủ nào tên
+"halongxanh360". Truy vấn chung ("hạ long xanh giá bán") là chuyện khác hẳn:
+5,7% trang mới lọt top 10 trong một năm. Đừng lẫn hai mục tiêu.
+
+12/12 phép kiểm (thêm `kiem-ten-site`) · lint sạch · build sạch.
+
 ## 10/09/2026 — VÒNG 8 · IndexNow, và một tuyến chạy đúng mà lấy mất trang 404
 
 ### Việc đã deploy rồi mà tệp bàn giao vẫn ghi là chưa
