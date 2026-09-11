@@ -11,6 +11,26 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 11/09/2026 — VÒNG 13 · khách liên hệ vào Google Sheets, và webhook hỏng thì không mất khách
+
+- `dang-ky-action.ts` gửi token trong `Authorization: Bearer` (không trong URL —
+  URL nằm trong log truy cập). Đích thật: cổng nhận khách của Antigravity
+  (`/api/v1/lien-he/[projectId]`), ghi vào Google Sheet của chủ trang. Không đặt
+  `LEAD_WEBHOOK_TOKEN` thì không gửi header — Apps Script, n8n vẫn dùng như cũ.
+- **Webhook hỏng thì rơi về `.data/dang-ky.jsonl`, không ném lỗi.** Trước đây
+  hỏng webhook là khách thấy "chưa gửi được" và số điện thoại biến mất. `.data/`
+  có gắn ổ đĩa nên giữ qua deploy — báo "đã nhận" là nói thật. Trên Vercel không
+  ghi được nên vẫn báo lỗi như cũ. Log nói to, không ghi số điện thoại.
+- `.env.example`: `LEAD_WEBHOOK_TOKEN` + cách lấy cả hai giá trị từ Antigravity.
+
+**Chưa deploy.** Đi cùng bước 6 mục 0 của `VIEC-CAN-LAM.md` bên Antigravity, kèm
+dải chân trang và `llms.txt` tên mới của vòng 11–12.
+
+**Vòng sau:** khách rơi về tệp chưa có đường đẩy lại vào bảng khi webhook hết
+hỏng. Ảnh Drive → bài đăng cần cổng `/api/ingest` nhận ảnh — chờ chủ dự án chọn.
+
+13/13 phép kiểm · lint sạch.
+
 ## 11/09/2026 — VÒNG 12 · Google trả số thật, và 14 trang được quá ít trang trỏ tới
 
 ### Số thật đầu tiên (soi bằng URL Inspection API từ Antigravity, 21:14)
