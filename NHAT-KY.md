@@ -11,6 +11,62 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 12/09/2026 — VÒNG 14 · bảng khách trống vì compose quên một biến
+
+### Nguyên nhân thật của "form báo Đã nhận mà bảng trống" (39304d7)
+
+Chủ dự án thử form khuya 11/09: màn cảm ơn hiện, bảng Sheets trống.
+`.dockerignore` loại `.env` khỏi ảnh (đúng), nên hộp chứa **chỉ thấy biến khai
+trong `services.web.environment`** của compose. Mã đọc `LEAD_WEBHOOK_TOKEN` từ
+11/09, `.env.example` có dòng đó, hướng dẫn bảo dán vào `.env` — nhưng compose
+chỉ có `LEAD_WEBHOOK_URL`. Website gửi khách đi không kèm token → cổng nhận của
+Antigravity trả 401 → khách rơi về `.data/dang-ky.jsonl` → khách vẫn thấy "Đã
+nhận". **Dù chủ dự án làm đúng bước 6, bảng vẫn trống.**
+
+- `docker-compose.yml`: thêm `LEAD_WEBHOOK_TOKEN`.
+- **Phép kiểm mới `kiem-bien-moi-truong`**: mọi `process.env.X` mà `src/` đọc
+  phải có trong compose (`NEXT_PUBLIC_*` phải có trong `build.args`). Chạy trên
+  compose cũ: **đỏ đúng biến này**. Sau sửa: xanh, 6 biến. Loại lỗi này sẽ lặp
+  lại mỗi lần thêm biến mới — chỗ khai và chỗ dùng nằm ở hai tệp khác ngôn ngữ.
+- `trien-khai.sh` cảnh báo thêm hai ca: URL không bắt đầu `https://` (thẻ
+  Antigravity từng hiện đường dẫn tương đối — dán nguyên thế là `fetch` ném lỗi)
+  và URL trỏ về Antigravity mà thiếu token. Thử 5 ca `.env` trên bản sao khối
+  lệnh, kể cả giá trị có ngoặc kép.
+- Log 401 khi thiếu token giờ ghi thẳng "hộp chứa không thấy LEAD_WEBHOOK_TOKEN".
+
+**Khách rơi về tệp từ trước tới giờ không mất** — lượt gửi thành công đầu tiên
+sau khi deploy bản này sẽ đẩy bù hết sang bảng, nguồn ghi "gửi bù".
+
+⚠️ Báo động giả đã kiểm: `git show HEAD:trien-khai.sh` trên máy Windows in ra
+CRLF (autocrlf đổi lúc in). Blob thật: `git cat-file blob` → **0 ký tự CR**. VPS
+nhận bản LF.
+
+### Khách tồn trong tệp tự đẩy bù sang bảng (37c81aa)
+
+Khách để lại số từ lúc trang lên tới khi có webhook nằm trong
+`.data/dang-ky.jsonl` mà chưa ai mở. `src/lib/lead/day-khach-ton.ts`: mỗi lần
+gửi được một khách mới (webhook đang sống) thì `after()` rút hàng đợi — tối đa
+50 dòng/lượt, nhớ vị trí trong `dang-ky-da-day.txt`, khoá trong tiến trình để
+hai lượt không gửi trùng. Dòng hỏng bỏ qua, không chặn hàng. Không chạy trên
+Vercel (không có tệp). `kiem-day-khach-ton`: 10 ca.
+
+### Bài hẹn ngày sau: IndexNow báo sớm (6bcdb13)
+
+Duyệt bài có `ngayDang` tương lai → trang bài trả 404 tới đúng ngày (cố ý),
+nhưng `baoTimKiem` báo IndexNow ngay lúc duyệt: Bing ghé, gặp 404, tới ngày thì
+không ai báo lại. Giờ duyệt bài chưa tới ngày thì **chưa báo**. Nửa còn lại —
+báo khi tới ngày — cần một nhịp chạy hằng ngày; nằm trong kế hoạch tự động đăng
+bài (`docs/nghien-cuu-tu-dong-dang-bai.md` bên kho Antigravity).
+
+### Ảnh cần chủ dự án quyết
+
+`tien-ich-01.webp` — dùng ở `/tien-ich` với chú thích "Quảng trường rạp xiếc
+lúc chiều buông". Nhìn kỹ ảnh: **chữ trên biển là chữ AI méo** ("ƂHAIAAHIANGR")
+và có dòng miễn trừ của chủ đầu tư. Chưa gỡ — chờ chủ dự án chọn: gỡ khỏi trang,
+hay giữ tới khi có ảnh thật từ media kit.
+
+15/15 phép kiểm đạt.
+
 ## 11/09/2026 — ghi chú khuya: Bing, và tên miền .com không phải của mình
 
 Chủ dự án tra "halongxanh360" trên Bing (ảnh khuya 11/09): kết quả đầu là
