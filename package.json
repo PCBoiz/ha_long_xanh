@@ -24,7 +24,8 @@
     "kiem-du-lieu-bai-viet": "node scripts/kiem-du-lieu-bai-viet.mjs",
     "kiem": "node scripts/kiem-tat-ca.mjs",
     "kiem-noi-lien-ket": "node scripts/kiem-noi-lien-ket.mjs",
-    "in-pdf": "node scripts/in-pdf.mjs"
+    "in-pdf": "node scripts/in-pdf.mjs",
+    "bao-bing": "node scripts/bao-bing.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

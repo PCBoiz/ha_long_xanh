@@ -58,22 +58,52 @@ export function DuLieuCoCauTruc({ coFaq = false }: { coFaq?: boolean } = {}) {
 
   const dienTich = soLieu.find((s) => s.nhan === "Tổng diện tích");
 
+  /* ═══════════════════════════════════════════════════════════════════════
+     ⚠️ `WebSite` LÀ WEBSITE NÀY, KHÔNG PHẢI DỰ ÁN. HAI THỨ ĐÓ TỪNG BỊ LẪN.
+
+     Đo ngày 11/09/2026: tra "halongxanh360" trên máy tìm kiếm không ra trang
+     này. `site:halongxanh360.vn` trả về 0 trang từ tên miền, toàn tên miền na
+     ná — halongxanh.com.vn, halongxanh.com, halongxanhquangninh.com.
+
+     Nguyên nhân nằm ngay ở khối này. Bản trước khai:
+
+         WebSite.name      = "Vinhomes Global Gate Hạ Long"   (tên DỰ ÁN)
+         Organization.name = "Liên danh Vingroup – Vinhomes"  (CHỦ ĐẦU TƯ)
+
+     Tài liệu Google về tên site nói `WebSite` JSON-LD trên trang chủ là nguồn
+     QUAN TRỌNG NHẤT để họ quyết định site tên gì. Đọc khối trên, Google kết
+     luận: site này tên là "Vinhomes Global Gate Hạ Long", đứng sau là Vingroup
+     — y hệt mười trang đối thủ, và ngược hẳn với dòng miễn trừ ở chân trang
+     nói đây là kênh độc lập. Chuỗi "halongxanh360" thì không xuất hiện trong
+     bất kỳ trường nào. Nên khi người ta gõ đúng chữ đó, KHÔNG có thực thể nào
+     tên như vậy để Google trả về, và nó chọn thứ gần nhất: các tên miền có
+     "halongxanh".
+
+     Khối `Organization` chủ đầu tư trước đây đứng TRẦN — không nút nào trỏ tới
+     nó bằng `@id`. Một tổ chức đứng trần trên trang chủ được đọc là "tổ chức
+     đứng sau trang này". Giờ chủ đầu tư nằm trong phần mô tả của `Place`, đúng
+     chỗ của nó: một sự thật về dự án, không phải về trang.
+
+     `alternateName` mang đúng chuỗi người ta gõ vào ô tìm kiếm — tài liệu
+     Google dành trường này cho "tên ngắn hoặc cách gọi quen thuộc".
+     ═══════════════════════════════════════════════════════════════════════ */
   const duLieu = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
-        "@id": `${DIA_CHI_GOC}/#chu-dau-tu`,
-        name: duAn.chuDauTu,
-      },
-      {
         "@type": "WebSite",
         "@id": `${DIA_CHI_GOC}/#website`,
         url: DIA_CHI_GOC,
-        name: duAn.ten,
+        name: benBan.ten,
+        alternateName: ["halongxanh360", "halongxanh360.vn", "Ha Long Xanh 360"],
         inLanguage: "vi-VN",
-        description: duAn.moTaNgan,
+        description: `${benBan.vaiTro} về ${duAn.ten}. ${duAn.moTaNgan}`,
         dateModified: capNhat,
+        // Nối site với người đứng sau nó, và với thứ nó nói về. Không có hai
+        // cạnh này thì ba nút WebSite / RealEstateAgent / Place là ba hòn đảo,
+        // và máy phải tự đoán chúng liên quan thế nào.
+        publisher: { "@id": `${DIA_CHI_GOC}/#tu-van` },
+        about: { "@id": `${DIA_CHI_GOC}/#du-an` },
       },
       {
         // `Place` + `LandmarksOrHistoricalBuildings` là mô tả trung thực nhất
@@ -87,8 +117,13 @@ export function DuLieuCoCauTruc({ coFaq = false }: { coFaq?: boolean } = {}) {
         // chỉ về cùng một chỗ thì mới ghép được các nguồn rời rạc lại.
         alternateName: [duAn.tenKhac, `${duAn.ten} — ${duAn.slogan}`],
         slogan: duAn.slogan,
-        description: duAn.moTaNgan,
-        url: DIA_CHI_GOC,
+        // Chủ đầu tư ghi ở đây — là một sự thật VỀ DỰ ÁN. Trước đây nó là một
+        // nút `Organization` đứng riêng trên trang chủ, và bị đọc thành "tổ
+        // chức đứng sau trang này".
+        description: `${duAn.moTaNgan} Chủ đầu tư: ${duAn.chuDauTu}.`,
+        // ⚠️ KHÔNG khai `url` cho dự án nữa. Trước đây `Place.url` trỏ về chính
+        // trang này — tức tự nhận trang này là trang của dự án. Trang của dự
+        // án là trang chủ đầu tư; trang này chỉ NÓI VỀ nó (`WebSite.about`).
         address: {
           "@type": "PostalAddress",
           addressLocality: "Quảng Yên",
@@ -118,8 +153,17 @@ export function DuLieuCoCauTruc({ coFaq = false }: { coFaq?: boolean } = {}) {
         // là trường nói với máy tìm kiếm "ai đang bán" — bỏ trống thì công cụ
         // tìm kiếm cũng không phân biệt được trang này với trang chủ đầu tư.
         name: benBan.ten || `Tư vấn ${duAn.tenNgan}`,
-        description: benBan.vaiTro,
+        alternateName: "halongxanh360",
+        url: DIA_CHI_GOC,
+        description: `${benBan.vaiTro} về ${duAn.ten}`,
         areaServed: { "@type": "AdministrativeArea", name: "Quảng Ninh" },
+        // Trang này nói về dự án nào. Cạnh này để trợ lý AI ghép được "Hạ Long
+        // Xanh 360" với "Vinhomes Global Gate Hạ Long" mà không phải đoán.
+        knowsAbout: { "@id": `${DIA_CHI_GOC}/#du-an` },
+        // ⚠️ `sameAs` (Facebook, Zalo OA, YouTube…) CHƯA khai vì chưa có hồ sơ
+        // nào mang đúng tên "Hạ Long Xanh 360". Khai một liên kết tới trang
+        // tên khác là nối sai thực thể. Thêm vào `benBan` khi có, và chỉ khi
+        // hồ sơ đó ghi đúng tên này.
         // Số điện thoại và email chỉ khai khi có thật. Khai một trường rỗng là
         // dữ liệu sai, không phải dữ liệu thiếu.
         ...(lienHe.hotline ? { telephone: lienHe.hotline } : {}),

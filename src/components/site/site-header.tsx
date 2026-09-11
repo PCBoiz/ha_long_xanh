@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { dongSanPham, duAn } from "@/data/project";
+import { benBan, dongSanPham } from "@/data/project";
 
 /**
  * Điều hướng — GOM NHÓM, không còn hàng ngang phẳng.
@@ -273,7 +273,18 @@ export function SiteHeader() {
           onClick={() => setMoMenu(false)}
           className="inline-flex min-h-11 items-center whitespace-nowrap font-display text-xl leading-none font-normal tracking-tight text-paper lg:text-center lg:text-[1.35rem]"
         >
-          {duAn.tenNgan}
+          {/* ⚠️ CHỖ NÀY LÀ TÊN SITE, KHÔNG PHẢI TÊN DỰ ÁN (đổi 11/09).
+
+              Trước đây hiện `duAn.tenNgan` — "Global Gate Hạ Long" — ở vị trí
+              logo trên MỌI trang. Tức là site tự xưng là dự án của Vinhomes ở
+              chỗ dễ thấy nhất, trong khi chân trang lại nói "không phải trang
+              chính thức của chủ đầu tư". Hai câu ngược nhau, và câu sai là câu
+              to hơn.
+
+              Google liệt kê "heading và chữ trên trang chủ" là một nguồn để đặt
+              tên site. Tra "halongxanh360" không ra trang này một phần vì
+              không chỗ nào trên trang chủ gọi mình bằng tên đó. */}
+          {benBan.ten}
         </Link>
 
         {/* Nút hành động TÁCH khỏi danh sách điều hướng, và là thứ duy nhất

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ViewTransition } from "react";
 import { Be_Vietnam_Pro, Newsreader } from "next/font/google";
-import { duAn } from "@/data/project";
+import { benBan, duAn } from "@/data/project";
 import { CHO_LAP_CHI_MUC, DIA_CHI_GOC } from "@/lib/site";
 import { DuLieuCoCauTruc } from "@/components/site/du-lieu-co-cau-truc";
 import { SiteHeader } from "@/components/site/site-header";
@@ -89,7 +89,26 @@ export const metadata: Metadata = {
     // Khẩu hiệu vẫn còn nguyên ở H1 của trang, ở `og:title` khi chia sẻ (chỗ đó
     // rộng hơn nhiều), và trong khối dữ liệu có cấu trúc. Chỗ duy nhất nó rời
     // đi là chỗ nó bị cắt.
-    default: `${duAn.ten} (${duAn.tenKhac})`,
+    //
+    // ⚠️ TRANG CHỦ PHẢI MANG TÊN CỦA CHÍNH SITE, KHÔNG CHỈ TÊN DỰ ÁN (11/09).
+    //
+    // Tra "halongxanh360" không ra trang này. `site:halongxanh360.vn` trả 0
+    // trang, toàn tên miền na ná. Google xác định TÊN SITE từ trang chủ — và
+    // trang chủ này, ở mọi chỗ Google đọc (tiêu đề, og:site_name, WebSite
+    // JSON-LD, header), đều nói tên mình là "Vinhomes Global Gate Hạ Long".
+    // Không chỗ nào có "Hạ Long Xanh 360". Nên với Google, thực thể đó không
+    // tồn tại, và người gõ tên nó nhận về các trang có "halongxanh" trong tên
+    // miền.
+    //
+    // Tiêu đề trang chủ giờ đặt thương hiệu lên ĐẦU. "Hạ Long Xanh 360" đã chứa
+    // "Hạ Long Xanh", nên cụm truy vấn vòng 7 nhắm tới vẫn còn nguyên. 52 ký tự,
+    // dưới ngưỡng cắt.
+    //
+    // Khuôn trang con GIỮ NGUYÊN: hậu tố "· Vinhomes Global Gate Hạ Long" là
+    // cách vòng 7 đưa từ khoá vào 17/17 tiêu đề. Google chỉ đọc tên site từ
+    // trang chủ, nên trang con không cần mang thương hiệu trong tiêu đề — mang
+    // cả hai thì vượt 60 ký tự và bị cắt đúng phần đuôi.
+    default: `${benBan.ten} — Tư vấn ${duAn.ten}`,
     template: `%s · ${duAn.ten}`,
   },
   description: duAn.moTaNgan,
@@ -101,7 +120,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${duAn.ten} — ${duAn.slogan}`,
     description: duAn.moTaNgan,
-    siteName: duAn.ten,
+    // `og:site_name` là tên SITE, không phải tên bài. Google liệt kê nó là một
+    // nguồn phụ để đặt tên site; Facebook và Zalo hiện nó bên trên tiêu đề khi
+    // chia sẻ. Khai tên dự án ở đây là tự giới thiệu mình là chủ đầu tư.
+    siteName: benBan.ten,
     locale: "vi_VN",
     type: "website",
   },
