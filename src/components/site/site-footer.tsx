@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Marquee } from "@/components/ui/marquee";
-import { benBan, duAn, lienHe, lienKet } from "@/data/project";
+import { benBan, dongSanPham, duAn, lienHe, lienKet, phanKhu } from "@/data/project";
 
 export function SiteFooter() {
   return (
@@ -133,6 +133,39 @@ export function SiteFooter() {
           </div>
         </div>
 
+        {/* ═══════════════════════════════════════════════════════════════════
+            DẢI LIÊN KẾT PHÂN KHU & DÒNG SẢN PHẨM — 14 trang, mỗi trang một link.
+
+            ⚠️ ĐÂY LÀ QUY TẮC Ở CHÚ THÍCH TRÊN, ÁP DỤNG MUỘN.
+            "Thêm một trang thì thêm luôn một dòng ở đây" — 9 trang phân khu và
+            5 trang dòng sản phẩm dựng SAU khi viết câu đó, và không ai thêm.
+
+            Đo ngày 11/09 bằng URL Inspection API, lần đầu chạm Google thật:
+            16/31 địa chỉ đã vào chỉ mục. Trong 15 địa chỉ chưa vào có 7/9 trang
+            phân khu và 4/5 dòng sản phẩm, đều "Đã phát hiện thấy – hiện chưa
+            được lập chỉ mục" — Google biết mà chưa ghé. Đếm liên kết nội bộ từ
+            16 trang đã vào: bốn trang trên thanh điều hướng được 16/16 trang
+            trỏ tới; phân khu và sản phẩm chỉ 3–4/16. Google xếp lịch crawl theo
+            đúng mật độ đó.
+
+            Dải này đưa mỗi trang từ 3–4 lên 31 liên kết nội bộ. Không phải mẹo:
+            đây là cách đường dẫn nội bộ vốn phải có.
+
+            Bố cục: một dải chữ nhỏ tự xuống dòng, KHÔNG phải cột dọc — chân
+            trang trên điện thoại từng cao 2,4 màn hình (đo 07/09) và đã phải
+            rút. Mỗi link vẫn giữ `min-h-11` để vùng chạm không nhỏ đi.
+            ═══════════════════════════════════════════════════════════════════ */}
+        <div className="mt-nhip border-t border-ink-line pt-8">
+          <DaiLienKet
+            tieuDe="Chín phân khu"
+            muc={phanKhu.map((k) => ({ nhan: k.ten, href: `/phan-khu/${k.ma}` }))}
+          />
+          <DaiLienKet
+            tieuDe="Dòng sản phẩm"
+            muc={dongSanPham.map((d) => ({ nhan: d.ten, href: `/san-pham/${d.ma}` }))}
+          />
+        </div>
+
         {/*
           BA DÒNG DƯỚI ĐÂY LÀ PHẦN PHÁP LÝ CỦA CHÂN TRANG. Đừng gộp lại cho gọn:
           mỗi dòng trả lời một câu hỏi khác nhau, và câu thứ hai là câu mới thêm
@@ -224,5 +257,32 @@ function CotLienKet({
         ))}
       </ul>
     </div>
+  );
+}
+
+/** Dải link nhỏ, tự xuống dòng — cho nhóm nhiều mục mà không phình chiều cao. */
+function DaiLienKet({
+  tieuDe,
+  muc,
+}: {
+  tieuDe: string;
+  muc: { nhan: string; href: string }[];
+}) {
+  return (
+    <nav aria-label={tieuDe} className="mb-5 last:mb-0">
+      <p className="text-label uppercase text-jade">{tieuDe}</p>
+      <ul className="mt-2 flex flex-wrap gap-x-5">
+        {muc.map((m) => (
+          <li key={m.href}>
+            <Link
+              href={m.href}
+              className="link-underline flex min-h-11 items-center text-small text-paper/70"
+            >
+              {m.nhan}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
