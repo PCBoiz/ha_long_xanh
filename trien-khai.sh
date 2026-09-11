@@ -233,6 +233,56 @@ kiem_ro_bi_mat() {
   fi
 }
 
+# Kiểm ĐƯỜNG TỪ HỘP CHỨA TỚI BẢNG KHÁCH (thêm 12/09).
+#
+# Sinh ra từ lỗi thật: compose quên chuyển LEAD_WEBHOOK_TOKEN vào hộp chứa,
+# khách điền form thấy "Đã nhận" mà bảng trống, và không bước nào của script
+# này báo gì. Kiểm `.env` là chưa đủ — thứ cần kiểm là CHÍNH HỘP CHỨA gọi ra
+# được: mạng ra ngoài, địa chỉ, token.
+#
+# Gửi `{"kiemTra":true}`: cổng Antigravity kiểm token rồi trả 200 mà KHÔNG ghi
+# dòng nào vào bảng. Chỉ gửi khi đích là cổng Antigravity — đích khác (Apps
+# Script, n8n…) không hiểu `kiemTra` và có thể ghi một dòng rác.
+#
+# Chỉ CẢNH BÁO, không chặn: trang đã chạy, khách rơi về tệp vẫn không mất.
+kiem_duong_toi_bang_khach() {
+  local kq
+  kq="$(docker compose exec -T web node -e '
+const u = process.env.LEAD_WEBHOOK_URL || "";
+const t = process.env.LEAD_WEBHOOK_TOKEN || "";
+if (!u) { console.log("KHONG-DAT"); process.exit(0); }
+if (!u.includes("/api/v1/lien-he/")) { console.log("DICH-KHAC"); process.exit(0); }
+fetch(u, {
+  method: "POST",
+  headers: { "Content-Type": "application/json", ...(t ? { Authorization: "Bearer " + t } : {}) },
+  body: JSON.stringify({ kiemTra: true }),
+  signal: AbortSignal.timeout(15000),
+})
+  .then(async (r) => {
+    const d = await r.json().catch(() => ({}));
+    console.log(r.status === 200 && d.kiemTra === true ? "THONG" : "HTTP-" + r.status);
+  })
+  .catch((e) => console.log("MANG-LOI " + e.message));
+' 2>/dev/null || echo "KHONG-CHAY")"
+
+  case "$kq" in
+    THONG)
+      xanh "✓ Hộp chứa gửi được khách sang bảng (mạng, địa chỉ, token đều đúng)." ;;
+    KHONG-DAT|DICH-KHAC)
+      ;; # đã cảnh báo ở bước 1, hoặc đích không phải Antigravity — không kiểm
+    HTTP-401)
+      vang "⚠ Cổng nhận khách TỪ CHỐI TOKEN (HTTP 401)."
+      vang "  Dòng LEAD_WEBHOOK_TOKEN trong .env không khớp bảng đang lập — dán lại"
+      vang "  đúng token rồi chạy lại ./trien-khai.sh. Khách vẫn được giữ trên máy chủ." ;;
+    HTTP-400)
+      vang "⚠ Cổng nhận khách trả 400 — Antigravity chưa lên bản có chế độ kiểm tra"
+      vang "  (chờ vài phút rồi chạy lại), hoặc website và Antigravity lệch hợp đồng." ;;
+    *)
+      vang "⚠ Chưa kiểm được đường tới bảng khách: ${kq}"
+      vang "  Khách vẫn được giữ trên máy chủ. Xem thêm: docker compose logs --since 30m web | grep dang-ky" ;;
+  esac
+}
+
 # Kiểm TỪ NGOÀI INTERNET VÀO, không phải từ bên trong hộp chứa.
 #
 # ⚠️ ĐÂY LÀ PHÉP KIỂM DUY NHẤT CÓ Ý NGHĨA VỚI KHÁCH, và bản trước KHÔNG có nó.
@@ -284,6 +334,7 @@ for lan in $(seq 1 30); do
     # Chỉ dọn ảnh cũ SAU khi biết bản mới thật sự phục vụ được. Dọn sớm là vứt
     # mất đường lùi ngay lúc cần nó nhất.
     if kiem_tu_ben_ngoai; then
+      kiem_duong_toi_bang_khach
       kiem_lap_chi_muc
       ham_nong_anh
       docker image prune -f >/dev/null 2>&1 || true
