@@ -11,6 +11,29 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 11/09/2026 — VÒNG 11 · deploy xong, Bing nhận, và llms.txt cũng sai tên
+
+- **Chủ dự án deploy VPS.** Tệp khoá IndexNow sống; `npm run bao-bing` gửi 31
+  địa chỉ, **Bing nhận HTTP 202**; `og:site_name` trên trang thật = "Hạ Long Xanh
+  360". Đo lại trang chủ: `WebSite.name` và `alternateName` đúng như commit.
+- **Search Console: "Trang đã lập chỉ mục"** — nhưng là bản CŨ, crawl trước
+  deploy. Đã ghi vào `VIEC-CAN-LAM.md` mục 2: cần bấm Yêu cầu lập chỉ mục.
+- **`llms.txt` mở đầu `# Vinhomes Global Gate Hạ Long`.** Quy ước llmstxt.org:
+  H1 là tên site — tệp viết riêng cho AI mà cùng lỗi tên với JSON-LD. Sửa thành
+  `benBan.ten`, blockquote nêu vai trò. Kèm ba việc tồn từ vòng 6: 14 link sang
+  `[tên](url)`, mốc ngày dùng `homNayVN()`. `kiem-ten-site` giữ chỗ thứ 5.
+- **GBP để sau theo ý chủ dự án.** Hướng dẫn đã viết
+  (`HUONG-DAN-GOOGLE-BUSINESS.md`), mọi quy tắc trích Google. Điểm quyết định:
+  môi giới BĐS là "individual practitioner", tên hồ sơ `[Sàn]: [Tên]` — không
+  đặt "Hạ Long Xanh 360" vì video xác minh cần giấy tờ khớp tên. Có cửa xác
+  minh tức thì qua Search Console (cùng tài khoản, cùng website).
+- Facebook 356k like không phải của chủ dự án — bỏ. Zalo OA hoãn.
+
+Bên Antigravity: `/analytics` có ô chọn dự án và khối "Google đã lập chỉ mục
+trang nào" (URL Inspection API) — chi tiết ở nhật ký kho đó, vòng 11.
+
+12/12 phép kiểm · lint sạch · build sạch.
+
 ## 11/09/2026 — VÒNG 10 · site tự xưng là dự án của Vinhomes, nên không ai tìm thấy nó
 
 Chủ dự án: "tra halongxanh360 vẫn chưa ra trang của mình". Đo trước khi đoán.
