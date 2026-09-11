@@ -11,6 +11,23 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 11/09/2026 — ghi chú khuya: Bing, và tên miền .com không phải của mình
+
+Chủ dự án tra "halongxanh360" trên Bing (ảnh khuya 11/09): kết quả đầu là
+**`halongxanh360.com`** — một trang mẫu *"NexLink | CRM Admin Dashboard
+Template"*, **không phải của mình**. Tiếp theo là hai trang đối thủ
+(`vinhomehalongxanh.vn`, `vinhomeshalongxanh.vn`). `halongxanh360.vn` chưa có.
+
+- Chưa có là đúng lịch: site mới thêm vào Bing Webmaster sáng nay (Bing tự ghi
+  "tới 48 giờ"), IndexNow gửi 31 địa chỉ lúc tối (202 = đang xác minh khoá).
+- `.com` của người khác đứng đầu cho truy vấn đúng tên thương hiệu là rủi ro
+  thật về lâu dài, và không sửa được từ kho này. Khi `.vn` được lập chỉ mục thì
+  nó có nội dung thật về đúng tên, còn `.com` là trang mẫu — nhưng đừng hứa thứ
+  hạng. Nếu `.com` rao bán thì đáng cân nhắc mua để trỏ về `.vn`; chưa tra được
+  chủ sở hữu.
+- Đo cùng lúc: trang thật **đã có** dải liên kết chân trang và `llms.txt` mở đầu
+  `# Hạ Long Xanh 360` — chủ dự án đã deploy đợt tối 11/09.
+
 ## 11/09/2026 — VÒNG 13 · khách liên hệ vào Google Sheets, và webhook hỏng thì không mất khách
 
 - `dang-ky-action.ts` gửi token trong `Authorization: Bearer` (không trong URL —
