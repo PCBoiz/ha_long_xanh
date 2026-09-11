@@ -179,7 +179,24 @@ function dungLaiCacTrang(slug: string): void {
  * một địa chỉ giờ trả 404 thì càng nên để Bing biết sớm thay vì tiếp tục hiện
  * trong kết quả.
  */
-async function baoTimKiem(slug: string): Promise<void> {
+async function baoTimKiem(slug: string, viec: string): Promise<void> {
+  // ⚠️ BÀI HẸN NGÀY TƯƠNG LAI: KHÔNG BÁO LÚC DUYỆT (sửa 12/09).
+  //
+  // Duyệt một bài có `ngayDang` ngày mai → trang bài trả 404 cho tới đúng ngày
+  // (`docMotBaiGoc` lọc `ngayDang <= hôm nay` — cố ý, để không ai đoán đường dẫn
+  // mà đọc trước). Bản trước vẫn báo IndexNow ngay: Bing ghé, gặp 404, rồi tới
+  // ngày bài hiện ra thì không ai báo lại. Tính năng hẹn giờ đăng bài làm việc
+  // này thành chuyện hằng ngày chứ không phải ca hiếm.
+  //
+  // Nên: duyệt thì chỉ báo khi bài MỞ ĐƯỢC ngay hôm nay. Gỡ thì vẫn báo — một
+  // địa chỉ vừa thành 404 càng nên để Bing biết sớm.
+  if (viec === "duyet") {
+    const { docMotBai } = await import("@/lib/tin-tuc");
+    if (!(await docMotBai(slug))) {
+      console.info("[indexnow] Bài hẹn ngày sau — chưa báo, sẽ báo khi tới ngày.");
+      return;
+    }
+  }
   const ketQua = await baoIndexNow([
     `${DUONG_DAN.tinTuc}/${slug}`,
     DUONG_DAN.tinTuc,
@@ -274,7 +291,7 @@ export async function duyetBai(
     }
 
     dungLaiCacTrang(slug);
-    await baoTimKiem(slug);
+    await baoTimKiem(slug, viec);
     return {
       trangThai: "xong",
       thongBao: viec === "duyet" ? "Đã đăng bài." : "Đã gỡ bài.",
@@ -313,7 +330,7 @@ export async function duyetBai(
   // Dựng lại các trang có bài, để bài vừa duyệt hiện ra ngay thay vì đợi bộ
   // đệm hết hạn.
   dungLaiCacTrang(slug);
-  await baoTimKiem(slug);
+  await baoTimKiem(slug, viec);
 
   return {
     trangThai: "xong",
