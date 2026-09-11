@@ -106,10 +106,22 @@ export async function layHangCho(
     return { trangThai: "loi", thongBao: "Khoá không đúng." };
   }
 
-  const { docBaiChoDuyet } = await import("@/lib/tin-tuc");
+  const { docBaiChoDuyetThat } = await import("@/lib/tin-tuc");
   const { ngayVN } = await import("@/lib/thoi-gian");
   const { quetBai } = await import("@/lib/cong-chan");
-  const cho = await docBaiChoDuyet();
+  // KHÔNG dùng `docBaiChoDuyet` ở đây: nó trả rỗng khi cơ sở dữ liệu hỏng, và
+  // màn này sẽ in "Hàng chờ trống." — sai theo hướng trấn an. Đọc thật, lỗi
+  // thì nói lỗi.
+  const doc = await docBaiChoDuyetThat();
+  if (!doc.ok) {
+    return {
+      trangThai: "loi",
+      thongBao:
+        `Không đọc được hàng chờ từ cơ sở dữ liệu — ${doc.lyDo} ` +
+        "Bấm “Mở hàng chờ” lại sau vài giây (Neon có thể vừa thức dậy). Bài đã nhận KHÔNG mất.",
+    };
+  }
+  const cho = doc.bai;
 
   return {
     trangThai: "xong",

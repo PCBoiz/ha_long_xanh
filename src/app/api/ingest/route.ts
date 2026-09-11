@@ -297,6 +297,10 @@ export async function POST(yeuCau: Request) {
       ok: true,
       slug: ketQua.bai.slug,
       trangThai: "cho",
+      // Bên gửi phải biết bài nằm ở cơ sở dữ liệu hay ở TỆP TẠM (thiếu
+      // DATABASE_URL): tệp tạm thì màn duyệt vẫn thấy, nhưng bài mất ở lần
+      // triển khai kế tiếp — đáng để Antigravity cảnh báo ngay trong kết quả.
+      luuO: db ? "db" : "tep",
       canhBao: quet.co,
       thongBao:
         "Đã nhận bài và đưa vào hàng chờ duyệt. Bài CHƯA hiện trên trang — " +

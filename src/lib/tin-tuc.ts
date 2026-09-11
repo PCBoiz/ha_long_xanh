@@ -272,6 +272,52 @@ async function docTuFile(): Promise<BaiViet[]> {
  * Trả rỗng mà im lặng mới đúng là cái bẫy mà ghi chú cũ cảnh báo.
  * ═══════════════════════════════════════════════════════════════════════════
  */
+/** Dịch mã lỗi Postgres sang câu người vận hành làm được gì với nó. */
+export function chanDoanLoiDb(loi: unknown): { ma: string | undefined; chanDoan: string; goc: unknown } {
+  const goc = (loi as { cause?: unknown } | undefined)?.cause;
+  const layMa = (x: unknown) => (x as { code?: string } | undefined)?.code;
+  const ma = layMa(loi) ?? layMa(goc);
+  const chanDoan =
+    ma === "42P01"
+      ? "Bảng chưa tồn tại. Chạy `npm run db:migrate` — và kiểm chuỗi kết nối " +
+        "có đang trỏ đúng database không (dễ nhầm nhất là để nguyên `neondb` " +
+        "mặc định thay vì database của trang)."
+      : ma === "3D000"
+        ? "Database không tồn tại. Tên database ở cuối DATABASE_URL đang sai."
+        : ma === "28P01" || ma === "28000"
+          ? "Sai thông tin đăng nhập. Lấy lại chuỗi kết nối ở bảng điều khiển Neon."
+          : ma === "53300"
+            ? "Hết hạn mức kết nối. Phải dùng chuỗi có `-pooler`."
+            : "Kiểm DATABASE_URL và trạng thái Neon.";
+  return { ma, chanDoan, goc };
+}
+
+/**
+ * Đọc hàng chờ KHÔNG NUỐT LỖI — dành riêng cho màn duyệt bài.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ⚠️ "HÀNG CHỜ TRỐNG" VÀ "KHÔNG ĐỌC ĐƯỢC HÀNG CHỜ" LÀ HAI CHUYỆN KHÁC NHAU.
+ *
+ * `docBaiChoDuyet` (bọc `docAnToan`) trả `[]` khi cơ sở dữ liệu hỏng — đúng
+ * cho trang công khai: khách không cần biết Neon vừa ngủ. Nhưng màn duyệt bài
+ * dùng cùng hàm đó và in "Hàng chờ trống." — chủ trang nhìn thấy, tin là
+ * trống, trong khi Antigravity vừa báo "đã nhận, chờ duyệt" một phút trước
+ * (12/09/2026). Hai màn nói ngược nhau, và màn sai là màn nuốt lỗi.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+export async function docBaiChoDuyetThat(): Promise<
+  | { ok: true; bai: (BaiViet & { daTungDang?: boolean })[] }
+  | { ok: false; lyDo: string }
+> {
+  try {
+    return { ok: true, bai: await thuLaiKhiNguDay(docBaiChoDuyetGoc) };
+  } catch (loi) {
+    const { ma, chanDoan } = chanDoanLoiDb(loi);
+    console.error(`[tin-tuc] KHÔNG ĐỌC ĐƯỢC hàng chờ duyệt (mã ${ma ?? "?"}): ${chanDoan}`);
+    return { ok: false, lyDo: `${chanDoan}${ma ? ` (mã lỗi ${ma})` : ""}` };
+  }
+}
+
 async function docAnToan<T>(viec: string, chay: () => Promise<T>, khiHong: T): Promise<T> {
   try {
     return await thuLaiKhiNguDay(chay);
@@ -294,23 +340,7 @@ async function docAnToan<T>(viec: string, chay: () => Promise<T>, khiHong: T): P
     // Một khối chẩn đoán không bao giờ chẩn đúng còn tệ hơn không có khối
     // nào: nó làm người đọc tin rằng mình đã biết bệnh.
     // ═══════════════════════════════════════════════════════════════════════
-    const goc = (loi as { cause?: unknown }).cause;
-    const layMa = (x: unknown) => (x as { code?: string } | undefined)?.code;
-    const ma = layMa(loi) ?? layMa(goc);
-
-    // Dịch mã lỗi Postgres sang câu người vận hành làm được gì với nó.
-    const chanDoan =
-      ma === "42P01"
-        ? "Bảng chưa tồn tại. Chạy `npm run db:migrate` — và kiểm chuỗi kết nối " +
-          "có đang trỏ đúng database không (dễ nhầm nhất là để nguyên `neondb` " +
-          "mặc định thay vì database của trang)."
-        : ma === "3D000"
-          ? "Database không tồn tại. Tên database ở cuối DATABASE_URL đang sai."
-          : ma === "28P01" || ma === "28000"
-            ? "Sai thông tin đăng nhập. Lấy lại chuỗi kết nối ở bảng điều khiển Neon."
-            : ma === "53300"
-              ? "Hết hạn mức kết nối. Phải dùng chuỗi có `-pooler`."
-              : "Kiểm DATABASE_URL và trạng thái Neon.";
+    const { ma, chanDoan, goc } = chanDoanLoiDb(loi);
 
     console.error(
       `[tin-tuc] KHÔNG ĐỌC ĐƯỢC cơ sở dữ liệu khi ${viec}. ${chanDoan}\n` +
