@@ -2,12 +2,15 @@
 
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
+import { after } from "next/server";
 import { DIEU_UU_TIEN } from "./uu-tien";
+import { dayKhachTon } from "./day-khach-ton";
 import type { KetQuaDangKy } from "./dang-ky-kieu";
 
 // Tiếp nhận đăng ký tư vấn.
 //
-// ⚠️  ĐÍCH ĐẾN CHƯA CHỐT. Hiện có hai đường:
+// Đích đến (cập nhật 11/09): cổng nhận khách của Antigravity → Google Sheets
+// của chủ trang, đặt qua LEAD_WEBHOOK_URL + LEAD_WEBHOOK_TOKEN. Hai đường:
 //   1. Nếu đặt biến môi trường LEAD_WEBHOOK_URL → gửi thẳng tới đó (CRM, Google
 //      Apps Script, n8n, Zapier…). Đây là đường dùng cho môi trường thật.
 //   2. Không đặt → ghi xuống .data/dang-ky.jsonl để chạy thử ở máy.
@@ -49,36 +52,69 @@ async function ghiTep(banGhi: Record<string, string>): Promise<void> {
   );
 }
 
+/**
+ * Gửi một bản ghi tới `LEAD_WEBHOOK_URL`. Không ném lỗi — trả kết quả.
+ *
+ * ⚠️ TOKEN ĐI TRONG HEADER, KHÔNG TRONG URL (thêm 11/09). Đích thật là cổng nhận
+ * khách của Antigravity, xác thực bằng `Authorization: Bearer`. Token trong
+ * query string nằm trong log truy cập của mọi lớp ở giữa — Caddy, Vercel,
+ * proxy — còn header thì không. Không đặt `LEAD_WEBHOOK_TOKEN` thì không gửi
+ * header, đích khác (Apps Script, n8n…) vẫn dùng như cũ.
+ */
+async function guiWebhook(
+  banGhi: Record<string, string>,
+  nguon: string,
+): Promise<{ ok: true } | { ok: false; loi: string }> {
+  const token = process.env.LEAD_WEBHOOK_TOKEN?.trim();
+  try {
+    const phanHoi = await fetch(process.env.LEAD_WEBHOOK_URL!, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ ...banGhi, nguon }),
+      signal: AbortSignal.timeout(10_000),
+    });
+    return phanHoi.ok ? { ok: true } : { ok: false, loi: `HTTP ${phanHoi.status}` };
+  } catch (loi) {
+    return { ok: false, loi: loi instanceof Error ? loi.message : String(loi) };
+  }
+}
+
+async function rutKhachTon(): Promise<void> {
+  try {
+    const kq = await dayKhachTon(path.join(process.cwd(), ".data"), async (b) =>
+      // Đánh dấu nguồn để chủ trang biết dòng này đến MUỘN — gọi lại khách của
+      // ba tuần trước khác với gọi lại khách của ba phút trước.
+      (await guiWebhook(b, "halongxanh360.vn · gửi bù")).ok,
+    );
+    if (kq && (kq.daGui > 0 || kq.conTon > 0)) {
+      console.info(
+        `[dang-ky] Đẩy bù: đã gửi ${kq.daGui}, còn tồn ${kq.conTon}, bỏ qua ${kq.boQua} dòng hỏng.`,
+      );
+    }
+  } catch (loi) {
+    // `after` chạy sau khi đã trả lời khách — lỗi ở đây không được làm gì khác
+    // ngoài ghi log. Hàng đợi vẫn nguyên, lần sau rút tiếp.
+    console.error("[dang-ky] Đẩy bù lỗi:", loi instanceof Error ? loi.message : loi);
+  }
+}
+
 async function chuyenTiep(banGhi: Record<string, string>): Promise<DichDen> {
   const dich = chonDichDen();
 
   if (dich === "webhook") {
-    // ⚠️ TOKEN ĐI TRONG HEADER, KHÔNG TRONG URL (thêm 11/09).
-    //
-    // Đích thật giờ là cổng nhận khách của Antigravity, ghi thẳng vào Google
-    // Sheets của chủ trang. Cổng đó xác thực bằng `Authorization: Bearer`.
-    // Nhét token vào query string thì nó nằm trong log truy cập của mọi lớp
-    // ở giữa — Caddy, Vercel, proxy — còn header thì không.
-    //
-    // Không đặt `LEAD_WEBHOOK_TOKEN` thì không gửi header — đích khác (Apps
-    // Script, n8n…) vẫn dùng được như cũ.
-    const token = process.env.LEAD_WEBHOOK_TOKEN?.trim();
-    let loiWebhook: string;
-    try {
-      const phanHoi = await fetch(process.env.LEAD_WEBHOOK_URL!, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({ ...banGhi, nguon: "halongxanh360.vn" }),
-        signal: AbortSignal.timeout(10_000),
-      });
-      if (phanHoi.ok) return dich;
-      loiWebhook = `HTTP ${phanHoi.status}`;
-    } catch (loi) {
-      loiWebhook = loi instanceof Error ? loi.message : String(loi);
+    const kq = await guiWebhook(banGhi, "halongxanh360.vn");
+    if (kq.ok) {
+      // Gửi được một khách mới nghĩa là đích đang sống — rút luôn hàng đợi
+      // khách tồn trong tệp (khách từ trước khi có webhook, và khách rơi về tệp
+      // lúc webhook hỏng). Chạy SAU khi đã trả lời khách này: họ không phải chờ
+      // vì những người trước họ. Xem `day-khach-ton.ts`.
+      if (!process.env.VERCEL) after(rutKhachTon);
+      return dich;
     }
+    const loiWebhook = kq.loi;
 
     // ⚠️ WEBHOOK HỎNG THÌ RƠI VỀ TỆP, KHÔNG ĐÁNH RƠI KHÁCH (thêm 11/09).
     //
