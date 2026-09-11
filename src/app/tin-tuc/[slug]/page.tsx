@@ -11,6 +11,8 @@ import { duAn } from "@/data/project";
 import { duLieuBaiViet } from "@/lib/du-lieu-bai-viet";
 import { anhChoBai, chuThichAnh } from "@/lib/anh-cho-bai";
 import { ProjectImage } from "@/components/ui/project-image";
+import { tachAnhBia } from "@/lib/anh-bai";
+import { DIA_CHI_GOC } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +22,8 @@ export async function generateMetadata({
   const { slug } = await params;
   const bai = await docMotBai(slug);
   if (!bai) return { title: "Không tìm thấy bài viết" };
+  // Bài có ảnh kèm thì ảnh đó là ảnh chia sẻ (Zalo, Facebook lấy og:image).
+  const { anhBia } = tachAnhBia(bai.noiDung);
   return {
     alternates: { canonical: `/tin-tuc/${slug}` },
     title: bai.tieuDe,
@@ -30,6 +34,7 @@ export async function generateMetadata({
       type: "article",
       publishedTime: bai.ngayDang,
       locale: "vi_VN",
+      ...(anhBia ? { images: [{ url: `${DIA_CHI_GOC}${anhBia.src}`, alt: anhBia.alt }] } : {}),
     },
   };
 }
@@ -97,7 +102,33 @@ export default async function TrangBaiViet({
                 Ảnh KHÔNG do bên gửi bài chọn và KHÔNG do AI sinh — xem lý do
                 đầy đủ trong `lib/anh-cho-bai.ts`. Câu chú thích nói đúng loại:
                 ảnh tiến độ là ảnh CHỤP, còn lại là PHỐI CẢNH. */}
+            {/* TỪ 12/09/2026: bài có ẢNH KÈM (Antigravity chọn từ thư mục Drive
+                của chủ trang — ảnh thật, không phải AI) thì dùng ảnh đó; không
+                có thì vẫn chọn theo chuyên mục như trên. Xem `lib/anh-bai.ts`. */}
             {(() => {
+              const { anhBia } = tachAnhBia(bai.noiDung);
+              if (anhBia) {
+                return (
+                  <figure className="mt-10">
+                    <div className="overflow-hidden rounded-sm bg-ink-soft">
+                      {/* Ảnh chạy trên đĩa máy chủ, không qua kho ảnh tĩnh nên
+                          không dùng `ProjectImage`/`next/image` — chúng đòi
+                          kích thước hoặc danh sách host biết trước. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={anhBia.src}
+                        alt={anhBia.alt}
+                        className="aspect-video w-full object-cover"
+                        loading="eager"
+                        fetchPriority="high"
+                      />
+                    </div>
+                    {anhBia.alt ? (
+                      <figcaption className="mt-3 text-small text-paper-dim">{anhBia.alt}</figcaption>
+                    ) : null}
+                  </figure>
+                );
+              }
               const anh = anhChoBai(bai);
               return (
                 <figure className="mt-10">
@@ -130,7 +161,8 @@ export default async function TrangBaiViet({
                 // Ngược lại — nối trước rồi lọc — là tự đưa liên kết của mình
                 // qua một bộ lọc thiết kế để phòng nội dung bên ngoài.
                 dangerouslySetInnerHTML={{
-                  __html: noiLienKet(lamSachHtml(bai.noiDung)),
+                  // Thân bài KHÔNG gồm ảnh bìa (đã tách ra làm ảnh đầu bài ở trên).
+                  __html: noiLienKet(lamSachHtml(tachAnhBia(bai.noiDung).than)),
                 }}
               />
             ) : (

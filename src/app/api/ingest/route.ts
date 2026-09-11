@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server";
-import { appendFile, mkdir } from "node:fs/promises";
+import { appendFile, mkdir, rm, writeFile } from "node:fs/promises";
 import { timingSafeEqual } from "node:crypto";
 import path from "node:path";
 import type { BaiViet } from "@/data/news";
 import { layDb, schema, thuLaiKhiNguDay } from "@/db";
+import {
+  BYTE_ANH_TOI_DA,
+  DUONG_ANH_BAI,
+  DUOI_THEO_MIME,
+  SO_ANH_TOI_DA,
+  ghepAnhVaoBai,
+  tenTepAnh,
+  type AnhBai,
+} from "@/lib/anh-bai";
 import { moTaViPham, quetBai } from "@/lib/cong-chan";
 import { demMotLuot } from "@/lib/gioi-han-tan-suat";
 
@@ -37,6 +46,70 @@ function tokenKhop(nhanDuoc: string, mongDoi: string): boolean {
   const b = Buffer.from(mongDoi, "utf8");
   if (a.length !== b.length) return false;
   return timingSafeEqual(a, b);
+}
+
+/** Ảnh gửi kèm: bytes base64 + mô tả. Xem `lib/anh-bai.ts` vì sao nhận ảnh từ bên gửi. */
+interface AnhGuiKem {
+  bytes: Uint8Array;
+  mime: string;
+  alt: string;
+}
+
+function kiemTraAnh(du: unknown): { hopLe: true; anh: AnhGuiKem[] } | { hopLe: false; loi: string } {
+  if (du === undefined || du === null) return { hopLe: true, anh: [] };
+  if (!Array.isArray(du)) return { hopLe: false, loi: "`anh` phải là một mảng." };
+  if (du.length > SO_ANH_TOI_DA) {
+    return { hopLe: false, loi: `Tối đa ${SO_ANH_TOI_DA} ảnh mỗi bài.` };
+  }
+  const anh: AnhGuiKem[] = [];
+  for (const [i, muc] of du.entries()) {
+    if (typeof muc !== "object" || muc === null) return { hopLe: false, loi: `anh[${i}] không hợp lệ.` };
+    const m = muc as Record<string, unknown>;
+    if (typeof m.mime !== "string" || !DUOI_THEO_MIME[m.mime]) {
+      return { hopLe: false, loi: `anh[${i}].mime phải là ${Object.keys(DUOI_THEO_MIME).join(", ")}.` };
+    }
+    if (typeof m.base64 !== "string" || m.base64.length === 0) {
+      return { hopLe: false, loi: `anh[${i}].base64 thiếu.` };
+    }
+    // 4/3 là hệ số base64 — chặn trước khi giải mã để không cấp bộ nhớ cho một
+    // chuỗi hàng trăm MB.
+    if (m.base64.length > (BYTE_ANH_TOI_DA * 4) / 3 + 4) {
+      return { hopLe: false, loi: `anh[${i}] lớn hơn ${Math.round(BYTE_ANH_TOI_DA / 1024 / 1024)}MB.` };
+    }
+    const bytes = new Uint8Array(Buffer.from(m.base64, "base64"));
+    if (bytes.length === 0 || bytes.length > BYTE_ANH_TOI_DA) {
+      return { hopLe: false, loi: `anh[${i}] rỗng hoặc quá lớn.` };
+    }
+    // Kiểm chữ ký tệp: đuôi và mime do bên gửi khai, còn byte đầu thì không nói dối được.
+    if (!chuKyKhop(bytes, m.mime)) {
+      return { hopLe: false, loi: `anh[${i}] không phải ${m.mime} thật (chữ ký tệp không khớp).` };
+    }
+    const alt = typeof m.alt === "string" ? m.alt.trim().slice(0, 300) : "";
+    anh.push({ bytes, mime: m.mime, alt });
+  }
+  return { hopLe: true, anh };
+}
+
+function chuKyKhop(b: Uint8Array, mime: string): boolean {
+  if (mime === "image/png") return b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47;
+  if (mime === "image/jpeg") return b[0] === 0xff && b[1] === 0xd8;
+  if (mime === "image/webp") return b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 && b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50;
+  return false;
+}
+
+/** Ghi ảnh xuống `.data/anh/<slug>/`, trả đường dẫn công khai. Gửi lại cùng slug thì thay trọn bộ ảnh cũ. */
+async function luuAnh(slug: string, anh: AnhGuiKem[]): Promise<AnhBai[]> {
+  const thuMuc = path.join(process.cwd(), ".data", "anh", slug);
+  await rm(thuMuc, { recursive: true, force: true });
+  if (anh.length === 0) return [];
+  await mkdir(thuMuc, { recursive: true });
+  const ra: AnhBai[] = [];
+  for (const a of anh) {
+    const ten = tenTepAnh(a.bytes, a.mime);
+    await writeFile(path.join(thuMuc, ten), a.bytes);
+    ra.push({ src: `${DUONG_ANH_BAI}/${slug}/${ten}`, alt: a.alt });
+  }
+  return ra;
 }
 
 function kiemTra(du: unknown): { hopLe: true; bai: BaiViet } | { hopLe: false; loi: string } {
@@ -164,6 +237,10 @@ export async function POST(yeuCau: Request) {
   if (!ketQua.hopLe) {
     return NextResponse.json({ loi: ketQua.loi }, { status: 422 });
   }
+  const anhKem = kiemTraAnh((than as { anh?: unknown }).anh);
+  if (!anhKem.hopLe) {
+    return NextResponse.json({ loi: anhKem.loi }, { status: 422 });
+  }
 
   // ═══════════════════════════════════════════════════════════════════════
   // HÀNG RÀO TỰ ĐỘNG — chạy TRƯỚC khi bài chạm tới hàng chờ.
@@ -200,6 +277,19 @@ export async function POST(yeuCau: Request) {
     );
   }
 
+
+  // Ảnh ghi xuống đĩa SAU cổng chặn nội dung (bài bị chặn thì không ghi gì) và
+  // TRƯỚC cơ sở dữ liệu (nội dung lưu vào DB đã mang đường dẫn ảnh). Ghi ảnh
+  // hỏng thì dừng ở đây, bài chưa vào đâu cả.
+  try {
+    const anhDaLuu = await luuAnh(ketQua.bai.slug, anhKem.anh);
+    if (anhDaLuu.length > 0) {
+      ketQua.bai.noiDung = ghepAnhVaoBai(ketQua.bai.noiDung ?? "", anhDaLuu);
+    }
+  } catch (loi) {
+    console.error("[ingest] Không ghi được ảnh kèm bài:", loi);
+    return NextResponse.json({ loi: "Không lưu được ảnh kèm bài. Vui lòng gửi lại." }, { status: 500 });
+  }
 
   const db = layDb();
   try {
@@ -301,6 +391,7 @@ export async function POST(yeuCau: Request) {
       // DATABASE_URL): tệp tạm thì màn duyệt vẫn thấy, nhưng bài mất ở lần
       // triển khai kế tiếp — đáng để Antigravity cảnh báo ngay trong kết quả.
       luuO: db ? "db" : "tep",
+      soAnh: anhKem.anh.length,
       canhBao: quet.co,
       thongBao:
         "Đã nhận bài và đưa vào hàng chờ duyệt. Bài CHƯA hiện trên trang — " +
