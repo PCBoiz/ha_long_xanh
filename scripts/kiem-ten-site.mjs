@@ -72,10 +72,17 @@ kiem(
   "Header phải hiện benBan.ten ở vị trí logo, không phải duAn.tenNgan",
 );
 
+// 5. llms.txt — tệp viết riêng cho AI. Quy ước llmstxt.org: H1 là tên site.
+kiem(
+  "src/app/llms.txt/route.ts",
+  /dong\.push\(`# \$\{benBan\.ten\}`\)/,
+  "H1 của llms.txt phải là benBan.ten — AI trích dẫn theo tên ở dòng đầu",
+);
+
 if (loi.length > 0) {
   console.error(`✗ ${loi.length} chỗ site đang tự xưng SAI tên:`);
   for (const l of loi) console.error("   ·", l);
   console.error("\n  Lý do đầy đủ trong đầu tệp này. Đừng đổi về tên dự án.");
   process.exit(1);
 }
-console.log("✓ Cả 4 chỗ Google đọc tên site đều khai benBan.ten, kèm alternateName halongxanh360.");
+console.log("✓ Cả 5 chỗ máy đọc tên site (4 của Google + H1 llms.txt) đều khai benBan.ten.");

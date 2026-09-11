@@ -14,6 +14,7 @@ import {
 import { khoangCachKm, lamTronKm } from "@/lib/dia-ly";
 import { DUONG_DAN } from "@/lib/duong-dan";
 import { CHO_LAP_CHI_MUC, DIA_CHI_GOC } from "@/lib/site";
+import { homNayVN } from "@/lib/thoi-gian";
 
 /**
  * `/llms.txt` — bản tóm tắt trang viết cho mô hình ngôn ngữ đọc.
@@ -42,9 +43,22 @@ export const dynamic = "force-dynamic";
 function dung(): string {
   const dong: string[] = [];
 
-  dong.push(`# ${duAn.ten}`);
+  // ⚠️ H1 LÀ TÊN CỦA SITE, KHÔNG PHẢI TÊN DỰ ÁN (đổi 11/09).
+  //
+  // Quy ước llmstxt.org: "An H1 with the name of the project or site". Bản
+  // trước đặt tên dự án vào đây — nên một mô hình đọc tệp này kết luận site
+  // CHÍNH LÀ Vinhomes Global Gate Hạ Long, rồi mới đọc tới mục "Trang này là
+  // gì" nói ngược lại. Cùng lỗi với WebSite JSON-LD ở trang chủ, ở đúng tệp
+  // dành riêng cho AI.
+  //
+  // Đây là tệp cho mô hình ngôn ngữ, và mô hình trích dẫn theo tên. Tên đúng ở
+  // dòng đầu thì khi trả lời người dùng, nó gọi "theo Hạ Long Xanh 360" chứ
+  // không phải "theo Vinhomes" — cái sau vừa sai vừa là mạo danh.
+  dong.push(`# ${benBan.ten}`);
   dong.push("");
-  dong.push(`> ${duAn.moTaNgan}`);
+  dong.push(
+    `> ${benBan.vaiTro} về ${duAn.ten} (${duAn.tenKhac}), ${duAn.viTri}. ${duAn.moTaNgan}`,
+  );
   dong.push("");
 
   // ── Bản chất trang này là gì ────────────────────────────────────────────
@@ -85,7 +99,9 @@ function dung(): string {
   dong.push("");
   for (const d of dongSanPham) {
     const dt = d.dienTich ? ` — diện tích ${d.dienTich} m²` : "";
-    dong.push(`- ${d.ten}${dt}: ${DIA_CHI_GOC}/san-pham/${d.ma}`);
+    // Quy ước llmstxt.org: `- [tên](url): ghi chú`. Bản trước viết `- tên:
+    // url` — đọc được, nhưng không phải dạng bộ phân tích llms.txt mong đợi.
+    dong.push(`- [${d.ten}](${DIA_CHI_GOC}/san-pham/${d.ma})${dt}`);
   }
   dong.push("");
   dong.push(
@@ -97,7 +113,7 @@ function dung(): string {
   dong.push("## Phân khu");
   dong.push("");
   for (const k of phanKhu) {
-    dong.push(`- ${k.ten}: ${DIA_CHI_GOC}/phan-khu/${k.ma}`);
+    dong.push(`- [${k.ten}](${DIA_CHI_GOC}/phan-khu/${k.ma})`);
   }
   dong.push("");
 
@@ -246,7 +262,9 @@ function dung(): string {
     dong.push("");
   }
 
-  dong.push(`Cập nhật: ${new Date().toISOString().slice(0, 10)}`);
+  // Giờ Việt Nam, không phải UTC. `toISOString()` lệch ngày với Việt Nam suốt
+  // bảy tiếng đầu mỗi ngày — kho đã có sẵn `homNayVN()` cho đúng việc này.
+  dong.push(`Cập nhật: ${homNayVN()}`);
   dong.push("");
 
   return dong.join("\n");
