@@ -39,14 +39,20 @@ import type { ProjectImageName } from "@/data/images.generated";
  * pháo hoa, sân khấu, mặt nước lớn, ánh đèn — vì đó là thứ giữ được mắt người
  * đang lướt.
  */
+// ⚠️ 12/09/2026: ba tấm `giai-tri-cong-vien-nuoc`, `giai-tri-rap-xiec`,
+// `giai-tri-lang-tuyet` bị CẤM từ 10/09 (ảnh AI, xem `anh-cam-dung.ts`) nhưng
+// vẫn nằm ở đây và chạy trên trang chủ thật hai ngày — vì lần gỡ 10/09 chỉ sửa
+// /tien-ich, và cổng kiểm khi đó không đỏ khi ảnh cấm ĐƯỢC DÙNG. Giờ nó đỏ.
+// Ba tấm thay vào là phối cảnh có bản gốc 2560px của chủ đầu tư, cùng tiêu
+// chí "có sự kiện trong khung": đèn phố đêm, lễ hội ban ngày, đại lộ mùa hoa.
 const ANH: ProjectImageName[] = [
   "toan-canh-hoang-hon",
   "song-le-hoi-ben-du-thuyen",
-  "giai-tri-cong-vien-nuoc",
+  "song-pho-thuong-mai-buoi-toi",
   "tien-ich-be-boi-noi",
-  "giai-tri-rap-xiec",
+  "giai-tri-cong-vien-chu-de",
   "tien-ich-bien-ho-trung-tam",
-  "giai-tri-lang-tuyet",
+  "song-dai-lo-mua-hoa",
   "giai-tri-bai-tam-lagoon",
   "view-san-golf",
 ];

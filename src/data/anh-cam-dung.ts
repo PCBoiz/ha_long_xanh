@@ -50,6 +50,15 @@ export const ANH_CAM_DUNG: AnhCamDung[] = [
       "kèm một dòng miễn trừ nhỏ ở góc trái dưới. Chữ neon lặp không nhất quán.",
   },
   {
+    ten: "tien-ich-01",
+    lyDo: "Ảnh sinh bằng AI",
+    bangChung:
+      'Biển trên cổng rạp xiếc ghi "ƂHAIAAHIANGR" — ký tự vô nghĩa ngay trên chữ ' +
+      '"CIRCUS"; hai dòng miễn trừ nhỏ ở góc trái dưới. Phát hiện 12/09/2026 ' +
+      "khi soi lại trang /tien-ich sau khi ba tấm cùng bộ đã bị cấm ngày 10/09. " +
+      "Kích thước 1888×1123, không khớp bộ ảnh gốc 2560px của chủ đầu tư.",
+  },
+  {
     ten: "giai-tri-nha-hang-duoi-nuoc",
     lyDo: "Từ Drive chủ đầu tư, nhưng KHÔNG phải phối cảnh dự án này",
     bangChung:

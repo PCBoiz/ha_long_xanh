@@ -59,11 +59,13 @@ const THEO_CHUYEN_MUC: Record<BaiViet["chuyenMuc"], ProjectImageName[]> = {
     "nha-don-lap-ven-nuoc",
   ],
   // Bài sự kiện nói về thứ đang diễn ra — dùng ảnh có người, có hoạt động.
+  // 12/09: bỏ `giai-tri-rap-xiec` và `giai-tri-lang-tuyet` — ảnh AI bị cấm từ
+  // 10/09 mà vẫn nằm trong kho này, tức bài "Sự kiện" có thể đã mang ảnh AI.
   "Sự kiện": [
     "song-le-hoi-ben-du-thuyen",
-    "giai-tri-rap-xiec",
     "giai-tri-cong-vien-chu-de",
-    "giai-tri-lang-tuyet",
+    "song-pho-thuong-mai-buoi-toi",
+    "tien-ich-cong-vien-hai-au",
   ],
   // Bài thị trường nói về cả khu — dùng ảnh toàn cảnh và đời sống chung.
   "Thị trường": [

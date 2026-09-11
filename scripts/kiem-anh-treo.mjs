@@ -75,6 +75,15 @@ const treo = anh.filter(
 );
 const camMaConTep = anh.filter((t) => camDung.has(t));
 
+// ⚠️ ẢNH CẤM MÀ MÃ NGUỒN VẪN DÙNG → ĐỎ. Thêm 12/09/2026.
+//
+// Trước đó phép kiểm chỉ dùng danh sách cấm để KHÔNG báo "treo" — và im lặng
+// khi một tấm bị cấm vẫn được gọi tên ở đâu đó. Hậu quả đo được: ba ảnh AI bị
+// cấm ngày 10/09 vẫn chạy trên trang chủ thật tới 12/09 (dải "một ngày ở đây")
+// và vẫn nằm trong kho ảnh gắn cho bài đăng. Phép kiểm xanh suốt hai ngày đó.
+// Chỉ tìm dạng `"ten-anh"` có nháy — cùng cách nhận diện với phần "treo".
+const camMaVanDung = [...camDung].filter((t) => nguon.includes(`"${t}"`));
+
 console.log(
   `${anh.length} ảnh · ${treo.length} không nơi nào dùng · ${camMaConTep.length} bị cấm dùng`,
 );
@@ -87,6 +96,14 @@ if (tienToDuyNhat.length) {
   console.log(
     `Tiền tố dựng động đã tính là ĐANG DÙNG: ${tienToDuyNhat.map((t) => t + "*").join(", ")}`,
   );
+}
+if (camMaVanDung.length) {
+  console.log(
+    `\n✗ ẢNH BỊ CẤM VẪN ĐANG ĐƯỢC DÙNG trong src: ${camMaVanDung.join(", ")}` +
+      "\n  Gỡ khỏi chỗ dùng (git grep tên ảnh), hoặc — nếu thẩm định lại thấy ảnh" +
+      "\n  ổn — xoá khỏi src/data/anh-cam-dung.ts kèm lý do.",
+  );
+  process.exit(1);
 }
 if (treo.length) {
   for (const t of treo) console.log(`  · ${t}`);
