@@ -11,6 +11,30 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 12/09/2026 — VÒNG 15 · ba ảnh AI "đã gỡ" 10/09 vẫn chạy trên trang chủ
+
+Đi soi ảnh rạp xiếc (`tien-ich-01`, chủ dự án đồng ý gỡ) thì thấy chuyện lớn
+hơn: **ba tấm bị cấm ngày 10/09** (`giai-tri-cong-vien-nuoc`, `-rap-xiec`,
+`-lang-tuyet`) **vẫn nằm trong dải ảnh trang chủ** (`dai-anh-lon.tsx`) và trong
+kho ảnh gắn cho bài "Sự kiện" (`anh-cho-bai.ts`). Đo trên
+`https://halongxanh360.vn/` thật: cả ba tên tệp có trong HTML. Lần gỡ 10/09 chỉ
+sửa `/tien-ich`; cổng `kiem-anh-treo` dùng danh sách cấm để **không báo treo**
+chứ không đỏ khi ảnh cấm được dùng — bộ kiểm xanh suốt hai ngày, đúng kiểu
+hỏng tệ nhất.
+
+- `kiem-anh-treo` giờ **đỏ khi ảnh cấm được gọi tên trong src** (chạy trên
+  cách dùng cũ: đỏ đúng 4 tấm).
+- Trang chủ thay bằng 3 phối cảnh **có bản gốc 2560px** của chủ đầu tư; kho
+  bài "Sự kiện" thay 2 tấm.
+- `tien-ich-01` vào danh sách cấm (biển cổng ghi "ƂHAIAAHIANGR"). **Không thay
+  bằng ảnh AI** — chủ dự án nói "khả năng phải tự tạo", nhưng tự tạo là lặp
+  đúng cách ba tấm 10/09 đã lọt vào; nhóm còn 3 ảnh thật.
+- `/tien-ich` hai câu dẫn đếm sai nữa: "Bốn hạng mục gắn với mặt nước" khi mảng
+  còn ba; "kiến trúc đứng một mình, không một bóng người" khi ảnh Ai Cập và
+  Babylon đầy người. **Số đếm giờ lấy từ mảng** (`ChuSoHoa(anh.length)`).
+- Commit `7905425`. 15/15 · build · `next start` soi HTML: không còn tên ảnh
+  cấm, ba câu dẫn đều "Ba". **Chưa deploy** — chờ `./trien-khai.sh`.
+
 ## 12/09/2026 — VÒNG 14 · bảng khách trống vì compose quên một biến
 
 ### Nguyên nhân thật của "form báo Đã nhận mà bảng trống" (39304d7)
