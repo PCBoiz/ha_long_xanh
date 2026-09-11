@@ -116,11 +116,23 @@ fi
 #
 # Nên: nói to, nói rõ hậu quả, rồi vẫn cho đi tiếp.
 lead_hook="$(grep -E '^LEAD_WEBHOOK_URL=' .env | head -1 | cut -d= -f2- || true)"
+lead_hook="${lead_hook%\"}"; lead_hook="${lead_hook#\"}"
+lead_token="$(grep -E '^LEAD_WEBHOOK_TOKEN=' .env | head -1 | cut -d= -f2- || true)"
 if [[ -z "${lead_hook// }" ]]; then
   vang "⚠ CHƯA ĐẶT LEAD_WEBHOOK_URL."
   vang "  Khách điền biểu mẫu vẫn thấy màn hình cảm ơn, nhưng thông tin của họ"
-  vang "  chỉ nằm trong file tạm BÊN TRONG hộp chứa và sẽ MẤT ở lần triển khai"
-  vang "  kế tiếp. Đừng chạy quảng cáo khi ô này còn trống."
+  vang "  chỉ nằm trong .data/dang-ky.jsonl trên máy chủ — không mất, nhưng không"
+  vang "  ai thấy. Đừng chạy quảng cáo khi ô này còn trống."
+elif [[ "$lead_hook" != https://* ]]; then
+  # Lỗi thật 11/09: thẻ trong Antigravity từng hiện đường dẫn tương đối
+  # `/api/v1/lien-he/…`. Dán nguyên thế vào đây thì `fetch` ném lỗi, khách rơi
+  # về tệp — vẫn "Đã nhận", bảng vẫn trống.
+  vang "⚠ LEAD_WEBHOOK_URL không bắt đầu bằng https:// — website sẽ không gửi được."
+  vang "  Chép lại NGUYÊN địa chỉ đầy đủ ở thẻ \"Khách liên hệ → Google Sheets\" trong Antigravity."
+elif [[ -z "${lead_token// }" && "$lead_hook" == */api/v1/lien-he/* ]]; then
+  vang "⚠ Có LEAD_WEBHOOK_URL trỏ về Antigravity mà CHƯA CÓ LEAD_WEBHOOK_TOKEN."
+  vang "  Cổng nhận sẽ từ chối mọi lượt; khách vẫn thấy \"Đã nhận\" nhưng bảng trống."
+  vang "  Token chỉ hiện một lần lúc bấm Lập bảng — mất thì bấm lập lại."
 fi
 
 # ───────────────────────── 2. Lấy mã mới ────────────────────────────────────

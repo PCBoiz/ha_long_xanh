@@ -37,6 +37,15 @@ services:
       # Hỏng hoàn toàn im lặng: khách điền xong thấy màn hình cảm ơn, hệ thống
       # không báo lỗi gì, chỉ là không ai gọi lại cho họ.
       LEAD_WEBHOOK_URL: ${LEAD_WEBHOOK_URL:-}
+      # ⚠️ VÀ BIẾN NÀY CŨNG TỪNG BỊ QUÊN — 11/09 tới 12/09/2026.
+      #
+      # Cổng nhận khách của Antigravity xác thực bằng token này. Mã đọc nó từ
+      # 11/09, `.env.example` có dòng đó, chủ trang dán nó vào `.env` — nhưng
+      # thiếu dòng dưới thì hộp chứa không thấy (`.dockerignore` loại `.env`
+      # khỏi ảnh). Website gửi khách đi không kèm token, bị từ chối, khách rơi
+      # về tệp dự phòng, bảng Sheets trống. `scripts/kiem-bien-moi-truong.mjs`
+      # giờ bắt lỗi loại này cho mọi biến.
+      LEAD_WEBHOOK_TOKEN: ${LEAD_WEBHOOK_TOKEN:-}
     volumes:
       # ĐƯỜNG RƠI-VỀ PHẢI SỐNG SÓT QUA MỖI LẦN TRIỂN KHAI.
       #

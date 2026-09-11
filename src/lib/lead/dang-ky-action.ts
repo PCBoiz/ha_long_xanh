@@ -76,7 +76,11 @@ async function guiWebhook(
       body: JSON.stringify({ ...banGhi, nguon }),
       signal: AbortSignal.timeout(10_000),
     });
-    return phanHoi.ok ? { ok: true } : { ok: false, loi: `HTTP ${phanHoi.status}` };
+    if (phanHoi.ok) return { ok: true };
+    // 401 mà hộp chứa không có token: nói thẳng nguyên nhân trong log. Lỗi thật
+    // 12/09 — compose quên chuyển biến này vào, log chỉ ghi "HTTP 401".
+    const thieuToken = phanHoi.status === 401 && !token ? " — hộp chứa không thấy LEAD_WEBHOOK_TOKEN" : "";
+    return { ok: false, loi: `HTTP ${phanHoi.status}${thieuToken}` };
   } catch (loi) {
     return { ok: false, loi: loi instanceof Error ? loi.message : String(loi) };
   }
