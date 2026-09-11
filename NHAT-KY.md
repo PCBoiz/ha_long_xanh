@@ -11,6 +11,58 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 11/09/2026 — VÒNG 12 · Google trả số thật, và 14 trang được quá ít trang trỏ tới
+
+### Số thật đầu tiên (soi bằng URL Inspection API từ Antigravity, 21:14)
+
+**16/31 đã vào chỉ mục.** Trang chủ Google crawl **20:46 11/09** — sau deploy
+(xong trước 20:35), tức tên site mới đã được đọc trong vòng một giờ. 15 chưa
+vào: 7/9 phân khu, 4/5 sản phẩm, cộng `/dau-tu` `/lien-he` `/tin-tuc`. Sitemap
+chủ dự án nộp lại: 31/31 đã khám phá.
+
+### Nguyên nhân cấu trúc, đo được
+
+Đếm liên kết từ 16 trang đã vào chỉ mục tới từng trang chưa vào:
+
+```
+bốn trang trên thanh điều hướng     16/16 trang trỏ tới
+mỗi trang phân khu / sản phẩm        3–4/16
+```
+
+Google xếp lịch crawl theo mật độ đó. Chú thích trong `site-footer.tsx` đã ghi
+từ trước: *"một trang không được trang nào trỏ tới là trang gần như không tồn
+tại… thêm một trang thì thêm luôn một dòng ở đây"* — 14 trang này dựng SAU câu
+đó và không ai thêm. **Quy tắc viết bằng chữ thì bị quên.**
+
+Đã thêm dải liên kết gọn ở chân trang (flex-wrap, `min-h-11`, không phình chiều
+cao điện thoại). Đo trên bản dựng: mọi trang trỏ tới 14/14 → mỗi trang từ 3–4
+lên 31 liên kết. **Chờ deploy.**
+
+### Cổng kiểm mới: `kiem-mat-do-lien-ket`
+
+Đo trên `.next/server/app/*.html` — chỉ HTML đã dựng cho con số thật. Ngưỡng ≥10
+trang trỏ tới mỗi trang. Chưa có bản dựng thì bỏ qua có báo, không đỏ.
+
+⚠️ **Lần thử làm nó đỏ đầu tiên không ăn** — `sed -i` trong Git Bash không áp
+được lên đường dẫn Windows — và tôi suýt tin cổng đã chạy. Thử lại bằng Python:
+phá 32 tệp → `0/29 /phan-khu/festa-bay`, khôi phục → xanh. **Một cổng chưa từng
+đỏ là một cổng chưa được kiểm.**
+
+### Hai trạng thái Google, một nghĩa
+
+Hai lần soi cách 7 phút cho hai tập "không xác định được URL" khác nhau. Cả
+"không xác định được" lẫn "đã phát hiện" đều là *chưa crawl*; ranh giới giữa
+chúng đồng bộ không đều giữa máy chủ Google. Chỉ "đã vào chỉ mục" là mốc thật.
+
+13/13 phép kiểm · lint sạch · build sạch.
+
+### Vòng sau nên làm
+
+- Deploy (dải chân trang + `llms.txt` tên mới) rồi soi lại 11 trang "đã phát
+  hiện" sau 3–5 ngày.
+- 7 trang phân khu vẫn ~490 từ — liên kết giúp Google *ghé*, không giúp Google
+  *giữ*. Chờ mục 5 (dữ liệu chủ đầu tư).
+
 ## 11/09/2026 — VÒNG 11 · deploy xong, Bing nhận, và llms.txt cũng sai tên
 
 - **Chủ dự án deploy VPS.** Tệp khoá IndexNow sống; `npm run bao-bing` gửi 31
