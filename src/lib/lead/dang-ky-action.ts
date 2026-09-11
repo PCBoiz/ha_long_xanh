@@ -39,19 +39,69 @@ function chonDichDen(): DichDen {
   return "fileCucBo";
 }
 
+async function ghiTep(banGhi: Record<string, string>): Promise<void> {
+  const thuMuc = path.join(process.cwd(), ".data");
+  await mkdir(thuMuc, { recursive: true });
+  await appendFile(
+    path.join(thuMuc, "dang-ky.jsonl"),
+    `${JSON.stringify(banGhi)}\n`,
+    "utf8",
+  );
+}
+
 async function chuyenTiep(banGhi: Record<string, string>): Promise<DichDen> {
   const dich = chonDichDen();
 
   if (dich === "webhook") {
-    const phanHoi = await fetch(process.env.LEAD_WEBHOOK_URL!, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(banGhi),
-    });
-    if (!phanHoi.ok) {
-      throw new Error(`Hệ thống tiếp nhận trả về HTTP ${phanHoi.status}`);
+    // ⚠️ TOKEN ĐI TRONG HEADER, KHÔNG TRONG URL (thêm 11/09).
+    //
+    // Đích thật giờ là cổng nhận khách của Antigravity, ghi thẳng vào Google
+    // Sheets của chủ trang. Cổng đó xác thực bằng `Authorization: Bearer`.
+    // Nhét token vào query string thì nó nằm trong log truy cập của mọi lớp
+    // ở giữa — Caddy, Vercel, proxy — còn header thì không.
+    //
+    // Không đặt `LEAD_WEBHOOK_TOKEN` thì không gửi header — đích khác (Apps
+    // Script, n8n…) vẫn dùng được như cũ.
+    const token = process.env.LEAD_WEBHOOK_TOKEN?.trim();
+    let loiWebhook: string;
+    try {
+      const phanHoi = await fetch(process.env.LEAD_WEBHOOK_URL!, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...banGhi, nguon: "halongxanh360.vn" }),
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (phanHoi.ok) return dich;
+      loiWebhook = `HTTP ${phanHoi.status}`;
+    } catch (loi) {
+      loiWebhook = loi instanceof Error ? loi.message : String(loi);
     }
-    return dich;
+
+    // ⚠️ WEBHOOK HỎNG THÌ RƠI VỀ TỆP, KHÔNG ĐÁNH RƠI KHÁCH (thêm 11/09).
+    //
+    // Trước đây webhook trả không-ok là ném lỗi, khách thấy "chưa gửi được",
+    // và số điện thoại biến mất — không nằm ở đâu cả. Mà đích webhook giờ đi
+    // qua ba lớp có thể hỏng độc lập: Antigravity, token Google của chủ trang,
+    // và API Sheets. Hỏng một lớp là mất trắng khách trong lúc hỏng.
+    //
+    // Trên máy chủ riêng, `.data/` có gắn ổ đĩa (docker-compose) nên sống qua
+    // mọi lần deploy — ghi vào đó là GIỮ ĐƯỢC khách, nên báo "đã nhận" với
+    // khách là nói thật. Trên Vercel không có đường ghi, nên vẫn báo lỗi như
+    // cũ để khách gọi trực tiếp.
+    if (process.env.VERCEL) {
+      throw new Error(`Hệ thống tiếp nhận lỗi (${loiWebhook})`);
+    }
+    await ghiTep(banGhi);
+    // Nói to trong log — đây là lúc cần có người để ý. Không ghi số điện
+    // thoại vào log: log không phải chỗ chứa dữ liệu khách.
+    console.error(
+      `[dang-ky] WEBHOOK LỖI (${loiWebhook}) — đã giữ khách trong .data/dang-ky.jsonl. ` +
+        "Kiểm bảng Google Sheets / kết nối Google trong Antigravity.",
+    );
+    return "fileCucBo";
   }
 
   if (dich === "xemThu") {
@@ -62,13 +112,7 @@ async function chuyenTiep(banGhi: Record<string, string>): Promise<DichDen> {
     return dich;
   }
 
-  const thuMuc = path.join(process.cwd(), ".data");
-  await mkdir(thuMuc, { recursive: true });
-  await appendFile(
-    path.join(thuMuc, "dang-ky.jsonl"),
-    `${JSON.stringify(banGhi)}\n`,
-    "utf8",
-  );
+  await ghiTep(banGhi);
   console.warn(
     "[dang-ky] Chưa đặt LEAD_WEBHOOK_URL — đã ghi tạm vào .data/dang-ky.jsonl. " +
       "KHÔNG dùng được ở môi trường thật.",
