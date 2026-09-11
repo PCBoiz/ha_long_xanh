@@ -11,6 +11,27 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 12/09/2026 — VÒNG 16 · màn duyệt in "Hàng chờ trống" khi cơ sở dữ liệu hỏng
+
+Antigravity báo "đã nhận, chờ duyệt"; `/duyet-bai` in "Hàng chờ trống."; link
+bài → 404. Ba màn, hai nói ngược nhau. Commit `b8a4d4f`.
+
+- **404 là cố ý**: bài chưa duyệt không mở được bằng địa chỉ (đúng luật
+  `docMotBaiGoc`). Bên Antigravity link giờ mở `/duyet-bai` thay vì bài.
+- **"Hàng chờ trống" có thể là nói dối.** `layHangCho` dùng `docBaiChoDuyet`
+  — bọc `docAnToan`, trả `[]` khi DB hỏng (đúng cho trang công khai). Neon
+  vừa ngủ dậy chưa kịp trả lời (thử lại một lần vẫn hỏng) → màn duyệt in
+  "trống" và chủ trang tin. Giờ `docBaiChoDuyetThat` trả `{ok:false, lyDo}`,
+  màn in *"Không đọc được hàng chờ — <chẩn đoán>. Bấm lại sau vài giây. Bài
+  đã nhận KHÔNG mất."* `kiem-hang-cho` khoá tĩnh (bản cũ: đỏ 3 dòng).
+- Không kết luận được lần đó là DB hỏng hay chủ trang mở hàng chờ trước khi
+  lượt viết lại xong — không có log lúc bấm. Sau deploy, nếu còn "trống" mà
+  Antigravity ghi "chờ duyệt" thì màn sẽ nói lý do thay vì im.
+- Ingest trả thêm `luuO: "db" | "tep"` — Antigravity cảnh báo khi website
+  đang lưu bài ra tệp tạm.
+
+16/16 · build. **Chưa deploy** — `./trien-khai.sh`.
+
 ## 12/09/2026 — VÒNG 15 · ba ảnh AI "đã gỡ" 10/09 vẫn chạy trên trang chủ
 
 Đi soi ảnh rạp xiếc (`tien-ich-01`, chủ dự án đồng ý gỡ) thì thấy chuyện lớn
