@@ -58,7 +58,7 @@ export function BangDuyet() {
             autoComplete="off"
             value={khoa}
             onChange={(su) => datKhoa(su.target.value)}
-            placeholder="Dán INGEST_TOKEN"
+            placeholder="Dán khoá duyệt bài vào đây"
             className="h-12 w-full max-w-md border border-ink-line bg-ink px-4 text-body text-paper placeholder:text-paper-dim/80 focus-visible:border-jade"
           />
           <button
@@ -70,8 +70,10 @@ export function BangDuyet() {
           </button>
         </div>
         <p className="mt-3 max-w-[64ch] text-small leading-relaxed text-paper-dim">
-          Cùng khoá với biến <code>INGEST_TOKEN</code> đặt trên máy chủ. Không
-          được lưu lại — mở lại trang là phải nhập lại.
+          Khoá do người kỹ thuật đưa cho bạn một lần — cất trong ứng dụng ghi
+          chú hoặc quản lý mật khẩu trên điện thoại. Trang này cố ý không nhớ
+          khoá: mở lại là phải dán lại. (Kỹ thuật: cùng giá trị với{" "}
+          <code>INGEST_TOKEN</code> trên máy chủ.)
         </p>
       </form>
 

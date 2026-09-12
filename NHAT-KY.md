@@ -11,6 +11,15 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 12/09/2026 — VÒNG 19 · màn duyệt nói "khoá duyệt bài" thay vì "INGEST_TOKEN"
+
+Một thay đổi chữ ở `bang-duyet.tsx` (rà UX cho người không rành, xem
+`docs/ra-soat-luong-tu-dong-cho-nguoi-khong-ranh.md` bên Antigravity):
+placeholder "Dán khoá duyệt bài vào đây"; chú thích nói khoá do người kỹ thuật
+đưa một lần, cất ở ứng dụng ghi chú/mật khẩu; tên biến lùi xuống dòng kỹ
+thuật. Cơ chế không đổi (vẫn không nhớ khoá). **Chưa deploy** — `./trien-khai.sh`
+mang theo vòng 15–19.
+
 ## 12/09/2026 — VÒNG 18 · báo Bing bài hẹn ngày tới hạn; ảnh bìa ở danh sách tin
 
 Commit `c63aaee`. `/api/bao-bai-toi-ngay` — nửa sau của lỗ IndexNow (6bcdb13):
