@@ -11,6 +11,15 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 12/09/2026 — VÒNG 17 · cổng nhận bài nhận ẢNH KÈM (bìa + trong bài)
+
+Commit `53b0e90`. Chi tiết thiết kế ở đầu `src/lib/anh-bai.ts`. Tóm tắt:
+- `anh` ≤2, ≤3 MB, webp/jpg/png, kiểm chữ ký tệp; ghi `.data/anh/<slug>/`;
+  phục vụ `/anh-bai/<slug>/<tệp>`; bìa = `<figure data-anh-bia>` đầu `noiDung`
+  (không thêm cột); trang bài tách ra làm ảnh đầu bài + og:image.
+- `kiem-anh-bai.ts` 24 ca; chạy thật ở máy (chế độ tệp) + trình duyệt.
+- **Chưa deploy** — `./trien-khai.sh` mang theo cả vòng 15–17.
+
 ## 12/09/2026 — VÒNG 16 · màn duyệt in "Hàng chờ trống" khi cơ sở dữ liệu hỏng
 
 Antigravity báo "đã nhận, chờ duyệt"; `/duyet-bai` in "Hàng chờ trống."; link
