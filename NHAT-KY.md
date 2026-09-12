@@ -11,6 +11,15 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 12/09/2026 — VÒNG 18 · báo Bing bài hẹn ngày tới hạn; ảnh bìa ở danh sách tin
+
+Commit `c63aaee`. `/api/bao-bai-toi-ngay` — nửa sau của lỗ IndexNow (6bcdb13):
+chọn bài đã duyệt có `ngayDang` = hôm nay, báo IndexNow, idempotent theo ngày
+qua `.data/indexnow-bao/`. Antigravity gõ mỗi ngày một lần; gọi tay cũng được:
+`curl -X POST -H "Authorization: Bearer <INGEST_TOKEN>" https://halongxanh360.vn/api/bao-bai-toi-ngay`.
+`/tin-tuc`: bài nổi bật có ảnh kèm thì hiện ảnh bìa. `kiem-bao-toi-ngay` 4 ca.
+**Chưa deploy** — `./trien-khai.sh` mang theo vòng 15–18.
+
 ## 12/09/2026 — VÒNG 17 · cổng nhận bài nhận ẢNH KÈM (bìa + trong bài)
 
 Commit `53b0e90`. Chi tiết thiết kế ở đầu `src/lib/anh-bai.ts`. Tóm tắt:
