@@ -11,6 +11,26 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 13/09/2026 — VÒNG 22 · Lighthouse HIỆU NĂNG trên trang chủ thật: 74, LCP 5,7 giây
+
+Đo bằng Lighthouse CLI (điện thoại, có bóp mạng) trên `https://halongxanh360.vn/`:
+performance **74**, FCP 1,2 s, **LCP 5,7 s** (chuẩn Google ≤ 2,5), TTI 5,9 s,
+main-thread 4,3 s, CLS 0.
+
+- **LCP là chữ mở đầu** "Nơi kỳ quan trở thành nhà": TTFB 180 ms, còn lại là
+  *element render delay* 2,2 s + đợi màn mở đầu. Cơ chế: `.split-word > span`
+  nằm ngoài ô (`translateY(115%)`) tới khi JS gắn `data-shown` và
+  `data-preloaded` — tức là chữ lớn nhất trang chỉ vẽ sau khi tải xong JS,
+  hydrate, IntersectionObserver và màn mở đầu kéo lên. Đây là hiệu ứng cố ý
+  (ghi chú trong CSS), nên là **việc chị chọn**, không tự sửa — ghi ở mục 22
+  `VIEC-CAN-LAM.md` của Antigravity kèm hai lựa chọn.
+- **Ảnh tải to gấp bốn**: lưới sản phẩm `grid-cols-2` từ điện thoại nhưng
+  `sizes` khai `100vw` → tải ảnh 828 px cho ô 211 px; đo trong trình duyệt
+  thật ở 412 px. Sửa `sizes="(min-width: 1024px) 31vw, 46vw"`: tổng tải trang
+  chủ **1.323 → 1.010 KiB**. Phần "lãng phí" còn lại Lighthouse gán chủ yếu
+  cho "nén mạnh hơn" (q=75 WebP) — không hạ chất lượng ảnh vì vài chục KB.
+- 19/19 phép kiểm, build xanh. **Chưa deploy** (A1).
+
 ## 13/09/2026 — VÒNG 21 · Lighthouse điện thoại trên trang thật: 94 → 100 accessibility
 
 Đo `https://halongxanh360.vn/` bằng Lighthouse (điện thoại): SEO 100, Best

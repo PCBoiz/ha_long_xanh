@@ -107,9 +107,14 @@ export function DanhSachSanPham() {
             >
               <Tilt nghieng={6}>
                 <div className="overflow-hidden bg-ink-soft">
+                  {/* `sizes` PHẢI KHỚP LƯỚI: lưới này 2 cột từ điện thoại tới
+                      md (`grid-cols-2`), 3 cột từ lg. Bản trước khai 100vw
+                      cho điện thoại nên trình duyệt tải ảnh 828px cho ô rộng
+                      211px — Lighthouse 13/09 đo lãng phí ~700 KB chỉ riêng
+                      mảng này trên trang chủ. */}
                   <ProjectImage
                     name={dong.anh}
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 1024px) 31vw, 46vw"
                     className="aspect-4/3 w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
                   />
                 </div>
