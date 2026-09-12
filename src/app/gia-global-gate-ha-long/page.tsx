@@ -12,7 +12,8 @@ import quyCan from "@/data/quy-can.generated.json";
 export const metadata: Metadata = {
   alternates: { canonical: DUONG_DAN.gia },
   title: "Bảng giá 2026",
-  description: `Giá ${duAn.ten} đọc từ bảng hàng thật: khoảng giá theo từng dòng sản phẩm, chênh lệch giữa giá trước thuế và giá đầy đủ, và đơn giá trên mỗi mét vuông đất — con số duy nhất so sánh ngang được hai căn khác diện tích.`,
+  // ≤ 155 ký tự: Google cắt mô tả dài hơn (đo 13/09: bản cũ 232 ký tự).
+  description: `Giá ${duAn.ten} từ bảng hàng thật: khoảng giá từng dòng sản phẩm, giá trước thuế và giá đầy đủ, đơn giá mỗi m² đất để so sánh.`,
 };
 
 /**

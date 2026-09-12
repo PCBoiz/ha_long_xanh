@@ -13,7 +13,8 @@ import { gioNgayVN } from "@/lib/thoi-gian";
 export const metadata: Metadata = {
   alternates: { canonical: "/tien-do-global-gate-ha-long" },
   title: `Tiến độ thi công ${dotAnhTienDo.nhan}`,
-  description: `Hiện trạng công trường ${duAn.tenNgan} qua ${dotAnhTienDo.soTam} ảnh chụp thật ${dotAnhTienDo.nhan} do chủ đầu tư phát hành — san nền, hạ tầng, công trình đang lên tầng và tuyến giao thông kết nối. Kèm cách tự kiểm trước khi xuống tiền.`,
+  // ≤ 155 ký tự: Google cắt mô tả dài hơn (đo 13/09: bản cũ 214 ký tự).
+  description: `Công trường ${duAn.tenNgan} qua ${dotAnhTienDo.soTam} ảnh thật ${dotAnhTienDo.nhan} từ chủ đầu tư: san nền, hạ tầng, công trình lên tầng. Kèm cách tự kiểm trước khi xuống tiền.`,
 };
 
 /**

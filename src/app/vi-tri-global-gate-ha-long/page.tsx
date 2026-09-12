@@ -13,7 +13,8 @@ import { KhoiChot } from "@/components/site/khoi-chot";
 export const metadata: Metadata = {
   alternates: { canonical: "/vi-tri-global-gate-ha-long" },
   title: "Vị trí & kết nối",
-  description: `${duAn.ten} tại ${duAn.viTri} — cách trung tâm Hạ Long khoảng 19 km về phía đông và cách Hải Phòng khoảng 20 km về phía tây, nằm trên trục cao tốc Hà Nội – Hải Phòng – Hạ Long.`,
+  // ≤ 155 ký tự: Google cắt mô tả dài hơn (đo 13/09: bản cũ 201 ký tự).
+  description: `${duAn.ten} tại ${duAn.viTri}: cách trung tâm Hạ Long ~19 km, Hải Phòng ~20 km, trên trục cao tốc Hà Nội – Hải Phòng – Hạ Long.`,
 };
 
 export default function TrangViTri() {

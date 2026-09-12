@@ -29,7 +29,10 @@ export async function generateMetadata({
   if (!khu) return {};
   return {
     alternates: { canonical: `/phan-khu/${ma}` },
-    title: `${khu.ten} (${khu.tenTiengAnh})`,
+    // Tiêu đề tuyệt đối (không qua khuôn "· Vinhomes Global Gate Hạ Long"):
+    // hai tên đảo dài nhất lên tới 71–73 ký tự, Google cắt cụt. Giữ tên tiếng
+    // Anh vì người mua tìm đúng tên đó; dùng tên ngắn của dự án.
+    title: { absolute: `${khu.ten} (${khu.tenTiengAnh}) — ${duAn.tenNgan}` },
     description: `${khu.ten} — phân khu thuộc ${duAn.ten}. ${khu.diemNhan[0] ?? ""}`,
   };
 }
