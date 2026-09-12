@@ -124,8 +124,8 @@ export default async function TrangTinTuc() {
           <Khung>
             <ul className="border-t border-ink-line">
               {conLai.map((b, thuTu) => (
-                <ClipReveal key={b.slug} delay={(thuTu % 4) * 70}>
-                  <li className="border-b border-ink-line">
+                <ClipReveal key={b.slug} delay={(thuTu % 4) * 70} as="li">
+                  <div className="border-b border-ink-line">
                     <Link
                       href={`/tin-tuc/${b.slug}`}
                       className="grid gap-2 py-7 transition-colors hover:text-jade md:grid-cols-[8rem_1fr_9rem] md:items-baseline md:gap-8"
@@ -148,7 +148,7 @@ export default async function TrangTinTuc() {
                         {b.chuyenMuc}
                       </span>
                     </Link>
-                  </li>
+                  </div>
                 </ClipReveal>
               ))}
             </ul>

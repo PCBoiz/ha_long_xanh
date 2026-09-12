@@ -55,7 +55,7 @@ export default function TrangTaiLieu() {
           bản chốt là hợp đồng chứ không phải file trên Drive.
         */}
         <div className="mt-24 border-t border-ink-line pt-10">
-          <p className="max-w-3xl text-sm leading-relaxed text-paper/45">
+          <p className="max-w-3xl text-sm leading-relaxed text-paper/60">
             Tài liệu trên Drive được chủ đầu tư cập nhật theo từng thời điểm. Khi
             có sai lệch, hồ sơ pháp lý và hợp đồng mua bán tại thời điểm giao
             dịch là căn cứ cuối cùng.

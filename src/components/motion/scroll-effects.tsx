@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import type React from "react";
 import { gsap, giamChuyenDong } from "@/lib/motion/gsap";
 
 /* ================================ THỊ SAI ================================= */
@@ -85,12 +86,19 @@ export function ClipReveal({
   children,
   delay = 0,
   className = "",
+  as: The = "div",
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
+  /**
+   * Thẻ bọc. Mặc định `div`; trong `<ul>`/`<ol>` PHẢI là `li` — một `<div>`
+   * chen giữa `<ul>` và `<li>` là HTML sai, trình đọc màn hình mất cả danh sách
+   * (Lighthouse `list`/`listitem`, đo trên trang phân khu 13/09/2026).
+   */
+  as?: "div" | "li";
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (giamChuyenDong()) return;
@@ -114,10 +122,12 @@ export function ClipReveal({
     return () => boi.revert();
   }, [delay]);
 
+  // `ref` của <li> và <div> khác kiểu; gsap chỉ cần một phần tử — ép về chung.
+  const Ref = ref as React.RefObject<HTMLDivElement & HTMLLIElement>;
   return (
-    <div ref={ref} className={className}>
+    <The ref={Ref} className={className}>
       {children}
-    </div>
+    </The>
   );
 }
 

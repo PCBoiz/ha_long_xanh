@@ -58,7 +58,7 @@ export default async function TrangPhanKhu({
           >
             ← Sơ đồ quy hoạch
           </Link>
-          <p className="mt-10 text-label uppercase text-paper/40">
+          <p className="mt-10 text-label uppercase text-paper/60">
             {khu.tenTiengAnh}
           </p>
           <h1 className="mt-4 max-w-4xl font-display text-display font-normal">
@@ -148,13 +148,13 @@ export default async function TrangPhanKhu({
           </div>
           <ul className="md:col-span-8 md:col-start-5">
             {khu.diemNhan.map((diem, i) => (
-              <ClipReveal key={diem} delay={i * 90}>
-                <li className="flex gap-6 border-b border-ink-line py-7">
+              <ClipReveal key={diem} delay={i * 90} as="li">
+                <div className="flex gap-6 border-b border-ink-line py-7">
                   <span className="tabular text-label text-jade">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="font-display text-h3 font-normal">{diem}</span>
-                </li>
+                </div>
               </ClipReveal>
             ))}
           </ul>
@@ -184,7 +184,7 @@ export default async function TrangPhanKhu({
       <section className="border-t border-ink-line px-6 py-16 md:px-10">
         <div className="mx-auto flex max-w-[92rem] items-center justify-between gap-6">
           <Link href={`/phan-khu/${truoc.ma}`} className="group max-w-[45%]">
-            <span className="text-label uppercase text-paper/40">Khu trước</span>
+            <span className="text-label uppercase text-paper/60">Khu trước</span>
             <span className="mt-2 block font-display text-h3 font-normal transition-colors group-hover:text-jade">
               ← {truoc.ten}
             </span>
@@ -193,7 +193,7 @@ export default async function TrangPhanKhu({
             href={`/phan-khu/${sau.ma}`}
             className="group max-w-[45%] text-right"
           >
-            <span className="text-label uppercase text-paper/40">Khu tiếp</span>
+            <span className="text-label uppercase text-paper/60">Khu tiếp</span>
             <span className="mt-2 block font-display text-h3 font-normal transition-colors group-hover:text-jade">
               {sau.ten} →
             </span>

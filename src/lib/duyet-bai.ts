@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { and, eq } from "drizzle-orm";
 import { layDb, schema } from "@/db";
+import { xoaBoNhoDemBai } from "@/lib/tin-tuc";
 import { DUONG_DAN } from "@/lib/duong-dan";
 import type { KetQuaDuyet, KetQuaHangCho } from "@/lib/duyet-bai-kieu";
 import { baoIndexNow } from "@/lib/indexnow";
@@ -340,7 +341,8 @@ export async function duyetBai(
   }
 
   // Dựng lại các trang có bài, để bài vừa duyệt hiện ra ngay thay vì đợi bộ
-  // đệm hết hạn.
+  // đệm hết hạn — cả bộ nhớ trong tiến trình của `docBaiViet` (xem tin-tuc.ts).
+  xoaBoNhoDemBai();
   dungLaiCacTrang(slug);
   await baoTimKiem(slug, viec);
 

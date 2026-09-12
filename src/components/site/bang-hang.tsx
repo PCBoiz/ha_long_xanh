@@ -448,7 +448,7 @@ function Loc({
               />
               <span className="capitalize">{m.ten}</span>
               {m.so > 0 ? (
-                <span className="tabular text-paper-dim/60">{m.so}</span>
+                <span className="tabular text-paper-dim/80">{m.so}</span>
               ) : null}
             </label>
           );

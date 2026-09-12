@@ -4,6 +4,7 @@ import { timingSafeEqual } from "node:crypto";
 import path from "node:path";
 import type { BaiViet } from "@/data/news";
 import { layDb, schema, thuLaiKhiNguDay } from "@/db";
+import { xoaBoNhoDemBai } from "@/lib/tin-tuc";
 import {
   BYTE_ANH_TOI_DA,
   DUONG_ANH_BAI,
@@ -340,6 +341,9 @@ export async function POST(yeuCau: Request) {
           },
         }),
       );
+      // Bài mới/sửa vào hàng chờ; danh sách đang nhớ có thể đã lệch (bài đã
+      // đăng bị rút về chờ duyệt) → xoá để lần đọc sau lấy bản thật.
+      xoaBoNhoDemBai();
     } else {
       // Đường CỤC BỘ. Chỉ chạy khi chưa có `DATABASE_URL` — tức là trên máy của
       // người phát triển. Trên máy chủ thật mà rơi vào đây thì bài sẽ mất sau

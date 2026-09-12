@@ -362,8 +362,75 @@ async function docAnToan<T>(viec: string, chay: () => Promise<T>, khiHong: T): P
  * vào giữa từng truy vấn: chỗ đọc nào thêm về sau cũng chỉ cần một dòng bọc,
  * và không ai vô tình thêm một đường đọc KHÔNG được bảo vệ.
  */
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ * KHÁCH KHÔNG PHẢI ĐỢI NEON DẬY.
+ *
+ * Đo trên trang thật 13/09/2026: `/tin-tuc` sau vài phút vắng khách mất
+ * **8,4 giây** (Neon gói miễn phí ngủ, `thuLaiKhiNguDay` chờ nó dậy rồi mới
+ * trả), các lần sau 0,4 giây. Khách mở đúng lúc đó nhìn trang trắng 8 giây.
+ *
+ * Cách làm: nhớ kết quả trong tiến trình. Bản còn mới (≤ 60 s) thì trả ngay.
+ * Bản đã cũ thì VẪN TRẢ NGAY bản cũ, và làm mới ở nền — người xem không bao
+ * giờ đứng đợi cơ sở dữ liệu, kể cả khi nó đang ngủ. Chỉ lần đọc ĐẦU TIÊN
+ * sau khi máy chủ khởi động là phải chờ (trien-khai.sh tự mở một lần sau khi
+ * dựng để lần đó không rơi vào khách).
+ *
+ * Làm mới hỏng (Neon lỗi thật) thì GIỮ bản cũ — không thay danh sách đang
+ * đúng bằng "Chưa có bài viết nào".
+ *
+ * Ghi bài (`/api/ingest`) và duyệt/gỡ (`duyetBai`) gọi `xoaBoNhoDemBai()`:
+ * người duyệt bấm xong là thấy bài trên trang, không đợi 60 giây. Máy chủ
+ * chạy MỘT tiến trình (một hộp chứa trên VPS) nên bộ nhớ này là đủ; chạy
+ * nhiều tiến trình thì mỗi tiến trình tự làm mới trong ≤ 60 s.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+const DEM_SONG_MS = 60_000;
+let demDanhSach: { luc: number; bai: BaiViet[] } | null = null;
+let dangLamMoiDanhSach: Promise<BaiViet[]> | null = null;
+const demMotBai = new Map<string, { luc: number; bai: BaiViet | null }>();
+const DEM_MOT_BAI_TOI_DA = 200;
+
+/** Đọc thật; trả `null` khi hỏng (khác với "không có bài" = `[]`). */
+async function docDanhSachHoacNull(): Promise<BaiViet[] | null> {
+  let hong = true;
+  const bai = await docAnToan(
+    "đọc bài đã đăng",
+    async () => {
+      const ra = await docBaiVietGoc();
+      hong = false;
+      return ra;
+    },
+    [] as BaiViet[],
+  );
+  return hong ? null : bai;
+}
+
+function lamMoiDanhSach(): Promise<BaiViet[]> {
+  if (!dangLamMoiDanhSach) {
+    dangLamMoiDanhSach = docDanhSachHoacNull()
+      .then((bai) => {
+        if (bai) demDanhSach = { luc: Date.now(), bai };
+        return bai ?? demDanhSach?.bai ?? [];
+      })
+      .finally(() => {
+        dangLamMoiDanhSach = null;
+      });
+  }
+  return dangLamMoiDanhSach;
+}
+
 export async function docBaiViet(): Promise<BaiViet[]> {
-  return docAnToan("đọc bài đã đăng", docBaiVietGoc, []);
+  const lamMoi = !demDanhSach || Date.now() - demDanhSach.luc >= DEM_SONG_MS ? lamMoiDanhSach() : null;
+  // Có bản cũ thì trả ngay; lần làm mới chạy tiếp ở nền.
+  if (demDanhSach) return demDanhSach.bai;
+  return lamMoi ?? [];
+}
+
+/** Gọi sau khi ghi/duyệt/gỡ bài — trang và sitemap phản ánh ngay. */
+export function xoaBoNhoDemBai(): void {
+  demDanhSach = null;
+  demMotBai.clear();
 }
 
 export async function docBaiChoDuyet(): Promise<
@@ -373,5 +440,23 @@ export async function docBaiChoDuyet(): Promise<
 }
 
 export async function docMotBai(slug: string): Promise<BaiViet | null> {
-  return docAnToan("mở một bài", () => docMotBaiGoc(slug), null);
+  const co = demMotBai.get(slug);
+  if (co && Date.now() - co.luc < DEM_SONG_MS) return co.bai;
+  // Một bài thì đọc thẳng (chỉ mất thời gian khi Neon ngủ VÀ chưa ai mở bài đó
+  // trong 60 s); danh sách ở /tin-tuc mới là chỗ khách hay rơi vào lúc lạnh.
+  let hong = true;
+  const bai = await docAnToan(
+    "mở một bài",
+    async () => {
+      const ra = await docMotBaiGoc(slug);
+      hong = false;
+      return ra;
+    },
+    null as BaiViet | null,
+  );
+  if (!hong) {
+    if (demMotBai.size >= DEM_MOT_BAI_TOI_DA) demMotBai.delete(demMotBai.keys().next().value!);
+    demMotBai.set(slug, { luc: Date.now(), bai });
+  }
+  return hong ? (co?.bai ?? null) : bai;
 }

@@ -180,8 +180,8 @@ export default async function TrangBaiViet({
             <h2 className="text-label uppercase text-paper-dim">Bài khác</h2>
             <ul className="mt-6 border-t border-ink-line">
               {khac.map((b, thuTu) => (
-                <ClipReveal key={b.slug} delay={(thuTu % 3) * 70}>
-                  <li className="border-b border-ink-line">
+                <ClipReveal key={b.slug} delay={(thuTu % 3) * 70} as="li">
+                  <div className="border-b border-ink-line">
                     <Link
                       href={`/tin-tuc/${b.slug}`}
                       className="grid gap-2 py-6 transition-colors hover:text-jade md:grid-cols-[8rem_1fr] md:items-baseline md:gap-8"
@@ -196,7 +196,7 @@ export default async function TrangBaiViet({
                         {b.tieuDe}
                       </span>
                     </Link>
-                  </li>
+                  </div>
                 </ClipReveal>
               ))}
             </ul>

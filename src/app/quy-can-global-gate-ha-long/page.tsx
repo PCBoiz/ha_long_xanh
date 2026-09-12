@@ -253,8 +253,8 @@ export default function TrangBangHang() {
           ) : (
             <ol className="mt-8 border-t border-ink-line">
               {tienDoThanhToan.map((dot, thuTu) => (
-                <ClipReveal key={dot.ten} delay={(thuTu % 5) * 70}>
-                  <li className="grid items-baseline gap-2 border-b border-ink-line py-6 md:grid-cols-[4rem_1fr_8rem] md:gap-8">
+                <ClipReveal key={dot.ten} delay={(thuTu % 5) * 70} as="li">
+                  <div className="grid items-baseline gap-2 border-b border-ink-line py-6 md:grid-cols-[4rem_1fr_8rem] md:gap-8">
                     <span className="tabular text-label uppercase text-paper-dim">
                       Đợt {thuTu + 1}
                     </span>
@@ -267,7 +267,7 @@ export default function TrangBangHang() {
                     <span className="tabular font-display text-h3 text-jade md:text-right">
                       {dot.tyLe}
                     </span>
-                  </li>
+                  </div>
                 </ClipReveal>
               ))}
             </ol>
