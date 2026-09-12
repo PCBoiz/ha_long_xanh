@@ -89,7 +89,9 @@ export default function TrangPhapLy() {
         </Khung>
       </section>
 
-      {/* Ba sự thật cơ bản, trả lời ngay. */}
+      {/* Ba sự thật cơ bản, trả lời ngay. Câu giải thích là <dd> THỨ HAI của
+          cùng thuật ngữ, không phải <p> — <dl> chỉ được chứa dt/dd (axe:
+          definition-list); một thuật ngữ có nhiều dd là hợp lệ. */}
       <section className="mang-sang py-nhip">
         <Khung>
           <dl className="grid gap-x-12 gap-y-10 md:grid-cols-3">
@@ -98,30 +100,30 @@ export default function TrangPhapLy() {
               <dd className="mt-3 font-display text-h2 font-normal">
                 {duAn.phapLy}
               </dd>
-              <p className="mt-3 text-small leading-relaxed text-paper-dim">
+              <dd className="mt-3 text-small leading-relaxed text-paper-dim">
                 Giữ được giá trị chuyển nhượng về sau, khác với sản phẩm có thời
                 hạn vốn mất dần giá trị theo số năm còn lại.
-              </p>
+              </dd>
             </div>
             <div>
               <dt className="text-label uppercase text-jade">Chủ đầu tư</dt>
               <dd className="mt-3 font-display text-h3 font-normal leading-tight">
                 {duAn.chuDauTu}
               </dd>
-              <p className="mt-3 text-small leading-relaxed text-paper-dim">
+              <dd className="mt-3 text-small leading-relaxed text-paper-dim">
                 Toàn bộ giấy tờ trong mục hồ sơ pháp lý đều do liên danh này
                 phát hành.
-              </p>
+              </dd>
             </div>
             <div>
               <dt className="text-label uppercase text-jade">Tình trạng</dt>
               <dd className="mt-3 font-display text-h3 font-normal leading-tight">
                 {duAn.tinhTrang}
               </dd>
-              <p className="mt-3 text-small leading-relaxed text-paper-dim">
+              <dd className="mt-3 text-small leading-relaxed text-paper-dim">
                 Dự án triển khai theo giai đoạn, nên giấy tờ cũng theo giai đoạn
                 — xem mục thứ hai và thứ tư bên dưới.
-              </p>
+              </dd>
             </div>
           </dl>
         </Khung>

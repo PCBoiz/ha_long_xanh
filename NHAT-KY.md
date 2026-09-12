@@ -11,6 +11,27 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 13/09/2026 — VÒNG 21 · Lighthouse điện thoại trên trang thật: 94 → 100 accessibility
+
+Đo `https://halongxanh360.vn/` bằng Lighthouse (điện thoại): SEO 100, Best
+practices 100, **Accessibility 94** — hai lỗi thật, không phải lỗi đẹp:
+
+- **Chữ mờ quá mức đọc được.** Đoạn miễn trừ ở chân trang (thứ khách CẦN đọc
+  trước khi tin một con số) ở `text-paper/35`: tương phản đo được **2,9:1**,
+  chuẩn chữ nhỏ là 4,5. Băng chữ chạy (marquee) ở `/25`: **2,06:1**. Sửa:
+  chân trang và nhãn nhỏ `/35 → /60` (≈5,4:1), băng chữ `/25 → /45` (chữ lớn
+  cần 3:1). Vẫn mờ đúng ý thiết kế, nhưng người lớn tuổi đọc được.
+- **`<dl>` sai cấu trúc ở 5 trang** — trình đọc màn hình mất cả danh sách số
+  liệu: trang chủ (nguồn số liệu là `<p>` đứng ngoài `<dd>`), `/du-an` và
+  `/san-pham/*` (hai lớp `<div>` giữa `<dl>` và `<dt>` — chỉ được một, nên
+  lưới đặt thẳng lên Reveal/ClipReveal), `/phap-ly` (câu giải thích thành
+  `<dd>` thứ hai), `/tien-do` (đoạn giải thích đưa ra ngoài `<dl>`).
+
+Đo lại trên bản build ở máy, 8 trang (trang chủ, du-an, san-pham/lien-ke,
+gia, phap-ly, lien-he, tien-do, tin-tuc): **100/100/100** tất cả.
+`npm run build` xanh. **Chưa deploy** — chị chạy `./trien-khai.sh` (mục A1 ở
+VIEC-CAN-LAM của Antigravity; các commit từ 9ba235f tới nay đều chưa lên).
+
 ## 12/09/2026 — VÒNG 20 · kiểm HÀNH VI khi cơ sở dữ liệu hỏng, không chỉ kiểm mã nguồn
 
 `scripts/kiem-hang-cho-that.ts`: trỏ `DATABASE_URL` vào cổng chết rồi gọi thật

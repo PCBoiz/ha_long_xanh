@@ -118,13 +118,19 @@ export default function TrangDuAn() {
           </div>
 
           <div className="md:col-span-8 md:col-start-5">
+            {/* Một lớp <div> giữa <dl> và <dt>/<dd> là tối đa HTML cho phép —
+                Reveal đã là lớp đó, nên lưới nằm ngay trên Reveal. Lồng thêm
+                một <div> nữa là trình đọc màn hình mất cả danh sách (axe:
+                dlitem). */}
             <dl>
               {thongSo.map((muc, thuTu) => (
-                <Reveal key={muc.nhan} delay={thuTu * 60}>
-                  <div className="grid gap-2 border-b border-ink-line py-6 sm:grid-cols-[13rem_1fr] sm:gap-8">
-                    <dt className="text-sm text-paper-dim">{muc.nhan}</dt>
-                    <dd className="text-lead">{muc.giaTri}</dd>
-                  </div>
+                <Reveal
+                  key={muc.nhan}
+                  delay={thuTu * 60}
+                  className="grid gap-2 border-b border-ink-line py-6 sm:grid-cols-[13rem_1fr] sm:gap-8"
+                >
+                  <dt className="text-sm text-paper-dim">{muc.nhan}</dt>
+                  <dd className="text-lead">{muc.giaTri}</dd>
                 </Reveal>
               ))}
             </dl>
@@ -145,7 +151,7 @@ export default function TrangDuAn() {
             {phanKhu.map((khu, thuTu) => (
               <Reveal key={khu.ma} delay={(thuTu % 3) * 90}>
                 <div className="border-t border-ink-line pt-6">
-                  <p className="text-label uppercase text-paper/35">
+                  <p className="text-label uppercase text-paper/60">
                     {khu.tenTiengAnh}
                   </p>
                   <h3 className="mt-2.5 font-display text-h3 font-normal">

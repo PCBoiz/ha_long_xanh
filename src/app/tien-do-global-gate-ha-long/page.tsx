@@ -159,7 +159,10 @@ export default function TrangTienDo() {
                   </dd>
                 </div>
               ))}
-              <p className="mt-6 max-w-[62ch] text-small leading-relaxed text-paper-dim">
+            </dl>
+            {/* Đoạn giải thích đứng NGOÀI <dl> — <dl> chỉ được chứa dt/dd
+                (axe: definition-list). Lưới cột giữ nguyên nhờ bọc chung. */}
+            <p className="mt-6 max-w-[62ch] text-small leading-relaxed text-paper-dim md:col-span-6 md:col-start-7">
                 {hoanThien
                   ? `Có ${hoanThien.so} căn ở mức hoàn thiện — nghĩa là phần đó đã xây xong và bàn giao được. `
                   : ""}
@@ -168,8 +171,7 @@ export default function TrangTienDo() {
                   : ""}
                 Số căn ở mỗi mức đổi theo thời gian, và chiều đổi của nó chính là
                 tốc độ thi công thật.
-              </p>
-            </dl>
+            </p>
           </div>
         </Khung>
       </section>

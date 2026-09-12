@@ -197,12 +197,12 @@ export function SiteFooter() {
             </div>
           ) : null}
 
-          <p className="max-w-[68ch] text-small leading-relaxed text-paper/35">
+          <p className="max-w-[68ch] text-small leading-relaxed text-paper/60">
             Hình ảnh, sơ đồ và thông tin trên trang mang tính minh hoạ. Số liệu
             thực tế căn cứ theo hồ sơ pháp lý và hợp đồng mua bán do chủ đầu tư
             phát hành tại thời điểm giao dịch.
           </p>
-          <p className="mt-3 max-w-[68ch] text-small leading-relaxed text-paper/35">
+          <p className="mt-3 max-w-[68ch] text-small leading-relaxed text-paper/60">
             Đây là trang thông tin do {benBan.ten || benBan.vaiTro.toLowerCase()}{" "}
             lập, không phải trang chính thức của chủ đầu tư.{" "}
             {/* Câu thứ hai nói rõ số liệu trên trang được đối chiếu KHI NÀO.
@@ -212,7 +212,7 @@ export function SiteFooter() {
             Thông tin giá, quỹ căn, chính sách và pháp lý được đối chiếu tại
             thời điểm tư vấn.
           </p>
-          <p className="mt-4 text-small text-paper/35">
+          <p className="mt-4 text-small text-paper/60">
             Chủ đầu tư: {duAn.chuDauTu}
           </p>
         </div>

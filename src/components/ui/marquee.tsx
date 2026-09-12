@@ -75,7 +75,7 @@ export function Marquee({ items, duration = 48 }: MarqueeProps) {
     <div key={khoa} className="flex shrink-0 items-center">
       {items.map((chu, thuTu) => (
         <span key={`${khoa}-${thuTu}`} className="flex items-center">
-          <span className="font-display text-h2 font-normal whitespace-nowrap text-paper/25">
+          <span className="font-display text-h2 font-normal whitespace-nowrap text-paper/45">
             {chu}
           </span>
           <span className="mx-10 text-jade-deep md:mx-16">◆</span>

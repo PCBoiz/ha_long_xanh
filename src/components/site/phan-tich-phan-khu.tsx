@@ -71,7 +71,7 @@ export function PhanTichPhanKhu() {
                 </Link>
               ) : null}
 
-              <p className="mt-5 text-label uppercase text-paper/35">
+              <p className="mt-5 text-label uppercase text-paper/60">
                 {khu.tenTiengAnh}
               </p>
               <h3 className="mt-2 font-display text-h3 font-normal">

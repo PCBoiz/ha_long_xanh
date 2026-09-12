@@ -215,14 +215,15 @@ export default function TrangChu() {
 
                       Chỉ có tác dụng khi thiếu chỗ, nên khổ rộng hơn không đổi
                       một pixel nào. */}
-                  <dd className="mt-3 flex flex-wrap items-baseline gap-2">
-                    <span className="tabular font-display text-h1 font-normal leading-none">
-                      <CountUp giaTri={muc.giaTri} />
-                    </span>
-                    {muc.donVi ? (
-                      <span className="text-small text-paper-dim">{muc.donVi}</span>
-                    ) : null}
-                  </dd>
+                  <dd className="mt-3">
+                    <div className="flex flex-wrap items-baseline gap-2">
+                      <span className="tabular font-display text-h1 font-normal leading-none">
+                        <CountUp giaTri={muc.giaTri} />
+                      </span>
+                      {muc.donVi ? (
+                        <span className="text-small text-paper-dim">{muc.donVi}</span>
+                      ) : null}
+                    </div>
                   {/* NGUỒN HIỆN RA TRÊN TRANG, không còn chỉ hiện lúc phát
                       triển. Trước đây chỗ này là dấu ⚠ chỉ người viết mã thấy —
                       nghĩa là người duy nhất KHÔNG biết con số lấy ở đâu lại
@@ -230,11 +231,12 @@ export default function TrangChu() {
 
                       Đây cũng là đòn bẩy đo được cho việc được trợ lý AI trích
                       dẫn: xem chú thích trường `nguon` trong `data/project.ts`. */}
-                  {muc.nguon ? (
-                    <p className="mt-2 max-w-[34ch] text-small leading-snug text-paper-dim">
-                      {muc.nguon}
-                    </p>
-                  ) : null}
+                    {muc.nguon ? (
+                      <p className="mt-2 max-w-[34ch] text-small leading-snug text-paper-dim">
+                        {muc.nguon}
+                      </p>
+                    ) : null}
+                  </dd>
                 </ClipReveal>
               ))}
             </dl>

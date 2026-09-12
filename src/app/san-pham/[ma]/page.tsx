@@ -86,13 +86,17 @@ export default async function TrangSanPham({
           </div>
 
           <div className="md:col-span-6 md:col-start-7">
+            {/* Chỉ MỘT lớp <div> giữa <dl> và <dt>/<dd> — ClipReveal đã là lớp
+                đó (xem ghi chú cùng chỗ ở trang /du-an). */}
             <dl>
               {thongSo.map((muc, i) => (
-                <ClipReveal key={muc.nhan} delay={i * 70}>
-                  <div className="flex items-baseline justify-between gap-6 border-b border-ink-line py-6">
-                    <dt className="text-sm text-paper-dim">{muc.nhan}</dt>
-                    <dd className="tabular text-lead">{muc.giaTri}</dd>
-                  </div>
+                <ClipReveal
+                  key={muc.nhan}
+                  delay={i * 70}
+                  className="flex items-baseline justify-between gap-6 border-b border-ink-line py-6"
+                >
+                  <dt className="text-sm text-paper-dim">{muc.nhan}</dt>
+                  <dd className="tabular text-lead">{muc.giaTri}</dd>
                 </ClipReveal>
               ))}
             </dl>
