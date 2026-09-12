@@ -5,6 +5,7 @@ import { SplitReveal } from "@/components/ui/split-reveal";
 import { ClipReveal } from "@/components/motion/scroll-effects";
 import { dinhDangNgay } from "@/data/news";
 import { docBaiViet } from "@/lib/tin-tuc";
+import { tachAnhBia } from "@/lib/anh-bai";
 import { duAn } from "@/data/project";
 
 export const metadata: Metadata = {
@@ -93,6 +94,24 @@ export default async function TrangTinTuc() {
                   <p className="mt-4 max-w-2xl text-lead text-paper-dim">
                     {noiBat.moTa}
                   </p>
+                  {/* CHỈ bài nổi bật mới có ảnh, và chỉ khi bài có ảnh kèm (từ
+                      Drive của chủ trang, 12/09). Danh sách phía dưới giữ dạng
+                      chữ — đây là danh mục để lướt, không phải trang tạp chí. */}
+                  {(() => {
+                    const { anhBia } = tachAnhBia(noiBat.noiDung);
+                    if (!anhBia) return null;
+                    return (
+                      <span className="mt-8 block max-w-4xl overflow-hidden rounded-sm bg-ink-soft">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={anhBia.src}
+                          alt={anhBia.alt}
+                          className="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                          loading="eager"
+                        />
+                      </span>
+                    );
+                  })()}
                 </Link>
               </article>
             </ClipReveal>
