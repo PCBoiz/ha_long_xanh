@@ -11,6 +11,21 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 12/09/2026 — VÒNG 20 · kiểm HÀNH VI khi cơ sở dữ liệu hỏng, không chỉ kiểm mã nguồn
+
+`scripts/kiem-hang-cho-that.ts`: trỏ `DATABASE_URL` vào cổng chết rồi gọi thật
+`docBaiChoDuyetThat()` — đòi nó trả `{ok:false, lyDo}` chứ không phải danh sách
+rỗng, và đòi `docBaiViet()` (trang công khai) vẫn trả rỗng để trang còn sống.
+Cộng hai ca chẩn đoán mã lỗi Postgres (42P01 → chạy migrate, 28P01 → lấy lại
+chuỗi kết nối).
+
+Vì sao thêm dù đã có `kiem-hang-cho.mjs`: cái kia đọc mã nguồn, nên đổi cách
+bắt lỗi *bên trong* là nó vẫn xanh trong khi màn duyệt lại nói dối như hôm
+12/09. Phép kiểm dừng ở `docBaiChoDuyetThat` chứ không gọi `layHangCho`, vì
+hàm đó dùng `headers()` của Next — chỉ sống trong một request thật.
+
+19/19 phép kiểm.
+
 ## 12/09/2026 — VÒNG 19 · màn duyệt nói "khoá duyệt bài" thay vì "INGEST_TOKEN"
 
 Một thay đổi chữ ở `bang-duyet.tsx` (rà UX cho người không rành, xem
