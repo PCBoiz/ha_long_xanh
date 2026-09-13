@@ -11,6 +11,38 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 13/09/2026 — VÒNG 23 · kiểm trước khi gặp khách: khách không đợi Neon dậy; accessibility 100 cả 31 trang; SEO meta gọn — CHƯA DEPLOY
+
+Đợt rà toàn bộ trước buổi chị mang cho khách chiều 13/09 (báo cáo đầy đủ ở
+`D:\Dự án cô Giang\docs\kiem-truoc-khi-gap-khach-13-09.md`). Điều git không giữ:
+
+- **Trang thật đã là bản có sửa 13/09** (đo HTML: chân trang `/60`, lưới ảnh
+  `46vw`) — chị đã deploy đợt trước. Hai commit hôm nay (`d5ed3e5`, `c586ce3`)
+  **chưa lên**: chị chạy `./trien-khai.sh`.
+- **`/tin-tuc` lạnh 8,4 s** (Neon ngủ; `thuLaiKhiNguDay` chờ nó dậy), các lần
+  sau 0,4 s → bộ nhớ đệm trong tiến trình cho `docBaiViet`/`docMotBai`: trả
+  ngay bản đang có, làm mới ở nền; ghi/duyệt/gỡ bài xoá đệm; làm mới hỏng thì
+  giữ bản cũ. `scripts/kiem-dem-bai.ts` 6 ca. `trien-khai.sh` vốn đã mở
+  `/tin-tuc` sau khi bật (hâm nóng ảnh) nên lần đọc lạnh đầu tiên sau deploy
+  không rơi vào khách; sau đó Neon ngủ thì khách vẫn được trả ngay bản cũ.
+- Quét 31 URL sitemap bằng trình duyệt điện thoại: 0 ảnh vỡ, 0 thiếu alt, 0
+  chữ lộ, mỗi trang 1 h1, console sạch. Lighthouse trang thật: a11y/bp/seo 100
+  ở 9/12 trang; **phân khu 90** (`<ul>` → `<div>` ClipReveal → `<li>` sai HTML;
+  nhãn "Khu trước/Khu tiếp" 3,4:1), quỹ căn 97 (số đếm bộ lọc 3,4:1), tài liệu
+  96 (câu miễn trừ 4,0:1). Cùng lỗi `<ul>` còn ở lịch thanh toán, danh sách
+  tin tức, "Bài khác" — chỉ hiện khi ≥ 2 bài nên Lighthouse chưa bắt. Sửa:
+  `ClipReveal` nhận `as="li"`; ba chỗ chữ mờ lên /60, /80, /60. Bản build:
+  ba trang 100.
+- Mô tả 201–232 ký tự (gia, tien-do, vi-tri) → 143–154; tiêu đề phân khu
+  tuyệt đối "Tên (English) — Global Gate Hạ Long": dài nhất 73 → 64.
+- Hiệu năng trang thật: trang chủ 73 / LCP 5,5 s (chị chọn B — giữ hiệu ứng),
+  du-an 90, tin-tuc 92, gia 91, phân khu 89.
+- Tìm kiếm ngoài (Bing/DDG/bộ tìm của tôi — không phải Google VN) chưa thấy
+  tên miền; số thật ở Search Console qua Antigravity `/analytics`.
+- `llms.txt` mọi link sống; robots cho 15 bot AI; JSON-LD 2 khối hợp lệ.
+- Không có HSTS — ghi nhận, chưa làm.
+- `npm run kiem` 20/20, lint, build xanh.
+
 ## 13/09/2026 — VÒNG 22 · Lighthouse HIỆU NĂNG trên trang chủ thật: 74, LCP 5,7 giây
 
 Đo bằng Lighthouse CLI (điện thoại, có bóp mạng) trên `https://halongxanh360.vn/`:
