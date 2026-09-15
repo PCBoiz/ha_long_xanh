@@ -11,6 +11,76 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 16/09/2026 — VÒNG 24 · tối ưu có số đo: /tin-tuc hết màn trắng khi đệm lạnh; trang chủ bớt một ảnh hero tải thừa — CHƯA DEPLOY
+
+**Cách đo** (để lần sau đo lại được và so được): bản `next build` thật; Chrome
+điện thoại 390px; bóp băng thông 1,6 Mbps xuống / trễ 150 ms / CPU chậm 4×
+(xấp xỉ "Slow 4G" của Lighthouse). Đọc `first-paint`, `first-contentful-paint`,
+LCP kèm **phần tử** LCP, và mười tài nguyên nặng nhất kèm lúc tải xong.
+
+### 1. `/tin-tuc` — màn trắng khi bộ đệm còn lạnh
+- Đo: HTML về sau **12.276 ms** khi Neon ngủ hẳn; **3.576 ms** khi Neon đã thức
+  nhưng đệm trong tiến trình còn lạnh; 30 ms khi đệm ấm. FCP **14.020 ms** —
+  suốt quãng đó máy chủ chưa gửi một byte nào của trang.
+- Sửa: phần không đụng cơ sở dữ liệu (tiêu đề, mô tả) gửi đi ngay; phần đọc bài
+  nằm trong `<Suspense>` chảy về sau. **FCP lạnh 14.020 → 1.620 ms.**
+- **Giới hạn thật trên trang chạy:** `trien-khai.sh` đã mở `/tin-tuc` ngay sau
+  khi bật hộp chứa, nên lần đọc lạnh sau DEPLOY không rơi vào khách. Chỗ còn hở
+  là hộp chứa tự khởi động lại mà không qua deploy (sập, VPS khởi động lại) —
+  bản sửa này che đúng chỗ đó, không hơn.
+- KHÔNG chuyển sang ISR dù nhanh hơn: làm thế bắt `next build` phải gọi được
+  Neon, mà bản dựng chạy trong Docker trên VPS thì chưa chắc có biến môi trường
+  đó — hỏng bước dựng là hỏng cả lần deploy.
+- Tác dụng phụ tôi tự gây rồi tự sửa, ghi đủ ba bước vì con số dạy nhiều hơn kết
+  luận: chỗ giữ sạp một dòng chữ → CLS 0 → **0,0416**; đổi sang sạp dáng bài nổi
+  bật (cao hơn ô "chưa có bài") → **0,0621**, tệ hơn; đặt chiều cao tối thiểu
+  chung cho cả hai trạng thái (`min-h-[30rem] md:min-h-[40rem]`) → **CLS 0**
+  (đo lạnh).
+- ⚠️ Cơ sở dữ liệu hiện **không có bài nào đã đăng** → trang đang hiện ô "Chưa
+  có bài viết". Số CLS ở trên là cho trường hợp đó. Khi có bài, khối bài nổi bật
+  cao hơn chiều cao tối thiểu thì có thể còn xê dịch nhỏ — chưa đo được, vì tôi
+  không ghi bài thử vào cơ sở dữ liệu thật.
+
+### 2. Trang chủ — một ảnh hero tải thừa
+- Đo: **ba** ảnh 1440px cùng được preload (~450 KB), tấm cuối 6.834 ms mới xong,
+  trên màn hình 390px chỉ dùng tới một tấm. Hai trong ba là ảnh màn mở đầu: máy
+  chủ dựng ảnh số 0, trình duyệt bốc ngẫu nhiên lại ở khung hình sau, và cả hai
+  đều mang `priority`.
+- Sửa: ảnh do trang chọn lúc dựng (`src/lib/anh-mo-dau.ts`). Phải tách khỏi
+  `preloader.tsx` vì tệp đó là `"use client"` — Next chặn máy chủ gọi hàm xuất
+  từ mô-đun client, bản dựng đầu gãy đúng chỗ này. Mỗi đợt dựng một cảnh khác,
+  mỗi lượt khách tải một tấm. **Tổng tải về 1.271 → 1.159 KB.**
+
+### 3. Trang chủ — màn mở đầu tự chạy bằng CSS
+- Hai chặng đầu (ảnh lùi, chữ trồi) chuyển từ `data-phase` do JS đặt sang
+  `@keyframes` neo vào lúc trang vẽ; cùng đường cong, cùng trễ 520 ms; có nhánh
+  `prefers-reduced-motion`. Dải ảnh chụp xác nhận: ở 150 ms hoạt ảnh đã giữ
+  trạng thái đầu (chữ mờ 0, ảnh scale 1.2), rồi qua đủ `chu` → `mo` → `xong`.
+- **Nói thẳng: việc này KHÔNG cải thiện FCP trang chủ** (3.420 → 3.444 ms, trong
+  sai số). Lý do đo được: `first-paint` cũng 3.596 ms, dù HTML xong ở 349 ms và
+  CSS ở 708 ms — gần 3 giây trình duyệt không vẽ gì. Đó là CPU dựng một trang rất
+  dài (216 KB HTML); trang ngắn hơn như `/du-an` vẽ lúc 2.136 ms. Vẫn giữ thay
+  đổi vì trên máy nhanh hiệu ứng không còn phải đợi JS.
+- Cố ý **KHÔNG** dùng `content-visibility: auto` cho các mảng dưới màn hình, dù
+  đó là cách đúng cho trang dài: trang dùng GSAP ScrollTrigger khắp nơi, mà
+  ScrollTrigger đo vị trí phần tử — kích thước ước lượng của content-visibility
+  làm lệch mốc kích hoạt. Không kiểm được hết từng hiệu ứng thì không làm.
+
+### Bẫy đo đã mắc — ghi để khỏi mắc lại
+- **Cổng 3100 bị một dự án khác chiếm** (`next start -p 3100`, trang
+  "ProgrammingEdu × TopHSA"). `next start` của tôi báo `EADDRINUSE`, còn vòng chờ
+  `until curl …` vẫn qua vì cổng CÓ trả lời → một lượt audit đo nhầm trang người
+  khác (JS 141 KB đồng loạt, dò được 1 liên kết thay vì 40). **Chờ sẵn sàng phải
+  kiểm ĐÚNG TRANG** (grep "Global Gate"), không chỉ kiểm có kết nối.
+- Lượt `audit-sau.mjs` đầu tiên trên máy chủ vừa bật đo LCP trang chủ ~5,4 s: bộ
+  nén ảnh `/_next/image` đang sinh ảnh lần đầu. Muốn so thì so lượt ấm.
+- Git Bash đổi tham số `/` thành `C:/Program Files/Git/` → `MSYS_NO_PATHCONV=1`.
+
+**Cổng:** typecheck 0 · lint 0 · build 0 · `npm run kiem` 20/20 (chạy trên mã cuối).
+**Chị cần:** `./trien-khai.sh` trên VPS (A1) — lên cả vòng 23 lẫn vòng này.
+
+---
+
 ## 13/09/2026 — VÒNG 23 · kiểm trước khi gặp khách: khách không đợi Neon dậy; accessibility 100 cả 31 trang; SEO meta gọn — CHƯA DEPLOY
 
 Đợt rà toàn bộ trước buổi chị mang cho khách chiều 13/09 (báo cáo đầy đủ ở

@@ -516,6 +516,67 @@ html[data-co-man-mo]:not([data-preloaded="true"]) .split-word > span {
   transition: transform 3.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   MÀN MỞ ĐẦU TỰ CHẠY BẰNG CSS, KHÔNG ĐỢI JAVASCRIPT (đo 15/09/2026)
+
+   Trước đây chặng "ảnh lùi" và "chữ trồi" chỉ bắt đầu khi React gắn kết xong
+   rồi đặt `data-phase="chu"`. Đo trên điện thoại bóp băng thông (390px,
+   1,6 Mbps, CPU chậm 4×): gói JS xong ở 2.886 ms, cộng 520 ms chờ của chặng →
+   **FCP 3.420 ms**. Tức là 3,4 giây đầu khách chỉ thấy một màn tối trơn, hiệu
+   ứng còn chưa kịp bắt đầu.
+
+   Giờ hai chặng đó chạy bằng `animation` neo vào lúc TRANG VẼ, không neo vào
+   lúc JS chạy. Cùng đường cong, cùng độ trễ 520 ms → nhìn y hệt; chỉ khác là
+   nó bắt đầu đúng lúc đáng ra phải bắt đầu.
+
+   JS vẫn giữ nguyên vai trò ở các chặng sau (`mo`, `xong`): tới đó bộ chọn
+   `:not(...)` thôi khớp, hoạt ảnh biến mất, và `transition` ở quy tắc gốc đưa
+   phần tử từ giá trị đang có tới trạng thái mới — không có cú giật nào.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@keyframes preloader-anh-lui {
+  from {
+    transform: scale(1.2) translate3d(2.5%, 1.5%, 0);
+  }
+  to {
+    transform: scale(1.03) translate3d(-1.5%, -0.5%, 0);
+  }
+}
+
+@keyframes preloader-chu-troi {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.preloader:not([data-phase="mo"]):not([data-phase="xong"]) .preloader-anh {
+  animation: preloader-anh-lui 3.6s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
+}
+
+.preloader:not([data-phase="mo"]):not([data-phase="xong"]) .preloader-noi-dung {
+  animation:
+    preloader-chu-troi 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
+}
+
+/* Giảm chuyển động: bỏ hẳn hai hoạt ảnh trên, hiện thẳng. Màn mở đầu vẫn tắt
+   đúng lúc vì JS điều khiển chặng `mo`/`xong` không phụ thuộc hoạt ảnh. */
+@media (prefers-reduced-motion: reduce) {
+  .preloader:not([data-phase="mo"]):not([data-phase="xong"]) .preloader-anh,
+  .preloader:not([data-phase="mo"]):not([data-phase="xong"])
+    .preloader-noi-dung {
+    animation: none;
+  }
+  .preloader:not([data-phase="mo"]):not([data-phase="xong"])
+    .preloader-noi-dung {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .preloader[data-phase="chu"] .preloader-anh {
   transform: scale(1.03) translate3d(-1.5%, -0.5%, 0);
 }

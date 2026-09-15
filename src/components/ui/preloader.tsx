@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ProjectImage } from "@/components/ui/project-image";
 import { duAn } from "@/data/project";
+import { ANH_MO_DAU, type AnhMoDau } from "@/lib/anh-mo-dau";
 
 /**
  * `useLayoutEffect` ở trình duyệt, `useEffect` khi dựng ở máy chủ.
@@ -42,37 +43,6 @@ const MOC = {
 type Chang = "anh" | "chu" | "mo" | "xong";
 
 /**
- * Các ảnh có thể xuất hiện ở màn mở đầu — đều là cảnh hoàng hôn hoặc bình minh,
- * loại có dải màu mạnh nhất trong bộ ảnh dự án.
- *
- * Phần tử ĐẦU TIÊN là ảnh dựng sẵn ở máy chủ. Ảnh đổi luân phiên chỉ diễn ra
- * sau khi trang chạy được JavaScript, để bản HTML máy chủ và bản trình duyệt
- * dựng lại luôn khớp nhau — nếu chọn ngẫu nhiên ngay lúc dựng thì React sẽ báo
- * lệch và dựng lại cả cây.
- *
- * ═══════════════════════════════════════════════════════════════════════════
- * ⚠️ KHÔNG ĐƯỢC CHỨA `toan-canh-hoang-hon`. ĐÓ LÀ ẢNH HERO CỦA TRANG CHỦ.
- *
- * Danh sách này từng có nó, và hậu quả tính được: bốc ngẫu nhiên 1 trong 4 nên
- * CỨ BỐN LẦN VÀO TRANG LÀ MỘT LẦN người xem nhìn đúng một tấm ảnh hai lần liên
- * tiếp — một lần ở màn chờ, rồi màn chờ tan ra và lộ ra chính tấm đó làm nền
- * hero. Hiệu ứng lao xuyên khi đó không mở ra cái gì mới cả.
- *
- * Đây chính là thứ khiến trang bị nhận xét "sao cứ thấy mấy tấm ảnh giống
- * nhau": bốn tấm trong danh sách đều là cảnh chụp từ trên cao, cùng vịnh, cùng
- * dải màu — nên trùng lặp ở đây đắt hơn ở bất kỳ chỗ nào khác trên trang.
- *
- * Ba tấm còn lại vẫn giữ được ý đồ ban đầu (mỗi lượt vào một cảnh khác), mà
- * KHÔNG BAO GIỜ đụng vào ảnh hero.
- * ═══════════════════════════════════════════════════════════════════════════
- */
-const ANH_MO_DAU = [
-  "khu-1-cong-vien-hoang-hon",
-  "view-bien-sang-som",
-  "toan-canh-sang-som",
-] as const;
-
-/**
  * Bật cờ trên thẻ <html> để CSS thả cho chữ hero trồi lên.
  *
  * Không có cờ này, hiệu ứng chữ chạy hết trong lúc màn còn che; màn mở ra là
@@ -96,13 +66,16 @@ function moKhoaHieuUngChu(): void {
  *    người vào thẳng trang bảng giá xem thì là đuổi khách.
  * 2. Bộ đếm bò tới 92 rồi ĐỢI sự kiện `load` thật mới chạy nốt về 100. Nếu để
  *    nó tự chạy đủ theo đồng hồ thì có lúc màn mở ra trong khi ảnh còn trắng.
- * 3. Ảnh dùng `priority` nên nó cũng chính là ảnh hero được tải trước — màn mở
- *    đầu không làm chậm trang, mà tận dụng đúng thứ trang đang phải tải.
+ * 3. Ảnh dùng `priority` nên được preload — và CHỈ MỘT tấm, do trang chọn sẵn
+ *    ở máy chủ (`lib/anh-mo-dau.ts`). Bản cũ bốc lại ở trình duyệt nên preload
+ *    hai tấm 1440px cùng lúc; xem số đo ở tệp đó.
+ * 4. Hai chặng đầu (ảnh lùi, chữ trồi) chạy bằng CSS `animation`, KHÔNG đợi
+ *    React gắn kết — nếu đợi thì trên điện thoại chậm màn hình tối trơn suốt
+ *    3,4 giây trước khi hiệu ứng kịp bắt đầu (`globals.css`, 15/09/2026).
  */
-export function Preloader() {
+export function Preloader({ anh = ANH_MO_DAU[0] }: { anh?: AnhMoDau }) {
   const [chang, setChang] = useState<Chang>("anh");
   const [dem, setDem] = useState(0);
-  const [chiSoAnh, setChiSoAnh] = useState(0);
 
   /**
    * Khai với CSS rằng trang NÀY có màn mở đầu.
@@ -121,15 +94,6 @@ export function Preloader() {
     return () => {
       delete document.documentElement.dataset.coManMo;
     };
-  }, []);
-
-  useEffect(() => {
-    // Đổi ảnh ở khung hình kế tiếp, không đổi ngay lúc dựng — xem ghi chú ở
-    // `ANH_MO_DAU`.
-    const id = requestAnimationFrame(() => {
-      setChiSoAnh(Math.floor(Math.random() * ANH_MO_DAU.length));
-    });
-    return () => cancelAnimationFrame(id);
   }, []);
 
   useEffect(() => {
@@ -195,7 +159,7 @@ export function Preloader() {
     >
       <div className="preloader-anh">
         <ProjectImage
-          name={ANH_MO_DAU[chiSoAnh]}
+          name={anh}
           priority
           sizes="100vw"
           className="h-full w-full object-cover"

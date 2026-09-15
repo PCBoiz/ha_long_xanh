@@ -4,6 +4,7 @@ import { SplitReveal } from "@/components/ui/split-reveal";
 import { Khung } from "@/components/ui/khung";
 import { DUONG_DAN } from "@/lib/duong-dan";
 import { Preloader } from "@/components/ui/preloader";
+import { chonAnhMoDau } from "@/lib/anh-mo-dau";
 import { TieuDeMang } from "@/components/ui/tieu-de-mang";
 import { ClipReveal, CountUp } from "@/components/motion/scroll-effects";
 import { HeroAnh } from "@/components/site/hero-anh";
@@ -62,13 +63,23 @@ import {
 // neo `/#so-do` chỉ cuộn trong trang chủ.
 
 
+/**
+ * Ảnh màn mở đầu — chọn Ở ĐÂY, tức là lúc DỰNG TRANG, không phải ở trình duyệt.
+ *
+ * Trang chủ là trang tĩnh nên giá trị này được nướng vào HTML một lần mỗi lần
+ * dựng: mỗi đợt deploy là một cảnh khác, còn mỗi lượt khách vào chỉ tải đúng
+ * một tấm hero. Bản cũ bốc ngẫu nhiên ở trình duyệt nên tải hai tấm 1440px —
+ * xem số đo trong `components/ui/preloader.tsx`.
+ */
+const anhMoDau = chonAnhMoDau();
+
 export default function TrangChu() {
 
   return (
     <>
       {/* Màn mở đầu sống Ở ĐÂY chứ không ở bố cục gốc — nó chỉ thuộc về trang
           chủ. Lý do đầy đủ ghi trong `app/layout.tsx`, chỗ nó từng đứng. */}
-      <Preloader />
+      <Preloader anh={anhMoDau} />
 
       {/* ================================ HERO ================================
           Tiêu đề nằm ở ĐÁY ảnh chứ không giữa khung: đặt giữa thì chữ đè lên

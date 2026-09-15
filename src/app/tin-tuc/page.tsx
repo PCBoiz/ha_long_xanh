@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import { Khung } from "@/components/ui/khung";
 import { SplitReveal } from "@/components/ui/split-reveal";
@@ -21,14 +22,30 @@ export const metadata: Metadata = {
 // tìm nhất.
 export const dynamic = "force-dynamic";
 
-export default async function TrangTinTuc() {
-  const bai = await docBaiViet();
-  const noiBat = bai[0];
-  const conLai = bai.slice(1);
-
+/**
+ * KHUNG TRANG PHẢI RA TRƯỚC, DANH SÁCH BÀI CHẢY VỀ SAU (đo 16/09/2026)
+ *
+ * Trang này đọc bài từ Neon. Bộ nhớ đệm trong tiến trình (`lib/tin-tuc.ts`) chỉ
+ * cứu được người thứ hai trở đi — **người ĐẦU TIÊN sau mỗi lần deploy hay
+ * khởi động lại vẫn phải chờ trọn một lượt gõ cửa cơ sở dữ liệu**, và trong
+ * luúc đó màn hình trắng trơn vì máy chủ chưa gửi gì cả.
+ *
+ * Số đo trên bản dựng thật, điện thoại bóp băng thông: HTML về sau **12.276 ms**
+ * khi Neon ngủ hẳn, **3.576 ms** khi Neon đã thức mà đệm còn lạnh, 30 ms khi đệm
+ * ấm. FCP đi theo đúng con số đó: 14.020 ms.
+ *
+ * Giờ phần không đụng cơ sở dữ liệu (tiêu đề, mô tả) được gửi đi ngay, phần đọc
+ * bài nằm trong `<Suspense>` nên chảy về sau. Tổng thời gian không đổi, nhưng
+ * khách thấy trang ngay thay vì nhìn màn trắng.
+ *
+ * KHÔNG đổi sang ISR (`revalidate`) dù nó còn nhanh hơn: làm thế là bắt bước
+ * `next build` phải gọi được Neon, mà bản dựng chạy trong Docker trên VPS thì
+ * chưa chắc có biến môi trường đó — hỏng bước dựng là hỏng cả lần deploy.
+ */
+export default function TrangTinTuc() {
   return (
     <>
-      <section className="pb-nhip pt-36 md:pt-44">
+      <section className="pt-36 md:pt-44">
         <Khung>
           <div className="grid gap-x-12 gap-y-8 md:grid-cols-12">
             <div className="md:col-span-7">
@@ -45,7 +62,51 @@ export default async function TrangTinTuc() {
               </ClipReveal>
             </div>
           </div>
+        </Khung>
+      </section>
 
+      <Suspense fallback={<DangDocBai />}>
+        <NoiDungTin />
+      </Suspense>
+    </>
+  );
+}
+
+/**
+ * Chỗ giữ sạp trong lúc đọc bài.
+ *
+ * Dựng theo đúng hình dáng khối bài nổi bật (hàng nhãn → tiêu đề hai dòng → mô
+ * tả → ảnh 16:9) chứ không phải một dòng chữ "đang tải": chên lệch chiều cao
+ * giữa chỗ giữ sạp và nội dung thật chính là độ giật bố cục (CLS). Bản đầu chỉ
+ * có một dòng chữ và đo ra CLS 0,0416 — vẫn dưới ngưỡng 0,1 của Google, nhưng
+ * trang này trước đó đang là 0 tròn.
+ */
+function DangDocBai() {
+  return (
+    <section className="min-h-[30rem] pb-nhip md:min-h-[40rem]">
+      <Khung>
+        <div className="mt-12 border-t border-ink-line pt-8" aria-hidden="true">
+          <div className="h-3 w-40 rounded-sm bg-ink-soft" />
+          <div className="mt-6 h-9 w-full max-w-4xl rounded-sm bg-ink-soft md:h-12" />
+          <div className="mt-3 h-9 w-3/4 max-w-3xl rounded-sm bg-ink-soft md:h-12" />
+          <div className="mt-6 h-4 w-full max-w-2xl rounded-sm bg-ink-soft" />
+          <div className="mt-8 aspect-video w-full max-w-4xl rounded-sm bg-ink-soft" />
+        </div>
+        <p className="sr-only">Đang tải bài viết…</p>
+      </Khung>
+    </section>
+  );
+}
+
+async function NoiDungTin() {
+  const bai = await docBaiViet();
+  const noiBat = bai[0];
+  const conLai = bai.slice(1);
+
+  return (
+    <>
+      <section className="min-h-[30rem] pb-nhip md:min-h-[40rem]">
+        <Khung>
           {bai.length === 0 ? (
             <ClipReveal delay={160}>
               <div className="mt-12 border border-ink-line bg-ink-soft px-8 py-16 text-center">
