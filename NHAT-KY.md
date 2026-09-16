@@ -11,6 +11,63 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 16/09/2026 — VÒNG 25 · kiểm kỹ `/lien-he` và `/du-an`: KHÔNG giữ thay đổi mã nào — và vì sao đó là kết quả đúng
+
+Mục đích ghi: để phiên sau **khỏi làm lại** ba hướng đã đo và đã loại.
+
+**Khởi đầu:** trong mọi lượt `audit-sau.mjs`, `/lien-he` luôn chậm bất thường
+(LCP máy bàn 1,5–1,7 s, các trang khác ~250 ms) — mà đây là trang khách để lại số.
+
+### Hướng 1 — "hiệu ứng hiện dần chờ JS nên chặn khung hình đầu" → SAI cho FCP
+- `Reveal`/`SplitReveal` chờ `useInView` gắn `data-shown`; CSS giữ `.reveal` mờ 0.
+- Phép thử quyết định: điện thoại bóp 1,6 Mbps / CPU 4×, BẬT và TẮT JS, hai lượt:
+  `/lien-he` FCP bật 1.876/2.108 ms — tắt 1.800/1.676 ms; `/du-an` bật 1.808/1.808
+  — tắt 2.160/1.836 ms. Tắt JS không nhanh hơn → JS không chặn FCP.
+
+### Hướng 2 — Lighthouse (bóp mô phỏng, điện thoại) báo LCP "Render Delay" 88–90 %
+- `/lien-he`: 87 điểm, FCP 1,2 s, LCP 3,9 s; phần tử LCP là đoạn văn trong
+  `<ClipReveal delay={120}>`; Render Delay 3.394 ms.
+- `/du-an`: 82 điểm, FCP 1,4 s, LCP 4,5 s; LCP là ảnh hero, tải ảnh 0 ms, Render
+  Delay 4.051 ms.
+- Đo LCP thật trên trình duyệt (CDP `PerformanceTimeline`, bóp như trên), bật/tắt
+  JS: `/lien-he` LCP **= FCP** ở cả hai chế độ (bật 2.568/2.100, tắt 1.948/1.968
+  ms); `/du-an` bật JS LCP 2.424/2.436 ms, **tắt JS còn chậm hơn** 2.900/2.876 ms.
+- → Trên điện thoại chậm thật, hiệu ứng KHÔNG đẩy LCP lùi. "Render Delay" của
+  Lighthouse phần lớn là do nó mô phỏng lại từ bản ghi chạy trên máy nhanh, nơi
+  hiệu ứng che chữ trước khung hình đầu. **Không sửa hiệu ứng chỉ để làm đẹp
+  điểm Lighthouse** — người dùng thật không được gì.
+
+### Hướng 3 — `fetchPriority="high"` cho ảnh LCP → đo 4×4, KHÔNG có lợi, đã trả lại
+- Lighthouse báo `/du-an` trượt "fetchpriority=high should be applied". Next 16
+  bỏ `priority`, tài liệu khuyên `loading="eager"` hoặc `fetchPriority="high"`
+  thay `preload` (`node_modules/next/dist/docs/01-app/03-api-reference/02-components/image.md`).
+- Sửa `ProjectImage` theo tài liệu, dựng, đo — rồi dựng lại bản cũ và đo cùng
+  điều kiện máy:
+
+| `/du-an` | 4 lượt | Trung vị | LCP | TBT |
+|---|---|---|---|---|
+| `priority` (cũ) | 82 / 78 / 80 / 78 | **79** | 4,63 s | 194 ms |
+| `eager` + `fetchPriority` | 75 / 72 / 80 / 78 | **76,5** | 4,77 s | 234 ms |
+
+- Không có lợi đo được, nếu có thì hơi kém → `git checkout` hai tệp, kho sạch.
+  `priority` tuy bị đánh dấu bỏ nhưng vẫn chạy ở Next 16.3.
+
+### Bài học đo — quan trọng hơn cả ba hướng
+- **Một lượt Lighthouse không kết luận được gì trên máy này**: cùng một bản dựng
+  ra 82 rồi 78. Lượt 82 đầu tiên là lượt "may" (TBT 92 ms, các lượt sau 170–226).
+  So sánh phải ≥ 4 lượt mỗi bên, lấy trung vị, đo xen kẽ cùng điều kiện máy.
+- **FCP ≠ LCP.** Phép thử tắt JS đầu tiên chỉ đo FCP; suýt kết luận sai cho LCP.
+- **Trang tắt JS thì hẹn giờ trong trang không chạy** — kịch bản đọc LCP bằng
+  `PerformanceObserver` + `setTimeout` qua `Runtime.evaluate` treo vĩnh viễn. Đọc
+  LCP bằng sự kiện CDP `PerformanceTimeline.timelineEventAdded`.
+- Lighthouse cũng chỉ ra luồng chính 2,3–2,5 s: "Style & Layout" 670–760 ms,
+  gói lớn nhất (`4561u…js`, 229 KB) là **React DOM** — không bỏ được.
+
+Lighthouse chạy qua `npx --yes lighthouse@12` (12.8.2, không thêm vào dự án); mã
+thoát 1 mọi lượt nhưng tệp JSON đều ghi đủ và đọc được.
+
+---
+
 ## 16/09/2026 — VÒNG 24 · tối ưu có số đo: /tin-tuc hết màn trắng khi đệm lạnh; trang chủ bớt một ảnh hero tải thừa — CHƯA DEPLOY
 
 **Cách đo** (để lần sau đo lại được và so được): bản `next build` thật; Chrome
