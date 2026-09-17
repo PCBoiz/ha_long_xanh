@@ -490,7 +490,13 @@ html[data-co-man-mo]:not([data-preloaded="true"]) .split-word > span {
   z-index: 100;
   overflow: hidden;
   background-color: var(--color-ink);
-  transition: opacity 1.15s ease-in;
+  /* `ease-out` chứ không phải `ease-in`. Luật chung cho giao diện: thứ đang VÀO
+     hoặc ĐI RA dùng ease-out; `ease-in` khởi đầu chậm nên nó trì hoãn đúng lúc
+     mắt người xem đang chờ — ở đây là khoảnh khắc màn kéo lên lộ ra trang.
+     (github.com/emilkowalski/skills — skills/animate, bảng Easing Rules.)
+     Giữ nguyên 1,15s: đây là màn mở đầu của trang tiếp thị, không phải một nút
+     bấm, và thời lượng này do chủ dự án chốt. */
+  transition: opacity 1.15s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .preloader[data-phase="mo"] {

@@ -64,7 +64,7 @@ export function SoDoPhanKhu() {
                   />
                 ) : null}
                 <span
-                  className={`relative size-3.5 rounded-full border transition-all duration-300 ${
+                  className={`relative size-3.5 rounded-full border transition-[background-color,border-color,transform] duration-300 ${
                     duocChon
                       ? "scale-125 border-paper bg-paper"
                       : "border-paper/70 bg-jade group-hover:scale-125 group-hover:bg-paper"

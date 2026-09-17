@@ -11,6 +11,39 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 17/09/2026 — VÒNG 26 · rà chuyển động theo luật emilkowalski/skills: hai sửa, hai "không phải lỗi" — CHƯA DEPLOY
+
+Chủ dự án bảo nghiên cứu hai kho kỹ năng rồi cải tiến. Luật đọc từ
+`github.com/emilkowalski/skills` (`skills/animate/SKILL.md`,
+`skills/review-animations/STANDARDS.md`) và `github.com/cathrynlavery/diagram-design`.
+
+### Hai lỗi thật, đã sửa
+1. **`.preloader` dùng `ease-in`** (`globals.css`): luật cấm `ease-in` cho giao
+   diện vì nó khởi đầu chậm, trì hoãn đúng lúc mắt người xem đang chờ — ở đây là
+   khoảnh khắc màn kéo lên lộ ra trang. Đổi sang đường cong ease-out mạnh
+   `cubic-bezier(0.23, 1, 0.32, 1)`. **Giữ nguyên 1,15s**: đây là màn mở đầu của
+   trang tiếp thị, không phải một nút bấm, và thời lượng do chủ dự án chốt.
+2. **`so-do-phan-khu.tsx` dùng `transition-all`**: đổi thành ba thuộc tính thật
+   sự đổi (`background-color,border-color,transform`).
+
+### Hai nghi ngờ KHÔNG thành lỗi — kiểm rồi mới kết luận
+- **`hover:scale` ở 6 tệp**: luật đòi bọc `@media (hover: hover)` vì màn cảm ứng
+  bắn hover giả. Nhưng **Tailwind v4 đã tự bọc** `hover:` trong đúng media query
+  đó; kho này dùng `tailwindcss: ^4`. Không sửa.
+- **`so-do-ket-noi.tsx` có `<svg aria-hidden="true">`**: hợp đồng trợ năng của
+  diagram-design đòi `role="img"` + `title` + `desc`. Nhưng hợp đồng đó chỉ áp
+  khi hình MANG thông tin — ở đây `<dl>` ngay dưới lặp lại đúng những con số ấy
+  và **hiện ở mọi khổ màn hình** (không `lg:hidden`). Ẩn hình khỏi trình đọc màn
+  hình là ĐÚNG, tránh đọc trùng. Không sửa.
+
+### Kiểm bằng mắt, không chỉ bằng cổng
+Dải ảnh chụp màn mở đầu sau khi đổi đường cong: qua đủ chặng `anh` → `chu` →
+`mo` → `xong`; khung giữa lúc mờ đi cho thấy ảnh đang lao xuyên và trang thật
+hiện dần phía sau — đúng ý đồ cũ.
+
+**Cổng:** typecheck 0 · lint 0 · build 0 · `npm run kiem` **20/20**.
+**Chị cần:** `./trien-khai.sh` (A1) — giờ có bốn đợt sửa chưa lên trang thật.
+
 ## 16/09/2026 — VÒNG 25 · kiểm kỹ `/lien-he` và `/du-an`: KHÔNG giữ thay đổi mã nào — và vì sao đó là kết quả đúng
 
 Mục đích ghi: để phiên sau **khỏi làm lại** ba hướng đã đo và đã loại.
