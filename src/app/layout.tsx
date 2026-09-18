@@ -9,6 +9,7 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { SmoothScroll } from "@/components/ui/smooth-scroll";
 import { LienHeNoi } from "@/components/site/lien-he-noi";
 import { TheoDoiBam } from "@/components/site/theo-doi-bam";
+import { DoLuongGoogle } from "@/components/site/do-luong-google";
 import "./globals.css";
 
 // Cặp chữ.
@@ -146,6 +147,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-ink text-paper">
+        <DoLuongGoogle />
         {/* Không có JavaScript thì màn mở đầu sẽ nằm che vĩnh viễn và chữ hero
             không bao giờ trồi lên. Vài dòng này gỡ cả hai, đổi lại trang mất
             hiệu ứng nhưng vẫn đọc được trọn vẹn. */}

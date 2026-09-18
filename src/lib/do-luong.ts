@@ -40,6 +40,15 @@ export function ghiSuKien(loai: LoaiSuKien, chiTiet?: string): void {
       "/api/su-kien",
       new Blob([than], { type: "application/json" }),
     );
+
+    // Gửi SONG SONG sang Google Analytics khi trang có bật (xem
+    // `components/site/do-luong-google.tsx`). Bộ đếm tự dựng ở trên vẫn là
+    // nguồn chính; GA để chủ trang nhìn chuyển đổi cạnh lượt truy cập trong
+    // cùng một bảng. `gtag` không có thì bỏ qua — không bao giờ ném lỗi.
+    const w = window as Window & { gtag?: (...doiSo: unknown[]) => void };
+    if (typeof w.gtag === "function") {
+      w.gtag("event", loai, { duong: window.location.pathname, chi_tiet: chiTiet ?? "" });
+    }
   } catch {
     // Im lặng, có chủ ý. Xem chú thích đầu file.
   }

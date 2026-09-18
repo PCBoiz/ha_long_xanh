@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 import { CHUYEN_HUONG_CU } from "./src/lib/duong-dan";
 
 const nextConfig: NextConfig = {
+  // Không in `X-Powered-By: Next.js` — đo trang thật 18/09/2026 thấy header này
+  // trong khi Caddyfile đã cố giấu `Server`. Khai phiên bản khung cho kẻ dò lỗ
+  // hổng là việc không cần làm hộ họ (cùng ngày vá RCE của Next ≤ 16.3.2).
+  poweredByHeader: false,
   // `standalone` gói sẵn đúng những gì cần chạy vào một thư mục, kèm bản
   // node_modules tối giản. Đây là thứ làm ảnh Docker nhỏ đi vài trăm MB và là
   // điều kiện để `Dockerfile` chỉ cần sao chép một thư mục thay vì cả dự án.

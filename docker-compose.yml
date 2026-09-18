@@ -17,6 +17,8 @@ services:
         # Hai giá trị này phải có mặt LÚC BUILD, không phải lúc chạy.
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
         NEXT_PUBLIC_CHO_LAP_CHI_MUC: ${NEXT_PUBLIC_CHO_LAP_CHI_MUC:-0}
+        # Google Analytics 4 — tuỳ chọn; trống thì không tải Google.
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
     # `unless-stopped`: máy chủ khởi động lại sau mất điện thì trang tự chạy
     # lại; hộp chứa sập thì Docker tự dựng dậy. Đây là thứ thay cho việc bạn
     # phải thức dậy lúc hai giờ sáng.
@@ -27,6 +29,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       INGEST_TOKEN: ${INGEST_TOKEN}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+      NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
       # ⚠️ BIẾN NÀY TỪNG BỊ QUÊN, VÀ HẬU QUẢ LÀ MẤT KHÁCH.
       #
       # Không truyền vào thì ứng dụng trong hộp chứa không thấy nó, nên rơi

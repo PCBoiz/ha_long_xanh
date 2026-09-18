@@ -11,6 +11,41 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 18/09/2026 — VÒNG 28 · vá lỗ hổng nghiêm trọng Next (RCE qua `/_next/image`); Google Analytics fail-closed — CHƯA DEPLOY, KHẨN HƠN CÁC ĐỢT TRƯỚC
+
+### Bảo mật
+- `npm audit --omit=dev`: **1 critical + 2 high**. Critical: Next ≤ 16.3.2 —
+  *Unauthenticated Remote Code Execution in Image Optimization API when AVIF
+  files…* (GHSA-2xp9-vwfh-vxw4). Trang **đang bật** bộ tối ưu ảnh (mọi ảnh đi qua
+  `/_next/image`), tức lỗ hổng chạm được từ ngoài. Đây là lý do A1 giờ **khẩn**,
+  không còn là "đợt sửa đẹp".
+- Đã nâng `next` 16.3.0 → **16.3.5**, `sharp` → 0.35.4, `nanoid` vá → **0 lỗ hổng**.
+  typecheck 0 · lint 0. Build + 20 phép kiểm chạy ở cổng chung vòng này.
+- Header trang thật: có X-Frame-Options DENY, nosniff, Referrer-Policy,
+  Permissions-Policy; **thiếu HSTS** dù Caddyfile có khai `max-age=86400` (cố
+  ý 1 ngày, thang tăng 1 ngày → 1 tuần → 1 tháng → 1 năm) — bản deploy đang chạy
+  cũ hơn Caddyfile. Sau A1 phải đo lại; nấc kế (1 tuần) chỉ lên khi nấc 1 ngày
+  chạy trọn không sự cố.
+- Lộ `X-Powered-By: Next.js` (Caddyfile đã giấu `Server` nhưng Next tự thêm dòng
+  này) → `poweredByHeader: false` trong `next.config.ts`.
+
+### Bẫy: `npm audit fix --omit=dev` xoá devDependencies
+Sau lệnh đó `tsc`/`eslint` biến mất khỏi `node_modules/.bin`, cổng trả mã 1 với
+`'tsc' is not recognized`. Chữa bằng `npm install` đầy đủ. Lockfile không mất
+gì (473 gói `dev: true`).
+
+### Google Analytics 4 — fail-closed
+Trang thật **không có bộ đếm lượt truy cập nào** (chỉ có chuyển đổi tự dựng và
+log máy chủ). Thêm `components/site/do-luong-google.tsx`: chỉ tải khi có
+`NEXT_PUBLIC_GA_ID`, `afterInteractive` để không chen vào LCP; `ghiSuKien` gửi
+song song sang `gtag` khi có (gọi/Zalo/biểu mẫu/tài liệu/tìm căn). Biến là
+`NEXT_PUBLIC_*` nên đi qua Dockerfile `ARG`+`ENV`, compose `build.args` +
+`environment`, `.env.example`; `kiem-bien-moi-truong` qua (7 biến). Chưa đặt
+biến → trang không tải Google gì cả.
+
+**Chị cần:** A1 `./trien-khai.sh` (giờ mang cả bản vá bảo mật); A9 tạo GA4 rồi
+đặt `NEXT_PUBLIC_GA_ID` trong `.env` trên VPS và chạy lại `./trien-khai.sh`.
+
 ## 18/09/2026 — VÒNG 27 · kiểm lại "sao chưa có truy vấn": không gì chặn bot; Bing/DDG vẫn 0 trang; nguyên nhân gốc là chưa có nội dung mới
 
 Chủ dự án hỏi lại vì Search Console vẫn không hiện truy vấn. Đo lại bằng bằng
