@@ -11,6 +11,38 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 18/09/2026 — VÒNG 27 · kiểm lại "sao chưa có truy vấn": không gì chặn bot; Bing/DDG vẫn 0 trang; nguyên nhân gốc là chưa có nội dung mới
+
+Chủ dự án hỏi lại vì Search Console vẫn không hiện truy vấn. Đo lại bằng bằng
+chứng mới, không lặp lại kết luận 15/09.
+
+**Kỹ thuật — không gì chặn máy tìm kiếm (gõ bằng UA Googlebot):**
+- `robots.txt`: `Allow: /` cho mọi bot, kể cả GPTBot/ClaudeBot.
+- Header trang chủ: **không có `X-Robots-Tag`**; `Cache-Control: s-maxage=31536000`.
+- 4 trang mẫu (`/`, `/gia…`, `/tin-tuc`, `/du-an`): **không có `<meta name="robots">`**
+  (tức không noindex), canonical đúng chính nó.
+
+**Bên ngoài (18/09):**
+- Bing `site:halongxanh360.vn`: **0 URL, trang báo "no results"** — y như 15/09.
+- DuckDuckGo (ăn chỉ mục Bing) `site:`: 0 kết quả thật; tìm "vinhomes global
+  gate ha long": halongxanh360 không có mặt.
+- Google: không gõ được từ máy này (chặn bot; WebSearch hết hạn mức phiên). Số
+  Google duy nhất vẫn là Search Console chủ dự án chụp 15/09: 2 lượt hiện, 1
+  bấm, vị trí TB 3,0, bảng truy vấn trống vì Google ẩn truy vấn quá ít người gõ.
+
+**Kết luận, xếp theo mức chặn:**
+1. Không có lỗi kỹ thuật nào để sửa ở phía mã.
+2. Bing chưa lập chỉ mục dù IndexNow đã nhận 31 địa chỉ từ 11/09 — IndexNow là
+   "báo có", không phải "cam kết lập chỉ mục". Việc còn thiếu là **A7**: xác minh
+   site trong Bing Webmaster + nộp sitemap (nhanh nhất: *Import from Google
+   Search Console*).
+3. Nguyên nhân gốc của "ít truy vấn" là **nội dung**: 31 trang tĩnh từ lúc ra
+   mắt, **0 bài mới** (vòng 24–25 đo `/tin-tuc` trắng). Truy vấn đến từ những
+   thứ người ta gõ mà trang có bài trả lời; máy viết bài chưa chạy lần nào vì
+   thiếu nhịp gõ (**A2** bên Antigravity) và bài ra vẫn cần khách duyệt (**C2**).
+
+Không đổi mã. Không bấm lại IndexNow: đã nộp rồi, nộp nữa không thay đổi gì.
+
 ## 17/09/2026 — VÒNG 26 · rà chuyển động theo luật emilkowalski/skills: hai sửa, hai "không phải lỗi" — CHƯA DEPLOY
 
 Chủ dự án bảo nghiên cứu hai kho kỹ năng rồi cải tiến. Luật đọc từ
