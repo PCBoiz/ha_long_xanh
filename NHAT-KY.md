@@ -11,6 +11,35 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 18/09/2026 — VÒNG 29 · deploy đã lên (đo được); GA đã có trên trang; và vì sao HSTS mất suốt hơn một tuần
+
+**Đo trang thật sau khi chủ dự án deploy (chiều 18/09):** `X-Powered-By` đã mất,
+`/tin-tuc` có chỗ giữ sạp (bản 16/09), thẻ GA `G-14M4741BTK` xuất hiện 3 lần +
+`gtag.js` tải — tức bản vá bảo mật + GA **đã lên**. `http://` → 308 `https://`.
+
+**HSTS vẫn vắng, và lý do là một lỗi quy trình thật:**
+- `git log -p Caddyfile`: HSTS bị comment 27/08 (`51d9c09`), bật lại 09/09
+  (`8af38c6`, `max-age=86400`). Máy chủ bật lần đầu với bản 27/08.
+- `trien-khai.sh` có `git pull` (cập nhật tệp trên đĩa) rồi `docker compose up
+  -d` — lệnh này **không khởi động lại Caddy** khi chỉ tệp mount đổi. Caddy chạy
+  cấu hình nạp từ lần bật đầu tiên suốt hơn một tuần; mọi lần deploy đều "thành
+  công", không phép kiểm nào đỏ. Bằng chứng khớp: `-Server` (có ở cả hai bản)
+  chạy, HSTS (chỉ bản mới) không.
+- Sửa: thêm bước 4b `docker compose exec -T caddy caddy reload --config
+  /etc/caddy/Caddyfile` sau `up -d`, có `|| vang` để không bao giờ làm hỏng lần
+  deploy; cú pháp đã được `caddy validate` ở bước 2 nên reload không thể chết vì
+  cú pháp. `sh -n` OK, 20/20 phép kiểm.
+- Việc chủ dự án: chạy lại `./trien-khai.sh` (hoặc một lần tay: `docker compose
+  exec caddy caddy reload --config /etc/caddy/Caddyfile`). Sau đó đo lại: phải
+  thấy `Strict-Transport-Security: max-age=86400`. Nấc kế của thang (1 tuần)
+  chỉ lên khi nấc 1 ngày chạy trọn không sự cố — tính từ lúc header THẬT SỰ có
+  mặt, không phải từ 09/09.
+
+**Bing:** ảnh chủ dự án gửi 18/09 cho thấy site **đã xác minh** trong Bing
+Webmaster từ trước — tôi từng ghi "chưa xác minh" là **sai** (suy từ `site:` ra
+0 trang). Bing 0 hiển thị/0 bấm 9–16/09: có site nhưng chưa lập chỉ mục. Việc
+còn lại: Sitemaps đã nộp chưa, URL Inspection nói gì, Site Scan. Đã sửa A7.
+
 ## 18/09/2026 — VÒNG 28 · vá lỗ hổng nghiêm trọng Next (RCE qua `/_next/image`); Google Analytics fail-closed — CHƯA DEPLOY, KHẨN HƠN CÁC ĐỢT TRƯỚC
 
 ### Bảo mật

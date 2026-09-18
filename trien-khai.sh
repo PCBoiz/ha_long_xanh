@@ -212,6 +212,22 @@ docker compose build
 xanh "→ Chuyển sang bản mới…"
 docker compose up -d
 
+# ───────────────────── 4b. Bắt Caddy đọc lại Caddyfile ──────────────────────
+# `docker compose up -d` KHÔNG khởi động lại Caddy khi chỉ tệp Caddyfile (mount
+# vào hộp chứa) thay đổi — với compose, hộp chứa "không đổi" nên để nguyên. Caddy
+# vì thế cứ chạy cấu hình đã nạp từ lần bật ĐẦU TIÊN.
+#
+# Đã xảy ra thật, phát hiện 18/09/2026: HSTS được bật lại trong Caddyfile ngày
+# 09/09, nhiều lần deploy sau đó đều "thành công", mà trang thật vẫn không có
+# header này suốt hơn một tuần — Caddy đang chạy bản Caddyfile ngày 27/08. Không
+# phép kiểm nào đỏ, vì trang vẫn chạy; chỉ header mới là thiếu.
+#
+# `caddy reload` nạp lại KHÔNG ngắt kết nối đang mở (khác `restart`). Cú pháp đã
+# được kiểm ở bước 2, nên nạp lại không thể làm Caddy chết vì lỗi cú pháp. Có
+# `|| vang` để bước này KHÔNG BAO GIỜ làm hỏng cả lần deploy.
+xanh "→ Bắt Caddy đọc lại Caddyfile…"
+docker compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile   || vang "⚠ Caddy không nạp lại được cấu hình — trang vẫn chạy bản cấu hình cũ. Thử tay: docker compose restart caddy"
+
 # ───────────────────────── 5. Kiểm tra trang còn sống ───────────────────────
 # KHÔNG kết thúc bằng "xong" khi chưa thật sự kiểm. Báo thành công rồi để trang
 # chết là kiểu hỏng tệ nhất — không ai biết cho tới khi khách gọi điện.
