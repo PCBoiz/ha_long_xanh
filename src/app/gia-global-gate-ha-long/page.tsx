@@ -6,7 +6,7 @@ import { ClipReveal } from "@/components/motion/scroll-effects";
 import { ProjectImage } from "@/components/ui/project-image";
 import { duAn, thongDiepChot } from "@/data/project";
 import { DUONG_DAN } from "@/lib/duong-dan";
-import { gioNgayVN } from "@/lib/thoi-gian";
+import { gioNgayVN, ngayVN } from "@/lib/thoi-gian";
 import quyCan from "@/data/quy-can.generated.json";
 
 export const metadata: Metadata = {
@@ -68,6 +68,10 @@ export default function TrangGia() {
 
   const reNhat = Math.min(...quyCan.can.map((c) => c.giaGomVat));
   const datNhat = Math.max(...quyCan.can.map((c) => c.giaGomVat));
+  // Dòng sản phẩm của căn rẻ nhất / đắt nhất — để câu trả lời nói "từ … (liền
+  // kề) tới … (đơn lập)" như người ta hỏi, thay vì hai con số trần.
+  const dongRe = quyCan.can.find((c) => c.giaGomVat === reNhat)?.loaiHinh;
+  const dongDat = quyCan.can.find((c) => c.giaGomVat === datNhat)?.loaiHinh;
 
   // Chênh lệch trung bình giữa hai cột giá, tính bằng phần trăm. Đây là con số
   // trả lời đúng câu "vì sao chỗ khác báo giá thấp hơn".
@@ -126,13 +130,22 @@ export default function TrangGia() {
               </p>
             </div>
             <div className="md:col-span-7 md:col-start-6">
+              {/* CÂU NÀY PHẢI TỰ ĐỨNG ĐƯỢC khi bị cắt khỏi trang (20/09/2026).
+                  Trợ lý AI (Bing Copilot, ChatGPT tìm kiếm, Google AI Overview)
+                  trích MỘT câu làm câu trả lời — ảnh chị gửi 18/09: Bing trả
+                  lời "bảng giá vin global gate" bằng câu "Vinhomes Global Gate
+                  Hạ Long hiện có giá từ … cho nhà liền kề đến … cho biệt thự"
+                  của trang khác. Bản cũ "Toàn bộ quỹ căn hiện có trải từ X tới
+                  Y" không nói giá CỦA DỰ ÁN NÀO, dòng nào, ngày nào — cắt ra
+                  thì vô nghĩa, nên không được trích. Mọi số vẫn tính từ bảng
+                  hàng; không thêm số nào. */}
               <p className="text-lead leading-relaxed">
-                Toàn bộ quỹ căn hiện có trải từ{" "}
-                <strong className="tabular text-paper">{ty(reNhat)} tỷ</strong>{" "}
-                tới{" "}
+                Giá {duAn.ten} theo bảng hàng ngày {ngayVN(capNhat)}: từ{" "}
+                <strong className="tabular text-paper">{ty(reNhat)} tỷ</strong>
+                {dongRe ? ` (${dongRe.toLowerCase()})` : ""} tới{" "}
                 <strong className="tabular text-paper">{ty(datNhat)} tỷ</strong>
-                , tính theo giá đầy đủ — đã gồm thuế giá trị gia tăng và phí bảo
-                trì.
+                {dongDat ? ` (${dongDat.toLowerCase()})` : ""}, tính theo giá
+                đầy đủ — đã gồm thuế giá trị gia tăng và phí bảo trì.
               </p>
               <p className="mt-5 max-w-[68ch] text-body leading-relaxed text-paper-dim">
                 Đây là con số của những căn ĐANG CÓ, không phải khoảng giá của cả

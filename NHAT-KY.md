@@ -11,6 +11,41 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 20/09/2026 — VÒNG 30 · AI search (Bing Copilot / ChatGPT tìm kiếm / Google AI Overview): đo lại + câu trả lời giá tự đứng được — CHƯA DEPLOY
+
+Chị gửi ảnh (18/09): Bing trả lời "bảng giá vin global gate" bằng một câu trích
+từ `vinhomeglobalgate.com` ("… hiện có giá từ 4,5 tỷ đồng cho nhà liền kề đến
+hơn 90 tỷ đồng cho biệt thự …"), không có halongxanh360. Chị hỏi kiểm AI search.
+
+**Đo 20/09:**
+- Bing `site:halongxanh360.vn`: **"Không có kết quả"** — vẫn 0 trang (như 15/09,
+  18/09). DuckDuckGo `site:`: 0. Bingbot/Googlebot vào trang giá: 200, 0,18 s,
+  75 KB. Sitemap 31 địa chỉ. IndexNow đã báo 31 địa chỉ từ 11/09 (vòng trước).
+- Hệ quả: **Bing Copilot, ChatGPT tìm kiếm và DuckDuckGo đều dựa vào chỉ mục
+  Bing** — trang chưa vào chỉ mục thì KHÔNG trợ lý nào trích được, dù nội dung
+  tốt đến đâu. Việc gỡ vẫn là **A7 của chị** (Bing Webmaster: Sitemaps → nộp
+  `https://halongxanh360.vn/sitemap.xml`; URL Inspection → Request indexing
+  cho trang chủ + trang giá). Không có lỗi kỹ thuật phía mã.
+- Google AI Overview dùng chỉ mục Google (GSC 15/09: 2 lượt hiện) — cùng gốc:
+  ít trang được lập chỉ mục + chưa có bài mới (A2/C2 bên Antigravity).
+
+**Sửa phía mã (một chỗ, có lý do đo được):** trang `/gia-global-gate-ha-long`,
+câu khoảng giá. Trợ lý AI trích MỘT câu; bản cũ "Toàn bộ quỹ căn hiện có trải
+từ X tới Y" cắt khỏi trang thì không nói giá của dự án nào, dòng nào, ngày nào.
+Bản mới (đọc từ HTML đã dựng):
+> Giá Vinhomes Global Gate Hạ Long theo bảng hàng ngày 09/09/2026: từ 5,8 tỷ
+> (liền kề) tới 138,0 tỷ (đơn lập), tính theo giá đầy đủ — đã gồm thuế giá trị
+> gia tăng và phí bảo trì.
+Mọi số vẫn tính từ `quy-can.generated.json` (dòng của căn rẻ/đắt nhất tìm từ
+chính bảng); không thêm số nào. Giữ nguyên H1 "Giá bao nhiêu" (quyết định
+thiết kế — không đổi khi chưa hỏi chị).
+
+Cổng: typecheck 0 · lint 0 · build 0 · `npm run kiem` 20/20.
+
+**Chưa làm, đáng cân nhắc (cần chị quyết):** H1 các trang chủ đề ("Giá bao
+nhiêu"…) không có tên dự án — máy tìm kiếm và AI dựa vào H1 để hiểu trang nói
+về gì. Đổi là đổi thiết kế nên hỏi trước.
+
 ## 18/09/2026 — VÒNG 29 · deploy đã lên (đo được); GA đã có trên trang; và vì sao HSTS mất suốt hơn một tuần
 
 **Đo trang thật sau khi chủ dự án deploy (chiều 18/09):** `X-Powered-By` đã mất,
