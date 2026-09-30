@@ -11,6 +11,45 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 30/09/2026 — VÒNG 31 · llms.txt cuối cùng cũng có GIÁ; soát cả 31 trang: 30 trang trợ lý AI không trích được — CHƯA DEPLOY
+
+Vòng lặp cải tiến, vòng 3. Định áp cách "câu tự đứng được" (vòng 30) sang các
+trang khác, nhưng **đo trước khi sửa**.
+
+**Đo — `scripts/soat-cau-mo-dau.mjs` (mới, giữ lại để đo lại về sau):** lấy
+sitemap, bỏ đầu/chân trang, đọc H1 + hai đoạn đầu của từng trang, hỏi một câu:
+có tên dự án không. Kết quả: **30/31 trang KHÔNG có**. Ví dụ:
+- `/` → H1 "Nơi kỳ quan trở thành nhà"
+- `/gia-…` → H1 "Giá bao nhiêu", đoạn đầu "Số dưới đây đọc từ bảng hàng…"
+- `/tien-do-…` → "Công trường đang tới đâu"
+- `/vi-tri-…` → "Nằm giữa ba trung tâm"
+Lời văn hay, nhưng cắt khỏi trang thì không nói đang nói về CÁI GÌ — nên
+không trợ lý nào trích. Đây là chuyện TOÀN TRANG, không phải vài trang lẻ.
+
+**Không tự sửa 30 trang.** Đổi H1 và lời mở đầu là đổi thiết kế, thuộc quyền
+chủ dự án (đã ghi ở vòng 30). Ghi thành việc chờ quyết trong VIEC-CAN-LAM.
+
+**Sửa phần MÁY ĐỌC, không đụng chữ chị thấy:** `llms.txt` — tệp viết riêng cho
+trợ lý AI — soạn rất kỹ (hỏi đáp, nguồn, câu rào) nhưng **không có một mức giá
+nào**: mục "Giá bán bao nhiêu?" trả lời bằng một đường dẫn. Trợ lý đọc xong
+vẫn không có gì để trích. Trớ trêu: chú thích ngay trong mã đã hứa mảng ấy
+"trả lời bằng số có nguồn" từ đầu — ý định có, số chưa bao giờ được thêm.
+
+Giờ mảng "Quỹ căn và giá" mở đầu bằng (đọc từ bản dựng thật):
+> Giá Vinhomes Global Gate Hạ Long theo bảng hàng đọc ngày 09/09/2026: từ 5,8
+> tỷ (liền kề) tới 138,0 tỷ (đơn lập), tính theo giá đầy đủ đã gồm thuế giá
+> trị gia tăng và phí bảo trì.
+kèm câu rào "616 căn ĐANG MỞ BÁN… KHÔNG phải bảng giá toàn dự án" và khoảng
+giá từng dòng (liền kề 5,8–30,8 · song lập 11,4–36,2 · đơn lập 19,0–138,0).
+Mọi số tính từ `quy-can.generated.json` — cùng file trang Giá đang đọc.
+
+**`scripts/kiem-gia-trong-llms.mjs` (mới, tự vào cổng vì tên `kiem-*`)** giữ 5
+điều: đọc bảng hàng thật · tính từ cột giá đầy đủ · câu mở có tên dự án · có
+câu rào · có ngày đọc; và bắt mọi mức giá gõ tay. **Đã chứng minh:** trả
+`route.ts` về bản cũ → phép kiểm đỏ đúng 5 lý do; phục hồi → xanh.
+
+Cổng: typecheck 0 · lint 0 · build 0 · `npm run kiem` **21/21** (thêm phép mới).
+
 ## 20/09/2026 — VÒNG 30 · AI search (Bing Copilot / ChatGPT tìm kiếm / Google AI Overview): đo lại + câu trả lời giá tự đứng được — CHƯA DEPLOY
 
 Chị gửi ảnh (18/09): Bing trả lời "bảng giá vin global gate" bằng một câu trích

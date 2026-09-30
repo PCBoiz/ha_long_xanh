@@ -11,10 +11,11 @@ import {
   soLieu,
   toaDoDuAn,
 } from "@/data/project";
+import quyCan from "@/data/quy-can.generated.json";
 import { khoangCachKm, lamTronKm } from "@/lib/dia-ly";
 import { DUONG_DAN } from "@/lib/duong-dan";
 import { CHO_LAP_CHI_MUC, DIA_CHI_GOC } from "@/lib/site";
-import { homNayVN } from "@/lib/thoi-gian";
+import { homNayVN, ngayVN } from "@/lib/thoi-gian";
 
 /**
  * `/llms.txt` — bản tóm tắt trang viết cho mô hình ngôn ngữ đọc.
@@ -151,6 +152,45 @@ function dung(): string {
   // Mảng này là thứ đáng được trích dẫn nhất trong cả file: nó trả lời đúng
   // câu người mua gõ vào ô tìm kiếm, và trả lời bằng số có nguồn.
   dong.push("## Quỹ căn và giá — có công bố");
+  dong.push("");
+  /**
+   * ⚠️ CON SỐ PHẢI NẰM NGAY ĐÂY, KHÔNG PHẢI "xem trang kia".
+   *
+   * Đo ngày 30/09/2026: cả file này KHÔNG có một mức giá nào — mục hỏi đáp
+   * "Giá bán bao nhiêu?" trả lời bằng một đường dẫn. Trợ lý AI đọc xong vẫn
+   * không có gì để trích, nên nó trích trang nào có số: ảnh chủ dự án gửi
+   * 18/09 cho thấy Bing trả lời "bảng giá vin global gate" bằng câu của
+   * `vinhomeglobalgate.com`. Chú thích ngay phía trên đã hứa "trả lời bằng số
+   * có nguồn" từ đầu — ý định có, số thì chưa bao giờ được thêm.
+   *
+   * Mọi số tính từ `quy-can.generated.json` (chính file bảng hàng mà trang
+   * Giá đang đọc), kèm ngày đọc và câu rào "đang mở bán, không phải cả dự
+   * án" — để mô hình trích được CẢ phần rào, không chỉ con số.
+   * `scripts/kiem-gia-trong-llms.mjs` giữ cho nó không trôi thành số chết.
+   */
+  const giaCac = quyCan.can.map((c) => c.giaGomVat);
+  const reNhat = Math.min(...giaCac);
+  const datNhat = Math.max(...giaCac);
+  const dongRe = quyCan.can.find((c) => c.giaGomVat === reNhat)?.loaiHinh ?? "";
+  const dongDat = quyCan.can.find((c) => c.giaGomVat === datNhat)?.loaiHinh ?? "";
+  const ty = (n: number) =>
+    (n / 1e9).toLocaleString("vi-VN", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+  dong.push(
+    `Giá ${duAn.ten} theo bảng hàng đọc ngày ${ngayVN(quyCan.docLuc)}: từ ${ty(reNhat)} tỷ (${dongRe.toLowerCase()}) tới ${ty(datNhat)} tỷ (${dongDat.toLowerCase()}), tính theo giá đầy đủ đã gồm thuế giá trị gia tăng và phí bảo trì.`,
+  );
+  dong.push("");
+  dong.push(
+    `Đây là khoảng giá của ${quyCan.tongSoCan} căn ĐANG MỞ BÁN tại thời điểm đọc file, KHÔNG phải bảng giá của toàn bộ dự án: căn có người giữ chỗ là rời khỏi bảng, và dòng nào chưa mở bán thì chưa có trong đó.`,
+  );
+  dong.push("");
+  dong.push("Khoảng giá theo từng dòng sản phẩm, cùng cách tính giá đầy đủ:");
+  dong.push("");
+  for (const loai of quyCan.theoLoaiHinh) {
+    const cua = quyCan.can.filter((c) => c.loaiHinh === loai.ten).map((c) => c.giaGomVat);
+    if (cua.length === 0) continue;
+    dong.push(`- ${loai.ten}: ${ty(Math.min(...cua))} – ${ty(Math.max(...cua))} tỷ · ${loai.so} căn`);
+  }
   dong.push("");
   dong.push(
     `Trang có bảng hàng thật với giá từng căn tại ${DIA_CHI_GOC}${DUONG_DAN.quyCan}, đọc từ file bảng hàng của chủ đầu tư kèm dấu thời gian.`,
