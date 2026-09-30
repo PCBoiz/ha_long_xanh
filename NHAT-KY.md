@@ -11,6 +11,47 @@ Kho anh em: `D:\Dự án cô Giang` (Antigravity OS) — nơi sinh ra bài đăn
 
 ---
 
+## 30/09/2026 — VÒNG 32 · soát tiếp cận CẢ 31 TRANG (không phải một trang): 3 bảng không ai dùng bàn phím xem được — CHƯA DEPLOY
+
+Lighthouse cho trang này 100 điểm từ 13/09. Nhưng đó là điểm của MỘT trang, đo
+MỘT lần — không nói gì về 30 trang còn lại. Mang bộ soát vừa dựng cho
+Antigravity (vòng 99 bên kia) sang đây: `scripts/soat-tiep-can.mjs`, axe-core,
+luật WCAG 2.1 A/AA, chạy trên BẢN DỰNG THẬT, **cả 31 địa chỉ trong sitemap**.
+
+**Đo:** 1 loại vi phạm, mức nghiêm trọng, 3 chỗ trên 3 trang (`/du-an`,
+`/vi-tri-…`, `/tien-ich`): `scrollable-region-focusable`. Bảng rộng hơn màn
+hình điện thoại nên cuộn ngang, mà bên trong không có liên kết hay nút nào để
+đặt tiêu điểm vào — **ai không dùng chuột thì không bao giờ xem được các cột
+bị khuất**. Khách của trang này phần lớn là người mua nhà tuổi trung niên trở
+lên, nhóm dùng bàn phím và phóng chữ nhiều hơn mức người làm trang hay nghĩ.
+
+**Sửa:** không vá từng chỗ. Năm bảng cùng một lý do → một thành phần dùng
+chung `components/ui/vung-cuon-ngang.tsx` (`tabIndex`, `role="group"`, nhãn
+nói rõ bảng gì). Ghi thẳng trong đó: **viết tay `overflow-x-auto` quanh một
+bảng là lỗi ấy quay lại** — lần này nó đã quay lại ở ba trang khác nhau. Sửa
+cả 5 bảng, kể cả `bang-hang` (`hidden lg:block`, cỡ điện thoại không chạm tới
+nên máy soát không thấy).
+
+⚠️ Lần đầu làm hỏng: chèn chú thích JSX ngay sau `return (` và trong một nhánh
+ba ngôi → hai phần tử JSX cạnh nhau, không hợp lệ. `git checkout` về bản sạch
+rồi làm lại bằng thành phần dùng chung — hoá ra cách đúng hơn hẳn.
+
+**Đo lại — cả HAI cỡ màn** (thêm `CO=may-tinh`; soát mỗi cỡ điện thoại thì
+không bao giờ chạm tới khối `hidden lg:block`): 31 trang × 2 cỡ →
+**0 vi phạm**.
+
+**Chứng minh bằng hành vi thật, không chỉ bằng điểm số:** ở cỡ 390px, khung
+342px chứa bảng 640px; đặt tiêu điểm vào thì máy đọc màn hình đọc đúng nhãn
+"Bảng quỹ căn theo dòng sản phẩm — cuộn ngang…", bấm mũi tên phải thì
+`scrollLeft` chạy 0 → 240. (Phép thử đầu ở cỡ máy tính cho `false` — vì ở đó
+bảng vừa màn hình nên không có gì để cuộn; lỗi của phép thử, không phải của
+bản sửa.)
+
+Cổng: typecheck 0 · lint 0 · build 0 · `npm run kiem` 21/21.
+Gói mới: `@axe-core/playwright` (devDependency, MPL-2.0); `npm audit` 0.
+⚠️ Playwright của kho này chưa tải trình duyệt — chạy `npx playwright install
+chromium` một lần, hoặc chạy kịch bản từ kho Antigravity (đã có sẵn).
+
 ## 30/09/2026 — VÒNG 31 · llms.txt cuối cùng cũng có GIÁ; soát cả 31 trang: 30 trang trợ lý AI không trích được — CHƯA DEPLOY
 
 Vòng lặp cải tiến, vòng 3. Định áp cách "câu tự đứng được" (vòng 30) sang các

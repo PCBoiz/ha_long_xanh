@@ -1,4 +1,5 @@
 import { hangMucTienIch } from "@/data/project";
+import { VungCuonNgang } from "@/components/ui/vung-cuon-ngang";
 
 /**
  * Quy mô các hạng mục tiện ích, xếp từ lớn xuống nhỏ.
@@ -46,7 +47,7 @@ export function BieuDoTienIch() {
         tổng mặt bằng của chủ đầu tư.
       </figcaption>
 
-      <div className="mt-8 overflow-x-auto">
+      <VungCuonNgang nhan="Bảng quy mô các hạng mục tiện ích" className="mt-8">
         <table className="w-full min-w-[34rem] border-collapse">
           <caption className="sr-only">
             Quy mô các hạng mục tiện ích, xếp từ lớn đến nhỏ
@@ -101,7 +102,7 @@ export function BieuDoTienIch() {
             })}
           </tbody>
         </table>
-      </div>
+      </VungCuonNgang>
     </figure>
   );
 }

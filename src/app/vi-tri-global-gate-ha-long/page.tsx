@@ -9,6 +9,7 @@ import { BieuDoTienIch } from "@/components/site/bieu-do-tien-ich";
 import { duAn, soSanhKhuVuc, dotAnhTienDo } from "@/data/project";
 import { projectImages } from "@/data/images.generated";
 import { KhoiChot } from "@/components/site/khoi-chot";
+import { VungCuonNgang } from "@/components/ui/vung-cuon-ngang";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/vi-tri-global-gate-ha-long" },
@@ -175,7 +176,7 @@ export default function TrangViTri() {
               </div>
             </ClipReveal>
           ) : (
-            <div className="mt-14 overflow-x-auto">
+            <VungCuonNgang nhan="Bảng khoảng cách tới các điểm chính" className="mt-14">
               <table className="w-full min-w-[36rem] border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-ink-line text-left">
@@ -212,7 +213,7 @@ export default function TrangViTri() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </VungCuonNgang>
           )}
         </div>
       </section>

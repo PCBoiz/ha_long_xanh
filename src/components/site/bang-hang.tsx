@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import quyCan from "@/data/quy-can.generated.json";
 import { gioNgayVN } from "@/lib/thoi-gian";
+import { VungCuonNgang } from "@/components/ui/vung-cuon-ngang";
 
 /**
  * Bảng quỹ căn — bảng hàng thật, công khai đầy đủ.
@@ -248,7 +249,7 @@ export function BangHang() {
 
       {/* Bảng đầy đủ giữ nguyên cho màn rộng — ở đó nó đọc được thật, và so
           hàng ngang giữa các căn là việc bảng làm tốt hơn hẳn thẻ. */}
-      <div className="mt-8 hidden overflow-x-auto lg:block">
+      <VungCuonNgang nhan="Bảng hàng chi tiết từng căn" className="mt-8 hidden lg:block">
         <table className="w-full min-w-[58rem] border-collapse text-left">
           <thead>
             <tr className="border-b border-ink-line align-bottom">
@@ -312,7 +313,7 @@ export function BangHang() {
             ))}
           </tbody>
         </table>
-      </div>
+      </VungCuonNgang>
 
       {danhSach.length === 0 ? (
         <p className="mt-6 text-body text-paper-dim">

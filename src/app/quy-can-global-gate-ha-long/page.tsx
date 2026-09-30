@@ -9,6 +9,7 @@ import { BangHang } from "@/components/site/bang-hang";
 import { DangKyForm } from "@/components/site/dang-ky-form";
 import { DuLieuQuyCan } from "@/components/site/du-lieu-quy-can";
 import { dongSanPham, duAn, tienDoThanhToan } from "@/data/project";
+import { VungCuonNgang } from "@/components/ui/vung-cuon-ngang";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/quy-can-global-gate-ha-long" },
@@ -110,7 +111,7 @@ export default function TrangBangHang() {
             Theo dòng sản phẩm
           </h2>
 
-          <div className="mt-8 overflow-x-auto">
+          <VungCuonNgang nhan="Bảng quỹ căn theo dòng sản phẩm" className="mt-8">
             <table className="w-full min-w-[40rem] border-collapse text-left">
               <thead>
                 <tr className="border-b border-ink-line">
@@ -167,7 +168,7 @@ export default function TrangBangHang() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </VungCuonNgang>
 
           {coDienTich ? (
             <p className="mt-5 max-w-2xl text-small text-paper-dim">

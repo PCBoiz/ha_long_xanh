@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { dongSanPham, tienDoThanhToan } from "@/data/project";
+import { VungCuonNgang } from "@/components/ui/vung-cuon-ngang";
 
 /**
  * Bảng đặt các dòng sản phẩm cạnh nhau.
@@ -10,7 +11,7 @@ import { dongSanPham, tienDoThanhToan } from "@/data/project";
  */
 export function BangSoSanh() {
   return (
-    <div className="overflow-x-auto">
+    <VungCuonNgang nhan="Bảng so sánh các dòng sản phẩm">
       <table className="w-full min-w-[42rem] border-collapse text-sm">
         <thead>
           <tr className="border-b border-ink-line text-left">
@@ -35,7 +36,7 @@ export function BangSoSanh() {
           <HangSoSanh nhan="Phù hợp với" lay={(d) => d.moTa} />
         </tbody>
       </table>
-    </div>
+    </VungCuonNgang>
   );
 }
 
